@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 1   
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE RTC
@@ -62,7 +62,7 @@ line level    source
   50   1      }
   51          /***********************************************************************************/
   52          
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 2   
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 2   
 
   53          /***********************************************************************************
   54          函数名：    RTC_WriteHour
@@ -118,315 +118,324 @@ line level    source
              -***********/
  103          bit HalfSecFlag;
  104          bit AlarmEvFlag;
- 105          void RTC_ISR (void) interrupt 13   
- 106          {
- 107   1        if(RTCIF & RTC_MF)      //毫秒中断
- 108   1        {
- 109   2          RTCIF = RTC_MF;     
- 110   2        }
- 111   1        if(RTCIF & RTC_HF)      //半秒中断
- 112   1        {
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 3   
+ 105          bit millisecondFlag;
+ 106          uint8_t times10 = 0,times10Flag = 0;
+ 107          void RTC_ISR (void) interrupt 13   
+ 108          {
+ 109   1        if(RTCIF & RTC_MF)      //毫秒中断
+ 110   1        {
+ 111   2          RTCIF = RTC_MF; 
+ 112   2          millisecondFlag = 1;
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 3   
 
- 113   2          RTCIF = RTC_HF;
- 114   2          HalfSecFlag = 1;
- 115   2        } 
- 116   1        if(RTCIF & RTC_AF)      //闹钟中断
- 117   1        {
- 118   2          RTCIF = RTC_AF; 
- 119   2          AlarmEvFlag = 1;
- 120   2        }
- 121   1      } 
- 122          /***********************************************************************************
- 123          函数名：    RTC_init
- 124          功能说明：    初始化RTC 时钟，并设置时间
- 125          输入参数：    无
- 126          返回值：    无
- 127          ***********************************************************************************/
- 128          void RTC_init(void)
- 129          {
- 130   1      
- 131   1        P72F = P72_XOSCL_IN_SETTING;      //设置P32为晶振引脚
- 132   1        P71F = P71_XOSCL_OUT_SETTING;     //设置P33为晶振引脚
- 133   1        CKCON |= XLCKE;             //使能XSOCL
- 134   1        while(!(CKCON & XLSTA));        //等待XSOCL稳定
- 135   1        RTCON = RTCE(1) | MSE(1) | HSE(1) | SCE(1) | MCE(1) | HCE(1); //使能RTC功能，设置半秒、毫秒中断开启，闹铃
+ 113   2          times10++;
+ 114   2          if(times10 >= 10)
+ 115   2          {
+ 116   3            times10 = 0;
+ 117   3            times10Flag = 1;
+ 118   3          }
+ 119   2        }
+ 120   1        if(RTCIF & RTC_HF)      //半秒中断
+ 121   1        {
+ 122   2          RTCIF = RTC_HF;
+ 123   2          HalfSecFlag = 1;
+ 124   2        } 
+ 125   1        if(RTCIF & RTC_AF)      //闹钟中断
+ 126   1        {
+ 127   2          RTCIF = RTC_AF; 
+ 128   2          AlarmEvFlag = 1;
+ 129   2        }
+ 130   1      } 
+ 131          /***********************************************************************************
+ 132          函数名：    RTC_init
+ 133          功能说明：    初始化RTC 时钟，并设置时间
+ 134          输入参数：    无
+ 135          返回值：    无
+ 136          ***********************************************************************************/
+ 137          void RTC_init(void)
+ 138          {
+ 139   1      
+ 140   1        P72F = P72_XOSCL_IN_SETTING;      //设置P32为晶振引脚
+ 141   1        P71F = P71_XOSCL_OUT_SETTING;     //设置P33为晶振引脚
+ 142   1        CKCON |= XLCKE;             //使能XSOCL
+ 143   1        while(!(CKCON & XLSTA));        //等待XSOCL稳定
+ 144   1        RTCON = RTCE(1) | MSE(1) | HSE(1) | SCE(1) | MCE(1) | HCE(1); //使能RTC功能，设置半秒、毫秒中断开启，闹铃
              -功能开启(时、分、秒匹配使能)
- 136   1        
- 137   1        Delay_50us(6);    //RTC使能后必须延时300us再写入时间， 否则写入时间可能无效。
- 138   1        
- 139   1        //设置当前时间为12:00:00
- 140   1        RTC_WriteHour(12);      
- 141   1        RTC_WriteMinute(0);   
- 142   1        RTC_WriteSecond(0);     
- 143   1      
- 144   1        //设置闹钟时间为12:01:00
- 145   1        RTAH  = 12;     
- 146   1        RTAM  = 1;
- 147   1        RTAS  = 0;
- 148   1        
- 149   1        RTMSS = 0;      //设置毫秒中断时间间隔
- 150   1        INT8EN = 1;     //RTC中断使能
- 151   1        
- 152   1        HalfSecFlag = 0;
- 153   1        AlarmEvFlag = 0;
- 154   1        
- 155   1      
- 156   1        if(HalfSecFlag) //半秒打印当前时间
- 157   1        {
- 158   2          HalfSecFlag = 0;
- 159   2      #ifdef PRINT_EN
- 160   2          uart_printf("Hour = %d,Minute = %d,Second = %d\n",(unsigned int)(RTCH&0x1F),(unsigned int)RTCM,(unsigned
+ 145   1        
+ 146   1        Delay_50us(6);    //RTC使能后必须延时300us再写入时间， 否则写入时间可能无效。
+ 147   1        
+ 148   1        //设置当前时间为12:00:00
+ 149   1        RTC_WriteHour(12);      
+ 150   1        RTC_WriteMinute(0);   
+ 151   1        RTC_WriteSecond(0);     
+ 152   1      
+ 153   1        //设置闹钟时间为12:01:00
+ 154   1        RTAH  = 12;     
+ 155   1        RTAM  = 1;
+ 156   1        RTAS  = 0;
+ 157   1        
+ 158   1        RTMSS = 0;      //设置毫秒中断时间间隔
+ 159   1        INT8EN = 1;     //RTC中断使能
+ 160   1        
+ 161   1        HalfSecFlag = 0;
+ 162   1        AlarmEvFlag = 0;
+ 163   1        
+ 164   1      
+ 165   1        if(HalfSecFlag) //半秒打印当前时间
+ 166   1        {
+ 167   2          HalfSecFlag = 0;
+ 168   2      #ifdef PRINT_EN
+ 169   2          uart_printf("Hour = %d,Minute = %d,Second = %d\n",(unsigned int)(RTCH&0x1F),(unsigned int)RTCM,(unsigned
              - int)RTCS);  
- 161   2      #endif    
- 162   2        }
- 163   1        if(AlarmEvFlag) //闹钟中断产生时打印
- 164   1        {
- 165   2          AlarmEvFlag = 0;
- 166   2      #ifdef PRINT_EN
- 167   2          uart_printf("Alarm event happen!\n"); 
- 168   2      #endif    
- 169   2        }
- 170   1      
- 171   1      }
- 172          
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 4   
+ 170   2      #endif    
+ 171   2        }
+ 172   1        if(AlarmEvFlag) //闹钟中断产生时打印
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 4   
 
- 173          
- 174          
- 175          
- 176          //判断是否是闰年函数
- 177          //输入:年份
- 178          //输出:该年份是不是闰年.1,是.0,不是
- 179          uint8_t IS_Leap_Year( uint16_t year )
- 180          {
- 181   1          //能被4或者400整除，并且不能被100整除
- 182   1          if( ( ( year % 4 == 0 ) || ( year % 400 == 0 ) ) && ( year % 100 != 0 ) )
- 183   1              return 1;
- 184   1          else
- 185   1              return 0;
- 186   1      
- 187   1      }
- 188          //设置时钟
- 189          //把输入的时钟转换为秒钟
- 190          //以1970年1月1日为基准
- 191          //1970~2099年为合法年份
- 192          //返回值:0,成功;其他:错误代码.
- 193          //月份数据表
- 194          uint8_t const table_week[12] = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5}; //月修正数据表
- 195          //平年的月份日期表
- 196          uint8_t const  mon_table[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
- 197          uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec )
- 198          {
- 199   1      
- 200   1          uint16_t t;
- 201   1          uint16_t sdaycount = 0;
- 202   1        
- 203   1         //设置当前星期几 
- 204   1        RTC_Set_Week(syear,smon,sday);              //根据年月日算出星期几并写入到 星期计数器 
- 205   1      
- 206   1        
- 207   1          if( syear < 1970 || syear > 2099 )
- 208   1              return 1;
- 209   1          for( t = 1970; t < syear; t++ )             //所有年份的秒钟相加
- 210   1          {
- 211   2              if( IS_Leap_Year( t ) )
- 212   2                  sdaycount += 366;               //闰年天数
- 213   2              else
- 214   2                  sdaycount += 365;               //平年天数
- 215   2          }
- 216   1          smon -= 1;
- 217   1          for( t = 0; t < smon; t++ )               //把前面月份的天数相加
- 218   1          {
- 219   2              sdaycount += ( uint16_t )mon_table[t];
- 220   2              if( IS_Leap_Year( syear ) && t == 1 )       //闰年2月份增加一天的秒钟数
- 221   2              sdaycount += 1;
- 222   2          }
- 223   1          sdaycount += ( uint16_t )(sday - 1) * 1;        //把前面天数相加
- 224   1      //    sdaycount += ( uint16_t )(sday) * 1;        //把前面天数相加  
- 225   1        #ifdef PRINT_EN 
- 226   1        uart_printf("all day  %d\n",sdaycount); 
- 227   1        #endif
- 228   1        RTC_WriteDay(sdaycount);                //设置当前时间→1970年的天数写到天数寄存器里面
- 229   1         //设置当前时间 天 时分秒
- 230   1        RTC_WriteHour(hour);                  //写入小时计数器      
- 231   1        RTC_WriteMinute(min);                 //写入分钟计数器  
- 232   1        RTC_WriteSecond(sec);                 //写入秒钟计数器
- 233   1      
- 234   1      /*  RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 5   
+ 173   1        {
+ 174   2          AlarmEvFlag = 0;
+ 175   2      #ifdef PRINT_EN
+ 176   2          uart_printf("Alarm event happen!\n"); 
+ 177   2      #endif    
+ 178   2        }
+ 179   1      
+ 180   1      }
+ 181          
+ 182          
+ 183          
+ 184          
+ 185          //判断是否是闰年函数
+ 186          //输入:年份
+ 187          //输出:该年份是不是闰年.1,是.0,不是
+ 188          uint8_t IS_Leap_Year( uint16_t year )
+ 189          {
+ 190   1          //能被4或者400整除，并且不能被100整除
+ 191   1          if( ( ( year % 4 == 0 ) || ( year % 400 == 0 ) ) && ( year % 100 != 0 ) )
+ 192   1              return 1;
+ 193   1          else
+ 194   1              return 0;
+ 195   1      
+ 196   1      }
+ 197          //设置时钟
+ 198          //把输入的时钟转换为秒钟
+ 199          //以1970年1月1日为基准
+ 200          //1970~2099年为合法年份
+ 201          //返回值:0,成功;其他:错误代码.
+ 202          //月份数据表
+ 203          uint8_t const table_week[12] = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5}; //月修正数据表
+ 204          //平年的月份日期表
+ 205          uint8_t const  mon_table[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+ 206          uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec )
+ 207          {
+ 208   1      
+ 209   1          uint16_t t;
+ 210   1          uint16_t sdaycount = 0;
+ 211   1        
+ 212   1         //设置当前星期几 
+ 213   1        RTC_Set_Week(syear,smon,sday);              //根据年月日算出星期几并写入到 星期计数器 
+ 214   1      
+ 215   1        
+ 216   1          if( syear < 1970 || syear > 2099 )
+ 217   1              return 1;
+ 218   1          for( t = 1970; t < syear; t++ )             //所有年份的秒钟相加
+ 219   1          {
+ 220   2              if( IS_Leap_Year( t ) )
+ 221   2                  sdaycount += 366;               //闰年天数
+ 222   2              else
+ 223   2                  sdaycount += 365;               //平年天数
+ 224   2          }
+ 225   1          smon -= 1;
+ 226   1          for( t = 0; t < smon; t++ )               //把前面月份的天数相加
+ 227   1          {
+ 228   2              sdaycount += ( uint16_t )mon_table[t];
+ 229   2              if( IS_Leap_Year( syear ) && t == 1 )       //闰年2月份增加一天的秒钟数
+ 230   2              sdaycount += 1;
+ 231   2          }
+ 232   1          sdaycount += ( uint16_t )(sday - 1) * 1;        //把前面天数相加
+ 233   1      //    sdaycount += ( uint16_t )(sday) * 1;        //把前面天数相加  
+ 234   1        #ifdef PRINT_EN 
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 5   
 
- 235   1        PWR_BackupAccessCmd( ENABLE );
- 236   1      
- 237   1        RTC_SetCounter( sdaycount );              //设置RTC计数器的值
- 238   1        RTC_WaitForLastTask();
- 239   1       */
- 240   1       
- 241   1       
- 242   1       return 0;
- 243   1      }
- 244          //初始化闹钟
- 245          //以1970年1月1日为基准
- 246          //1970~2099年为合法年份
- 247          //syear,smon,sday,hour,min,sec：闹钟的年月日时分秒
- 248          //返回值:0,成功;其他:错误代码.
- 249          uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec 
+ 235   1        uart_printf("all day  %d\n",sdaycount); 
+ 236   1        #endif
+ 237   1        RTC_WriteDay(sdaycount);                //设置当前时间→1970年的天数写到天数寄存器里面
+ 238   1         //设置当前时间 天 时分秒
+ 239   1        RTC_WriteHour(hour);                  //写入小时计数器      
+ 240   1        RTC_WriteMinute(min);                 //写入分钟计数器  
+ 241   1        RTC_WriteSecond(sec);                 //写入秒钟计数器
+ 242   1      
+ 243   1      /*  RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 244   1        PWR_BackupAccessCmd( ENABLE );
+ 245   1      
+ 246   1        RTC_SetCounter( sdaycount );              //设置RTC计数器的值
+ 247   1        RTC_WaitForLastTask();
+ 248   1       */
+ 249   1       
+ 250   1       
+ 251   1       return 0;
+ 252   1      }
+ 253          //初始化闹钟
+ 254          //以1970年1月1日为基准
+ 255          //1970~2099年为合法年份
+ 256          //syear,smon,sday,hour,min,sec：闹钟的年月日时分秒
+ 257          //返回值:0,成功;其他:错误代码.
+ 258          uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec 
              -)
- 250          {
- 251   1      /*
- 252   1          uint16_t t;
- 253   1          uint16_t sdaycount = 0;
- 254   1          if( syear < 1970 || syear > 2099 )
- 255   1              return 1;
- 256   1          for( t = 1970; t < syear; t++ )                           //所有年份的秒钟相加
- 257   1          {
- 258   1              if( IS_Leap_Year( t ) )
- 259   1                  sdaycount += 366;               //闰年天数
- 260   1              else
- 261   1                  sdaycount += 365;               //平年天数
- 262   1          }
- 263   1          smon -= 1;
- 264   1          for( t = 0; t < smon; t++ )                             //把前面月份的秒钟数相加
- 265   1          {
- 266   1              sdaycount += ( uint16_t )mon_table[t] * 1;
- 267   1              if( IS_Leap_Year( syear ) && t == 1 )                   //闰年2月份增加一天的秒钟数
- 268   1                  sdaycount += 1;
- 269   1          }
- 270   1          sdaycount += ( uint16_t )( sday - 1 ) * 1;                  //把前面天数的秒钟数相加
- 271   1          sdaycount += ( uint16_t )hour * 3600;                   //加小时秒钟数
- 272   1          sdaycount += ( uint16_t )min * 60;                      //加分钟秒钟数
- 273   1          sdaycount += sec;                                 //加上最后的秒数
- 274   1      
- 275   1          RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
- 276   1          PWR_BackupAccessCmd( ENABLE );
- 277   1      
- 278   1          RTC_SetAlarm( sdaycount );
- 279   1          RTC_WaitForLastTask();
- 280   1      */
- 281   1      
- 282   1        //设置闹钟时间为12:01:00
- 283   1        RTAH  = hour;     
- 284   1        RTAM  = min;
- 285   1        RTAS  = min;
+ 259          {
+ 260   1      /*
+ 261   1          uint16_t t;
+ 262   1          uint16_t sdaycount = 0;
+ 263   1          if( syear < 1970 || syear > 2099 )
+ 264   1              return 1;
+ 265   1          for( t = 1970; t < syear; t++ )                           //所有年份的秒钟相加
+ 266   1          {
+ 267   1              if( IS_Leap_Year( t ) )
+ 268   1                  sdaycount += 366;               //闰年天数
+ 269   1              else
+ 270   1                  sdaycount += 365;               //平年天数
+ 271   1          }
+ 272   1          smon -= 1;
+ 273   1          for( t = 0; t < smon; t++ )                             //把前面月份的秒钟数相加
+ 274   1          {
+ 275   1              sdaycount += ( uint16_t )mon_table[t] * 1;
+ 276   1              if( IS_Leap_Year( syear ) && t == 1 )                   //闰年2月份增加一天的秒钟数
+ 277   1                  sdaycount += 1;
+ 278   1          }
+ 279   1          sdaycount += ( uint16_t )( sday - 1 ) * 1;                  //把前面天数的秒钟数相加
+ 280   1          sdaycount += ( uint16_t )hour * 3600;                   //加小时秒钟数
+ 281   1          sdaycount += ( uint16_t )min * 60;                      //加分钟秒钟数
+ 282   1          sdaycount += sec;                                 //加上最后的秒数
+ 283   1      
+ 284   1          RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+ 285   1          PWR_BackupAccessCmd( ENABLE );
  286   1      
- 287   1          return 0;
- 288   1      }
-*** WARNING C280 IN LINE 249 OF source\rtc.c: 'syear': unreferenced local variable
-*** WARNING C280 IN LINE 249 OF source\rtc.c: 'smon': unreferenced local variable
-*** WARNING C280 IN LINE 249 OF source\rtc.c: 'sday': unreferenced local variable
-*** WARNING C280 IN LINE 249 OF source\rtc.c: 'sec': unreferenced local variable
- 289          //得到当前的时间
- 290          //返回值:0,成功;其他:错误代码.
- 291          uint8_t RTC_Get( void )
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 6   
+ 287   1          RTC_SetAlarm( sdaycount );
+ 288   1          RTC_WaitForLastTask();
+ 289   1      */
+ 290   1      
+ 291   1        //设置闹钟时间为12:01:00
+ 292   1        RTAH  = hour;     
+ 293   1        RTAM  = min;
+ 294   1        RTAS  = min;
+ 295   1      
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 6   
 
- 292          {
- 293   1          static uint16_t daycnt = 0;
- 294   1          uint16_t timecount = 0;
- 295   1          uint16_t temp = 0;
- 296   1          uint16_t temp1 = 0;
- 297   1      
- 298   1          timecount   = (RTCDH<<8)+RTCDL;             //获取1970到现在总共天数              
- 299   1          temp    = timecount / 1;              //得到天数
- 300   1      
- 301   1          if( daycnt != temp )
- 302   1          {
- 303   2              daycnt = temp;
- 304   2              temp1 = 1970;
- 305   2              while( temp > 365 )                   //超过1年
- 306   2              {
- 307   3                  if( IS_Leap_Year( temp1 ) )           //闰年
- 308   3                  {
- 309   4                      if( temp > 366 )
- 310   4                      {
- 311   5                          temp -= 366;
- 312   5                      }
- 313   4                      else
- 314   4                      {
- 315   5                          temp1++;
- 316   5                          break;
- 317   5                      }
- 318   4                  }
- 319   3                  else                      //平年
- 320   3                  {
- 321   4                      temp -= 365;
- 322   4                  }
- 323   3                  temp1++;
- 324   3              }
- 325   2              calendar.w_year = temp1;            //得到年份
- 326   2              temp1 = 0;
- 327   2              while( temp >= 28 )               //超过1月
- 328   2              {
- 329   3                  if( IS_Leap_Year( calendar.w_year ) && temp1 == 1 )
- 330   3                  {
- 331   4                      if( temp >= 29 )
- 332   4                          temp -= 29;
- 333   4                      else
- 334   4                          break;
- 335   4                  }
- 336   3                  else
- 337   3                  {
- 338   4                      if( temp >= mon_table[temp1] )
- 339   4                          temp -= mon_table[temp1];
- 340   4                      else
- 341   4                          break;
- 342   4                  }
- 343   3                  temp1++;
- 344   3              }
- 345   2              calendar.w_month = temp1 + 1;         //月
- 346   2              calendar.w_date = temp + 1;           //日
- 347   2          }
- 348   1        
- 349   1          calendar.hour = RTCH&0x1F;
- 350   1          calendar.min =  RTCM;
- 351   1          calendar.sec =  RTCS;
- 352   1          calendar.week = RTCH>>5;//RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );
- 353   1          return 0;
-C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 12:55:01 PAGE 7   
+ 296   1          return 0;
+ 297   1      }
+*** WARNING C280 IN LINE 258 OF source\rtc.c: 'syear': unreferenced local variable
+*** WARNING C280 IN LINE 258 OF source\rtc.c: 'smon': unreferenced local variable
+*** WARNING C280 IN LINE 258 OF source\rtc.c: 'sday': unreferenced local variable
+*** WARNING C280 IN LINE 258 OF source\rtc.c: 'sec': unreferenced local variable
+ 298          //得到当前的时间
+ 299          //返回值:0,成功;其他:错误代码.
+ 300          uint8_t RTC_Get( void )
+ 301          {
+ 302   1          static uint16_t daycnt = 0;
+ 303   1          uint16_t timecount = 0;
+ 304   1          uint16_t temp = 0;
+ 305   1          uint16_t temp1 = 0;
+ 306   1      
+ 307   1          timecount   = (RTCDH<<8)+RTCDL;             //获取1970到现在总共天数              
+ 308   1          temp    = timecount / 1;              //得到天数
+ 309   1      
+ 310   1          if( daycnt != temp )
+ 311   1          {
+ 312   2              daycnt = temp;
+ 313   2              temp1 = 1970;
+ 314   2              while( temp > 365 )                   //超过1年
+ 315   2              {
+ 316   3                  if( IS_Leap_Year( temp1 ) )           //闰年
+ 317   3                  {
+ 318   4                      if( temp > 366 )
+ 319   4                      {
+ 320   5                          temp -= 366;
+ 321   5                      }
+ 322   4                      else
+ 323   4                      {
+ 324   5                          temp1++;
+ 325   5                          break;
+ 326   5                      }
+ 327   4                  }
+ 328   3                  else                      //平年
+ 329   3                  {
+ 330   4                      temp -= 365;
+ 331   4                  }
+ 332   3                  temp1++;
+ 333   3              }
+ 334   2              calendar.w_year = temp1;            //得到年份
+ 335   2              temp1 = 0;
+ 336   2              while( temp >= 28 )               //超过1月
+ 337   2              {
+ 338   3                  if( IS_Leap_Year( calendar.w_year ) && temp1 == 1 )
+ 339   3                  {
+ 340   4                      if( temp >= 29 )
+ 341   4                          temp -= 29;
+ 342   4                      else
+ 343   4                          break;
+ 344   4                  }
+ 345   3                  else
+ 346   3                  {
+ 347   4                      if( temp >= mon_table[temp1] )
+ 348   4                          temp -= mon_table[temp1];
+ 349   4                      else
+ 350   4                          break;
+ 351   4                  }
+ 352   3                  temp1++;
+ 353   3              }
+C51 COMPILER V9.60.0.0   RTC                                                               06/24/2023 14:44:27 PAGE 7   
 
- 354   1      }
- 355          //获得现在是星期几
- 356          //功能描述:输入公历日期设置星期几(只允许1901-2099年)
- 357          //输入参数：公历年月日
- 358          //返回值：  星期号
- 359          uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day )
- 360          {
- 361   1          uint16_t tem;
- 362   1          uint8_t yearH, yearL;
- 363   1          yearH = year / 100;
- 364   1          yearL = year % 100;
- 365   1          if( yearH > 19 )
- 366   1              yearL += 100;
- 367   1          tem = yearL + yearL / 4;
- 368   1          tem = tem % 7;
- 369   1          tem = tem + day + table_week[month - 1];
- 370   1          if( yearL % 4 == 0 && month < 3 )
- 371   1              tem--;
- 372   1        tem = tem % 7;
- 373   1        RTC_WriteWeek(tem);
- 374   1        #ifdef PRINT_EN 
- 375   1        uart_printf("week day  %d\n",tem);  
- 376   1        #endif  
- 377   1          return tem;
- 378   1      }
- 379          
- 380          
- 381          
- 382          
- 383          
- 384          /*********************************************************************************************************
+ 354   2              calendar.w_month = temp1 + 1;         //月
+ 355   2              calendar.w_date = temp + 1;           //日
+ 356   2          }
+ 357   1        
+ 358   1          calendar.hour = RTCH&0x1F;
+ 359   1          calendar.min =  RTCM;
+ 360   1          calendar.sec =  RTCS;
+ 361   1          calendar.week = RTCH>>5;//RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );
+ 362   1          return 0;
+ 363   1      }
+ 364          //获得现在是星期几
+ 365          //功能描述:输入公历日期设置星期几(只允许1901-2099年)
+ 366          //输入参数：公历年月日
+ 367          //返回值：  星期号
+ 368          uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day )
+ 369          {
+ 370   1          uint16_t tem;
+ 371   1          uint8_t yearH, yearL;
+ 372   1          yearH = year / 100;
+ 373   1          yearL = year % 100;
+ 374   1          if( yearH > 19 )
+ 375   1              yearL += 100;
+ 376   1          tem = yearL + yearL / 4;
+ 377   1          tem = tem % 7;
+ 378   1          tem = tem + day + table_week[month - 1];
+ 379   1          if( yearL % 4 == 0 && month < 3 )
+ 380   1              tem--;
+ 381   1        tem = tem % 7;
+ 382   1        RTC_WriteWeek(tem);
+ 383   1        #ifdef PRINT_EN 
+ 384   1        uart_printf("week day  %d\n",tem);  
+ 385   1        #endif  
+ 386   1          return tem;
+ 387   1      }
+ 388          
+ 389          
+ 390          
+ 391          
+ 392          
+ 393          /*********************************************************************************************************
              -************/
- 385          #endif
+ 394          #endif
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1276    ----
+   CODE SIZE        =   1313    ----
    CONSTANT SIZE    =     83    ----
-   XDATA SIZE       =     34      28
+   XDATA SIZE       =     36      28
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =      2    ----
+   BIT SIZE         =      3    ----
    EDATA SIZE       =   ----    ----
    HDATA SIZE       =   ----    ----
    XDATA CONST SIZE =   ----    ----

@@ -1,12 +1,12 @@
-LX51 LINKER/LOCATER V4.66.97.0                                                          06/24/2023  12:55:01  PAGE 1
+LX51 LINKER/LOCATER V4.66.97.0                                                          06/24/2023  17:53:29  PAGE 1
 
 
 LX51 LINKER/LOCATER V4.66.97.0, INVOKED BY:
 D:\KEIL_V5\C51\BIN\LX51.EXE .\output\uart.obj, .\output\main.obj, .\output\delay.obj, .\output\system_clock.obj, .\outpu
 >> t\lcd.obj, .\output\gpio.obj, .\output\gxhtc.obj, .\output\Disp.obj, .\output\buzzer.obj, .\output\adc.obj, .\output\
->> rtc.obj, .\output\STARTUP.obj TO .\output\CA51F252L3-ZigBee PRINT (.\lst\CA51F252L3-ZigBee.map) REMOVEUNUSED CLASSES 
->> (XDATA (X:0X0-X:0X7FFF), HDATA (X:0X0-X:0X7FFF), CODE (C:0X0-C:0X7FFF), CONST (C:0X0-C:0X7FFF), ECODE (C:0X0-C:0X7FFF
->> ), HCONST (C:0X0-C:0X7FFF))
+>> rtc.obj, .\output\key.obj, .\output\STARTUP.obj TO .\output\CA51F252L3-ZigBee PRINT (.\lst\CA51F252L3-ZigBee.map) REM
+>> OVEUNUSED CLASSES (XDATA (X:0X0-X:0X7FFF), HDATA (X:0X0-X:0X7FFF), CODE (C:0X0-C:0X7FFF), CONST (C:0X0-C:0X7FFF), ECO
+>> DE (C:0X0-C:0X7FFF), HCONST (C:0X0-C:0X7FFF))
 
 
 CPU MODE:     8051 MODE
@@ -35,6 +35,8 @@ INPUT MODULES INCLUDED:
   .\output\adc.obj (ADC)
          COMMENT TYPE 0: C51 V9.60.0.0
   .\output\rtc.obj (RTC)
+         COMMENT TYPE 0: C51 V9.60.0.0
+  .\output\key.obj (KEY)
          COMMENT TYPE 0: C51 V9.60.0.0
   .\output\STARTUP.obj (?C_STARTUP)
          COMMENT TYPE 1: A51 / ASM51 Assembler
@@ -65,11 +67,11 @@ INPUT MODULES INCLUDED:
   D:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDPTR)
          COMMENT TYPE 1: A51 / ASM51 Assembler
   D:\KEIL_V5\C51\LIB\C51L.LIB (?C?CLDOPTR)
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 2
+
+
          COMMENT TYPE 1: A51 / ASM51 Assembler
   D:\KEIL_V5\C51\LIB\C51L.LIB (?C?CSTPTR)
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 2
-
-
          COMMENT TYPE 1: A51 / ASM51 Assembler
   D:\KEIL_V5\C51\LIB\C51L.LIB (?C?UIDIV)
          COMMENT TYPE 1: A51 / ASM51 Assembler
@@ -125,18 +127,18 @@ ACTIVE MEMORY CLASSES OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 
 BASE        START       END         USED      MEMORY CLASS
 ==========================================================
-X:000000H   X:000000H   X:007FFFH   000336H   XDATA
+X:000000H   X:000000H   X:007FFFH   00034BH   XDATA
 X:000000H   X:000000H   X:007FFFH             HDATA
-C:000000H   C:000000H   C:007FFFH   001859H   CODE
-C:000000H   C:000000H   C:007FFFH   0000B8H   CONST
+C:000000H   C:000000H   C:007FFFH   001B39H   CODE
+C:000000H   C:000000H   C:007FFFH   0000CDH   CONST
 C:000000H   C:000000H   C:007FFFH             ECODE
 C:000000H   C:000000H   C:007FFFH             HCONST
-I:000020H.0 I:000020H.0 I:00002FH.7 000001H.4 BIT
+I:000020H.0 I:000020H.0 I:00002FH.7 000001H.5 BIT
 I:000000H   I:000000H   I:0000FFH   000001H   IDATA
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 3
+
+
 I:000000H   I:000000H   I:00007FH   00000DH   DATA
-
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 3
-
 
 
 MEMORY MAP OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
@@ -150,9 +152,9 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 000008H   00000CH   000005H   BYTE   UNIT     DATA           _DATA_GROUP_
 00000DH.0 00001FH.7 000013H.0 ---    ---      **GAP**
 000020H.0 000021H.0 000001H.1 BIT    UNIT     BIT            _BIT_GROUP_
-000021H.1 000021H.2 000000H.2 BIT    UNIT     BIT            ?BI?RTC
-000021H.3 000021H.3 000000H.1 BIT    UNIT     BIT            ?BI?UART
-000021H.4 000021H   000000H.4 ---    ---      **GAP**
+000021H.1 000021H.3 000000H.3 BIT    UNIT     BIT            ?BI?RTC
+000021H.4 000021H.4 000000H.1 BIT    UNIT     BIT            ?BI?UART
+000021H.5 000021H   000000H.3 ---    ---      **GAP**
 000022H   000022H   000001H   BYTE   UNIT     IDATA          ?STACK
 
 * * * * * * * * * * *   C O D E   M E M O R Y   * * * * * * * * * * * * *
@@ -161,64 +163,67 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 000031H   000032H   000002H   ---    ---      **GAP**
 000033H   000035H   000003H   BYTE   OFFS..   CODE           ?UART?00033
 000036H   00003AH   000005H   ---    ---      **GAP**
-00003BH   00003DH   000003H   BYTE   OFFS..   CODE           ?GPIO?0003B
+00003BH   00003DH   000003H   BYTE   OFFS..   CODE           ?KEY?0003B
 00003EH   000042H   000005H   ---    ---      **GAP**
-000043H   000045H   000003H   BYTE   OFFS..   CODE           ?GPIO?00043
+000043H   000045H   000003H   BYTE   OFFS..   CODE           ?KEY?00043
 000046H   00004AH   000005H   ---    ---      **GAP**
-00004BH   00004DH   000003H   BYTE   OFFS..   CODE           ?GPIO?0004B
+00004BH   00004DH   000003H   BYTE   OFFS..   CODE           ?KEY?0004B
 00004EH   000052H   000005H   ---    ---      **GAP**
-000053H   000055H   000003H   BYTE   OFFS..   CODE           ?GPIO?00053
+000053H   000055H   000003H   BYTE   OFFS..   CODE           ?KEY?00053
 000056H   000069H   000014H   BYTE   UNIT     CODE           ?PR?_RTC_WRITEDAY?RTC
 00006AH   00006AH   000001H   ---    ---      **GAP**
 00006BH   00006DH   000003H   BYTE   OFFS..   CODE           ?RTC?0006B
 00006EH   000935H   0008C8H   BYTE   UNIT     CODE           ?C?LIB_CODE
 000936H   000DB8H   000483H   BYTE   UNIT     CODE           ?PR?PRINTF?PRINTF
-000DB9H   000F75H   0001BDH   BYTE   UNIT     CODE           ?PR?MAIN?MAIN
-000F76H   0010DEH   000169H   BYTE   UNIT     CODE           ?PR?RTC_GET?RTC
-0010DFH   00121AH   00013CH   BYTE   UNIT     CODE           ?PR?_RTC_SET?RTC
-00121BH   0012FBH   0000E1H   BYTE   UNIT     CODE           ?PR?_RTC_SET_WEEK?RTC
-0012FCH   001387H   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
-001388H   001403H   00007CH   BYTE   UNIT     CODE           ?PR?RTC_INIT?RTC
-001404H   00147DH   00007AH   BYTE   UNIT     CODE           ?PR?UART1_ISR?UART
-00147EH   0014EAH   00006DH   BYTE   UNIT     CODE           ?PR?_UART1_PUTCHAR?UART
-0014EBH   001551H   000067H   BYTE   UNIT     CODE           ?PR?GPIO_INIT?GPIO
-001552H   0015B0H   00005FH   BYTE   UNIT     CODE           ?PR?_UART_PRINTF?UART
-0015B1H   00160BH   00005BH   BYTE   UNIT     CODE           ?PR?_UART1_INITIAL?UART
-00160CH   001655H   00004AH   BYTE   UNIT     CODE           ?PR?_VSPRINTF?VSPRINTF
-001656H   001688H   000033H   BYTE   UNIT     CODE           ?PR?_UARTPUTSTR?UART
-001689H   0016B0H   000028H   BYTE   UNIT     CODE           ?C_INITSEG
-0016B1H   0016D7H   000027H   BYTE   UNIT     CODE           ?PR?PWM6_INIT?BUZZER
-0016D8H   0016FEH   000027H   BYTE   UNIT     CODE           ?PR?PUTCHAR?PUTCHAR
-0016FFH   001723H   000025H   BYTE   UNIT     CODE           ?PR?_RTC_WRITEWEEK?RTC
-001724H   001744H   000021H   BYTE   UNIT     CODE           ?PR?RTC_ISR?RTC
-001745H   001763H   00001FH   BYTE   UNIT     CODE           ?PR?_RTC_WRITEHOUR?RTC
-001764H   00177EH   00001BH   BYTE   UNIT     CODE           ?PR?INT2_ISR?GPIO
-00177FH   001799H   00001BH   BYTE   UNIT     CODE           ?PR?INT3_ISR?GPIO
-00179AH   0017B4H   00001BH   BYTE   UNIT     CODE           ?PR?INT4_ISR?GPIO
-0017B5H   0017CFH   00001BH   BYTE   UNIT     CODE           ?PR?INT5_ISR?GPIO
-0017D0H   0017E9H   00001AH   BYTE   UNIT     CODE           ?PR?_DELAY_50US?DELAY
-0017EAH   001803H   00001AH   BYTE   UNIT     CODE           ?PR?_RTC_WRITESECOND?RTC
-001804H   00181DH   00001AH   BYTE   UNIT     CODE           ?PR?_RTC_WRITEMINUTE?RTC
-00181EH   00182EH   000011H   BYTE   UNIT     CODE           ?PR?INT3_INIT?GPIO
-00182FH   00183FH   000011H   BYTE   UNIT     CODE           ?PR?INT4_INIT?GPIO
-001840H   001850H   000011H   BYTE   UNIT     CODE           ?PR?INT5_INIT?GPIO
-001851H   001860H   000010H   BYTE   UNIT     CODE           ?PR?INT2_INIT?GPIO
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 4
+000DB9H   001094H   0002DCH   BYTE   UNIT     CODE           ?PR?KEY_SCANF?KEY
+001095H   0011FDH   000169H   BYTE   UNIT     CODE           ?PR?RTC_GET?RTC
+0011FEH   001354H   000157H   BYTE   UNIT     CODE           ?PR?MAIN?MAIN
+001355H   001490H   00013CH   BYTE   UNIT     CODE           ?PR?_RTC_SET?RTC
+001491H   001571H   0000E1H   BYTE   UNIT     CODE           ?PR?_RTC_SET_WEEK?RTC
+001572H   0015FDH   00008CH   BYTE   UNIT     CODE           ?C_C51STARTUP
+0015FEH   001679H   00007CH   BYTE   UNIT     CODE           ?PR?RTC_INIT?RTC
+00167AH   0016F3H   00007AH   BYTE   UNIT     CODE           ?PR?UART1_ISR?UART
+0016F4H   001760H   00006DH   BYTE   UNIT     CODE           ?PR?_UART1_PUTCHAR?UART
+001761H   0017CCH   00006CH   BYTE   UNIT     CODE           ?C_INITSEG
+0017CDH   00182BH   00005FH   BYTE   UNIT     CODE           ?PR?_UART_PRINTF?UART
+00182CH   001886H   00005BH   BYTE   UNIT     CODE           ?PR?_UART1_INITIAL?UART
+001887H   0018D0H   00004AH   BYTE   UNIT     CODE           ?PR?_VSPRINTF?VSPRINTF
+0018D1H   001916H   000046H   BYTE   UNIT     CODE           ?PR?RTC_ISR?RTC
+001917H   00194BH   000035H   BYTE   UNIT     CODE           ?PR?KEY_INIT?KEY
+00194CH   00197EH   000033H   BYTE   UNIT     CODE           ?PR?_UARTPUTSTR?UART
+00197FH   0019B1H   000033H   BYTE   UNIT     CODE           ?PR?GPIO_INIT?GPIO
+0019B2H   0019D8H   000027H   BYTE   UNIT     CODE           ?PR?PWM6_INIT?BUZZER
+0019D9H   0019FFH   000027H   BYTE   UNIT     CODE           ?PR?PUTCHAR?PUTCHAR
+001A00H   001A24H   000025H   BYTE   UNIT     CODE           ?PR?_RTC_WRITEWEEK?RTC
+001A25H   001A43H   00001FH   BYTE   UNIT     CODE           ?PR?_RTC_WRITEHOUR?RTC
+001A44H   001A5EH   00001BH   BYTE   UNIT     CODE           ?PR?INT2_ISR?KEY
+001A5FH   001A79H   00001BH   BYTE   UNIT     CODE           ?PR?INT3_ISR?KEY
+001A7AH   001A94H   00001BH   BYTE   UNIT     CODE           ?PR?INT4_ISR?KEY
+001A95H   001AAFH   00001BH   BYTE   UNIT     CODE           ?PR?INT5_ISR?KEY
+001AB0H   001AC9H   00001AH   BYTE   UNIT     CODE           ?PR?_DELAY_50US?DELAY
+001ACAH   001AE3H   00001AH   BYTE   UNIT     CODE           ?PR?_RTC_WRITESECOND?RTC
+001AE4H   001AFDH   00001AH   BYTE   UNIT     CODE           ?PR?_RTC_WRITEMINUTE?RTC
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 4
 
 
-001861H   00186FH   00000FH   BYTE   UNIT     CODE           ?PR?GXHTC3_INIT?GXHTC
-001870H   0018D4H   000065H   BYTE   UNIT     CONST          ?CO?MAIN
-0018D5H   001927H   000053H   BYTE   UNIT     CONST          ?CO?RTC
+001AFEH   001B0EH   000011H   BYTE   UNIT     CODE           ?PR?INT3_INIT?KEY
+001B0FH   001B1FH   000011H   BYTE   UNIT     CODE           ?PR?INT4_INIT?KEY
+001B20H   001B30H   000011H   BYTE   UNIT     CODE           ?PR?INT5_INIT?KEY
+001B31H   001B40H   000010H   BYTE   UNIT     CODE           ?PR?INT2_INIT?KEY
+001B41H   001B4FH   00000FH   BYTE   UNIT     CODE           ?PR?GXHTC3_INIT?GXHTC
+001B50H   001BA2H   000053H   BYTE   UNIT     CONST          ?CO?RTC
+001BA3H   001BE2H   000040H   BYTE   UNIT     CONST          ?CO?KEY
+001BE3H   001C1CH   00003AH   BYTE   UNIT     CONST          ?CO?MAIN
 
 * * * * * * * * * * *  X D A T A   M E M O R Y  * * * * * * * * * * * * *
-000000H   000186H   000187H   BYTE   UNIT     XDATA          _XDATA_GROUP_
-000187H   000202H   00007CH   BYTE   UNIT     XDATA          ?XD?UART
-000203H   000224H   000022H   BYTE   UNIT     XDATA          ?XD?DISP
-000225H   000246H   000022H   BYTE   UNIT     XDATA          ?XD?RTC
-000247H   000256H   000010H   BYTE   UNIT     XDATA          ?XD?GXHTC
-000257H   00025AH   000004H   BYTE   UNIT     XDATA          ?XD?ADC
-00025BH   00025BH   000001H   BYTE   UNIT     XDATA          ?XD?GPIO
-00025CH   007FFFH   007DA4H   ---    ---      **GAP**
+000000H   000184H   000185H   BYTE   UNIT     XDATA          _XDATA_GROUP_
+000185H   000200H   00007CH   BYTE   UNIT     XDATA          ?XD?UART
+000201H   000224H   000024H   BYTE   UNIT     XDATA          ?XD?RTC
+000225H   000246H   000022H   BYTE   UNIT     XDATA          ?XD?DISP
+000247H   00025CH   000016H   BYTE   UNIT     XDATA          ?XD?KEY
+00025DH   00026CH   000010H   BYTE   UNIT     XDATA          ?XD?GXHTC
+00026DH   000270H   000004H   BYTE   UNIT     XDATA          ?XD?ADC
+000271H   007FFFH   007D8FH   ---    ---      **GAP**
 008000H   008000H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?132
 008001H   008001H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?140
 008002H   008002H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?149
@@ -266,14 +271,14 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 00802CH   00802CH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?17
 00802DH   00802DH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?25
 00802EH   00802EH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?33
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 5
+
+
 00802FH   00802FH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?38
 008030H   008030H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?198
 008031H   008031H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?211
 008032H   008032H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?6
 008033H   008033H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?16
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 5
-
-
 008034H   008034H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?24
 008035H   008035H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?32
 008036H   008036H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?37
@@ -334,14 +339,14 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 008074H   008074H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?87
 008075H   008077H   000003H   ---    ---      **GAP**
 008078H   008078H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?29
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 6
+
+
 008079H   008079H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?44
 00807AH   00807AH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?40
 00807BH   00807BH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?82
 00807CH   00807CH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?75
 00807DH   00807DH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?102
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 6
-
-
 00807EH   00807EH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?99
 00807FH   00807FH   000001H   ---    ---      **GAP**
 008080H   008080H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?116
@@ -402,14 +407,14 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 00812EH   00812EH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?168
 00812FH   00812FH   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?183
 008130H   008130H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?124
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 7
+
+
 008131H   008131H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?129
 008132H   008132H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?135
 008133H   008133H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?144
 008134H   008134H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?154
 008135H   008135H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?167
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 7
-
-
 008136H   008136H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?182
 008137H   008137H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?196
 008138H   008138H   000001H   BYTE   OFFS..   XDATA          ?XD?MAIN?128
@@ -470,14 +475,14 @@ START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
    *DEL*:           000030H   BYTE   UNIT     CODE           ?PR?_SYS_CLK_SET_PLL?SYSTEM_CLOCK
    *DEL*:           000011H   BYTE   UNIT     CODE           ?PR?SYS_CLK_SET_TFRC?SYSTEM_CLOCK
    *DEL*:           000054H   BYTE   UNIT     CODE           ?PR?LCD_OFF?LCD
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 8
+
+
    *DEL*:           00010CH   BYTE   UNIT     CODE           ?PR?LCD_INIT?LCD
    *DEL*:           000021H   BYTE   UNIT     CONST          ?CO?LCD
    *DEL*:           000010H   BYTE   UNIT     CODE           ?PR?I2C_INIT?GPIO
    *DEL*:           00000FH   BYTE   UNIT     CODE           ?PR?ZIGBEE_GPIO_INIT?GPIO
    *DEL*:           000007H   BYTE   UNIT     CODE           ?PR?GXHTC3_SDA_OUT?GXHTC
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 8
-
-
    *DEL*:           000007H   BYTE   UNIT     CODE           ?PR?GXHTC3_SDA_IN?GXHTC
    *DEL*:           00001AH   BYTE   UNIT     CODE           ?PR?GXHTC3_START?GXHTC
    *DEL*:           000019H   BYTE   UNIT     CODE           ?PR?GXHTC3_STOP?GXHTC
@@ -512,23 +517,23 @@ UART1_ISR/UART                      ----- -----  ----- -----  ----- -----
 
 *** NEW ROOT **********************
 
-INT2_ISR/GPIO                       ----- -----  ----- -----  ----- -----
-
-*** NEW ROOT **********************
-
-INT3_ISR/GPIO                       ----- -----  ----- -----  ----- -----
-
-*** NEW ROOT **********************
-
-INT4_ISR/GPIO                       ----- -----  ----- -----  ----- -----
-
-*** NEW ROOT **********************
-
-INT5_ISR/GPIO                       ----- -----  ----- -----  ----- -----
-
-*** NEW ROOT **********************
-
 RTC_ISR/RTC                         ----- -----  ----- -----  ----- -----
+
+*** NEW ROOT **********************
+
+INT2_ISR/KEY                        ----- -----  ----- -----  ----- -----
+
+*** NEW ROOT **********************
+
+INT3_ISR/KEY                        ----- -----  ----- -----  ----- -----
+
+*** NEW ROOT **********************
+
+INT4_ISR/KEY                        ----- -----  ----- -----  ----- -----
+
+*** NEW ROOT **********************
+
+INT5_ISR/KEY                        ----- -----  ----- -----  ----- -----
 
 *** NEW ROOT **********************
 
@@ -536,38 +541,40 @@ RTC_ISR/RTC                         ----- -----  ----- -----  ----- -----
   +--> MAIN/MAIN
   +--> ?C_INITSEG
 
-MAIN/MAIN                           ----- -----  ----- -----  0000H 0011H
+MAIN/MAIN                           ----- -----  ----- -----  0000H 000FH
   +--> _UART1_INITIAL/UART
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 9
+
+
   +--> _UART_PRINTF/UART
   +--> GXHTC3_INIT/GXHTC
   +--> PWM6_INIT/BUZZER
   +--> GPIO_INIT/GPIO
-  +--> INT2_INIT/GPIO
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 9
-
-
-  +--> INT3_INIT/GPIO
-  +--> INT4_INIT/GPIO
-  +--> INT5_INIT/GPIO
+  +--> KEY_INIT/KEY
+  +--> INT2_INIT/KEY
+  +--> INT3_INIT/KEY
+  +--> INT4_INIT/KEY
+  +--> INT5_INIT/KEY
   +--> RTC_INIT/RTC
   +--> _RTC_SET/RTC
+  +--> KEY_SCANF/KEY
   +--> RTC_GET/RTC
 
-_UART1_INITIAL/UART                 ----- -----  ----- -----  0012H 0015H
+_UART1_INITIAL/UART                 ----- -----  ----- -----  0010H 0013H
 
-_UART_PRINTF/UART                   ----- -----  ----- -----  0023H 0150H
+_UART_PRINTF/UART                   ----- -----  ----- -----  0021H 014EH
   +--> _VSPRINTF/VSPRINTF
   +--> _UARTPUTSTR/UART
 
-_VSPRINTF/VSPRINTF                  ----- -----  ----- -----  0151H 0156H
+_VSPRINTF/VSPRINTF                  ----- -----  ----- -----  014FH 0154H
   +--> PRINTF/PRINTF
 
-PRINTF/PRINTF                       20H.0 21H.0  0008H 000CH  0157H 0186H
+PRINTF/PRINTF                       20H.0 21H.0  0008H 000CH  0155H 0184H
   +--> PUTCHAR/PUTCHAR
 
 PUTCHAR/PUTCHAR                     ----- -----  ----- -----  ----- -----
 
-_UARTPUTSTR/UART                    ----- -----  ----- -----  0151H 0153H
+_UARTPUTSTR/UART                    ----- -----  ----- -----  014FH 0151H
   +--> _UART1_PUTCHAR/UART
 
 _UART1_PUTCHAR/UART                 ----- -----  ----- -----  ----- -----
@@ -578,13 +585,15 @@ PWM6_INIT/BUZZER                    ----- -----  ----- -----  ----- -----
 
 GPIO_INIT/GPIO                      ----- -----  ----- -----  ----- -----
 
-INT2_INIT/GPIO                      ----- -----  ----- -----  ----- -----
+KEY_INIT/KEY                        ----- -----  ----- -----  ----- -----
 
-INT3_INIT/GPIO                      ----- -----  ----- -----  ----- -----
+INT2_INIT/KEY                       ----- -----  ----- -----  ----- -----
 
-INT4_INIT/GPIO                      ----- -----  ----- -----  ----- -----
+INT3_INIT/KEY                       ----- -----  ----- -----  ----- -----
 
-INT5_INIT/GPIO                      ----- -----  ----- -----  ----- -----
+INT4_INIT/KEY                       ----- -----  ----- -----  ----- -----
+
+INT5_INIT/KEY                       ----- -----  ----- -----  ----- -----
 
 RTC_INIT/RTC                        ----- -----  ----- -----  ----- -----
   +--> _DELAY_50US/DELAY
@@ -602,21 +611,21 @@ _RTC_WRITEMINUTE/RTC                ----- -----  ----- -----  ----- -----
   +--> _DELAY_50US/DELAY
 
 _RTC_WRITESECOND/RTC                ----- -----  ----- -----  ----- -----
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 10
+
+
   +--> _DELAY_50US/DELAY
 
-_RTC_SET/RTC                        ----- -----  ----- -----  0012H 001CH
+_RTC_SET/RTC                        ----- -----  ----- -----  0010H 001AH
   +--> _RTC_SET_WEEK/RTC
   +--> _IS_LEAP_YEAR/RTC
   +--> _UART_PRINTF/UART
   +--> _RTC_WRITEDAY/RTC
   +--> _RTC_WRITEHOUR/RTC
   +--> _RTC_WRITEMINUTE/RTC
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 10
-
-
   +--> _RTC_WRITESECOND/RTC
 
-_RTC_SET_WEEK/RTC                   ----- -----  ----- -----  001DH 0022H
+_RTC_SET_WEEK/RTC                   ----- -----  ----- -----  001BH 0020H
   +--> _RTC_WRITEWEEK/RTC
   +--> _UART_PRINTF/UART
 
@@ -628,7 +637,10 @@ _IS_LEAP_YEAR/RTC                   ----- -----  ----- -----  ----- -----
 _RTC_WRITEDAY/RTC                   ----- -----  ----- -----  ----- -----
   +--> _DELAY_50US/DELAY
 
-RTC_GET/RTC                         ----- -----  ----- -----  0012H 0015H
+KEY_SCANF/KEY                       ----- -----  ----- -----  0010H 0012H
+  +--> _UART_PRINTF/UART
+
+RTC_GET/RTC                         ----- -----  ----- -----  0010H 0013H
   +--> _IS_LEAP_YEAR/RTC
 
 ?C_INITSEG                          ----- -----  ----- -----  ----- -----
@@ -640,12 +652,12 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 
       VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
       =================================================
-      02000157H   XDATA    ---       ?_PRINTF?BYTE
+      02000155H   XDATA    ---       ?_PRINTF?BYTE
 *DEL*:00000000H   XDATA    BYTE      ?_RTC_Alarm_Set?BYTE
-      02000012H   XDATA    BYTE      ?_RTC_Set?BYTE
-      02000157H   XDATA    ---       ?_SPRINTF?BYTE
-      02000023H   XDATA    BYTE      ?_uart_printf?BYTE
-      0201014EH   XDATA    ---       ?_VSPRINTF?BYTE
+      02000010H   XDATA    BYTE      ?_RTC_Set?BYTE
+      02000155H   XDATA    ---       ?_SPRINTF?BYTE
+      02000021H   XDATA    BYTE      ?_uart_printf?BYTE
+      0201014CH   XDATA    ---       ?_VSPRINTF?BYTE
       0100088EH   CODE     ---       ?C?CCASE
       010005D8H   CODE     ---       ?C?CLDOPTR
       010005BFH   CODE     ---       ?C?CLDPTR
@@ -667,6 +679,9 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       010003EEH   CODE     ---       ?C?FPRESULT2
       0100040DH   CODE     ---       ?C?FPROUND
       01000071H   CODE     ---       ?C?FPSUB
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 11
+
+
       010003FFH   CODE     ---       ?C?FPUNDERFLOW
       0100057FH   CODE     ---       ?C?FTNPWR
       0100066CH   CODE     ---       ?C?ILDIX
@@ -679,9 +694,6 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       010008CCH   CODE     ---       ?C?LLDPDATA
       01000901H   CODE     ---       ?C?LLDPDATA0
       010008C0H   CODE     ---       ?C?LLDXDATA
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 11
-
-
       010008F5H   CODE     ---       ?C?LLDXDATA0
       01000682H   CODE     ---       ?C?LMUL
       0100079FH   CODE     ---       ?C?LNEG
@@ -695,10 +707,10 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       01000617H   CODE     ---       ?C?UIDIV
       0100070DH   CODE     ---       ?C?ULDIV
       00000000H   NUMBER   ---       ?C?XDATASEG
-      01001343H   CODE     ---       ?C_START
+      010015B9H   CODE     ---       ?C_START
       01000000H   CODE     ---       ?C_STARTUP
 *DEL*:00000000H   CODE     ---       _al_float_buffer_sort
-      010017D0H   CODE     ---       _Delay_50us
+      01001AB0H   CODE     ---       _Delay_50us
 *DEL*:00000000H   CODE     ---       _Delay_ms
 *DEL*:00000000H   CODE     ---       _delay_us
 *DEL*:00000007H   CODE     ---       _GXHTC3_Read_Byte
@@ -706,22 +718,22 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *DEL*:00000000H   CODE     ---       _GXHTC3_Send_Byte
       01000008H   CODE     ---       _IS_Leap_Year
       010009A1H   CODE     ---       _PRINTF
-      010016D8H   CODE     ---       _PUTCHAR
+      010019D9H   CODE     ---       _PUTCHAR
 *DEL*:00000000H   CODE     ---       _RTC_Alarm_Set
-      010010DFH   CODE     ---       _RTC_Set
-      0100121BH   CODE     ---       _RTC_Set_Week
+      01001355H   CODE     ---       _RTC_Set
+      01001491H   CODE     ---       _RTC_Set_Week
       01000056H   CODE     ---       _RTC_WriteDay
-      01001745H   CODE     ---       _RTC_WriteHour
-      01001804H   CODE     ---       _RTC_WriteMinute
-      010017EAH   CODE     ---       _RTC_WriteSecond
-      010016FFH   CODE     ---       _RTC_WriteWeek
+      01001A25H   CODE     ---       _RTC_WriteHour
+      01001AE4H   CODE     ---       _RTC_WriteMinute
+      01001ACAH   CODE     ---       _RTC_WriteSecond
+      01001A00H   CODE     ---       _RTC_WriteWeek
       0100099BH   CODE     ---       _SPRINTF
 *DEL*:00000000H   CODE     ---       _Sys_Clk_Set_PLL
-      010015B1H   CODE     ---       _Uart1_Initial
-      0100147EH   CODE     ---       _Uart1_PutChar
-      01001552H   CODE     ---       _uart_printf
-      01001656H   CODE     ---       _UartPutStr
-      0100160CH   CODE     ---       _VSPRINTF
+      0100182CH   CODE     ---       _Uart1_Initial
+      010016F4H   CODE     ---       _Uart1_PutChar
+      010017CDH   CODE     ---       _uart_printf
+      0100194CH   CODE     ---       _UartPutStr
+      01001887H   CODE     ---       _VSPRINTF
 *SFR* 000000D0H.6 DATA     BIT       AC
 *SFR* 000000E0H   DATA     BYTE      ACC
       0200808DH   XDATA    BYTE      ACPDHH
@@ -735,21 +747,21 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000BCH   DATA     BYTE      ADCDL
 *SFR* 000000BBH   DATA     BYTE      ADCFGH
 *SFR* 000000BAH   DATA     BYTE      ADCFGL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 12
+
+
 *SFR* 000000B9H   DATA     BYTE      ADCON
-      00000021H.2 BIT      BIT       AlarmEvFlag
+      00000021H.3 BIT      BIT       AlarmEvFlag
 *SFR* 000000C6H   DATA     BYTE      ATKMH
 *SFR* 000000C5H   DATA     BYTE      ATKML
       02008093H   XDATA    BYTE      ATKNH
       02008092H   XDATA    BYTE      ATKNL
 *SFR* 000000F0H   DATA     BYTE      B
-      0200023FH   XDATA    ---       calendar
+      0200021DH   XDATA    ---       calendar
       02008080H   XDATA    BYTE      CKCON
       02008082H   XDATA    BYTE      CKDIV
 *SFR* 000000BFH   DATA     BYTE      CKMIF
 *SFR* 000000BEH   DATA     BYTE      CKMON
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 12
-
-
       02008081H   XDATA    BYTE      CKSEL
       02008048H   XDATA    BYTE      CP0CON
       02008049H   XDATA    BYTE      CP1CON
@@ -795,18 +807,21 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008056H   XDATA    BYTE      FT3SL
       0200811EH   XDATA    BYTE      FTCTL
 *DEL*:00000000H   CODE     ---       get_gxth30
-      010014EBH   CODE     ---       GPIO_init
+      0100197FH   CODE     ---       GPIO_init
 *DEL*:00000000H   CODE     ---       GXHTC3_Ack
-      0200024BH   XDATA    FLOAT     GXHTC3_humi
-      02000253H   XDATA    FLOAT     GXHTC3_Humidity
-      01001861H   CODE     ---       GXHTC3_INIT
+      02000261H   XDATA    FLOAT     GXHTC3_humi
+      02000269H   XDATA    FLOAT     GXHTC3_Humidity
+      01001B41H   CODE     ---       GXHTC3_INIT
 *DEL*:00000000H   CODE     ---       GXHTC3_NAck
 *DEL*:00000000H   CODE     ---       GXHTC3_SDA_IN
 *DEL*:00000000H   CODE     ---       GXHTC3_SDA_OUT
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 13
+
+
 *DEL*:00000000H   CODE     ---       GXHTC3_StarT
 *DEL*:00000000H   CODE     ---       GXHTC3_StoP
-      0200024FH   XDATA    FLOAT     GXHTC3_temp
-      02000247H   XDATA    FLOAT     GXHTC3_Temperature
+      02000265H   XDATA    FLOAT     GXHTC3_temp
+      0200025DH   XDATA    FLOAT     GXHTC3_Temperature
 *DEL*:00000000H   CODE     ---       GXHTC3_Wait_Ack
       00000021H.1 BIT      BIT       HalfSecFlag
       02008068H   XDATA    BYTE      HDCT0
@@ -815,15 +830,14 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008073H   XDATA    BYTE      HDCT11
       0200806AH   XDATA    BYTE      HDCT2
       0200806BH   XDATA    BYTE      HDCT3
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 13
-
-
       0200806CH   XDATA    BYTE      HDCT4
       0200806DH   XDATA    BYTE      HDCT5
       0200806EH   XDATA    BYTE      HDCT6
       0200806FH   XDATA    BYTE      HDCT7
       02008070H   XDATA    BYTE      HDCT8
       02008071H   XDATA    BYTE      HDCT9
+      02000251H   XDATA    BYTE      Hold_down1
+      02000252H   XDATA    BYTE      Hold_down2
 *SFR* 000000AFH   DATA     BYTE      HVTH
 *DEL*:00000000H   CODE     ---       I2C_init
 *SFR* 000000B3H   DATA     BYTE      I2CADM
@@ -844,17 +858,17 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008086H   XDATA    BYTE      ILCFGH
       02008085H   XDATA    BYTE      ILCFGL
 *SFR* 000000F7H   DATA     BYTE      INDEX
-      01001851H   CODE     ---       INT2_Init
-      01001764H   CODE     ---       INT2_ISR
+      01001B31H   CODE     ---       INT2_Init
+      01001A44H   CODE     ---       INT2_ISR
 *SFR* 000000E8H.0 DATA     BIT       INT2EN
-      0100181EH   CODE     ---       INT3_Init
-      0100177FH   CODE     ---       INT3_ISR
+      01001AFEH   CODE     ---       INT3_Init
+      01001A5FH   CODE     ---       INT3_ISR
 *SFR* 000000E8H.1 DATA     BIT       INT3EN
-      0100182FH   CODE     ---       INT4_Init
-      0100179AH   CODE     ---       INT4_ISR
+      01001B0FH   CODE     ---       INT4_Init
+      01001A7AH   CODE     ---       INT4_ISR
 *SFR* 000000E8H.2 DATA     BIT       INT4EN
-      01001840H   CODE     ---       INT5_Init
-      010017B5H   CODE     ---       INT5_ISR
+      01001B20H   CODE     ---       INT5_Init
+      01001A95H   CODE     ---       INT5_ISR
 *SFR* 000000E8H.3 DATA     BIT       INT5EN
 *SFR* 000000E8H.4 DATA     BIT       INT6EN
 *SFR* 000000E8H.5 DATA     BIT       INT7EN
@@ -865,11 +879,23 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 0000008FH   DATA     BYTE      IT0CON
 *SFR* 00000088H.2 DATA     BIT       IT1
 *SFR* 0000008EH   DATA     BYTE      IT1CON
-      0200025BH   XDATA    BYTE      key_value
+      01001917H   CODE     ---       KEY_init
+      01000DB9H   CODE     ---       Key_Scanf
+      0200025BH   XDATA    BYTE      key_value1
+      0200025CH   XDATA    BYTE      key_value2
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 14
+
+
+      0200024FH   XDATA    BYTE      key_value3
+      02000250H   XDATA    BYTE      key_value4
 *DEL*:00000000H   CODE     ---       Lcd_init
 *DEL*:00000000H   CODE     ---       LCD_Off
-      02000203H   XDATA    ---       lcd_ram
+      02000225H   XDATA    ---       lcd_ram
       0200FC03H   XDATA    BYTE      LOCK
+      02000253H   XDATA    BYTE      LongKey1
+      02000254H   XDATA    BYTE      LongKey2
+      02000256H   XDATA    BYTE      LongKey3
+      02000258H   XDATA    BYTE      LongKey4
 *SFR* 000000EFH   DATA     BYTE      LVDCON
       02008117H   XDATA    BYTE      LXCAD
 *SFR* 000000E2H   DATA     BYTE      LXCFG
@@ -877,16 +903,14 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000E3H   DATA     BYTE      LXDAT
 *SFR* 000000E5H   DATA     BYTE      LXDIVH
 *SFR* 000000E4H   DATA     BYTE      LXDIVL
-      01000DB9H   CODE     ---       main
+      010011FEH   CODE     ---       main
 *SFR* 000000E6H   DATA     BYTE      MDUCON
 *SFR* 000000E7H   DATA     BYTE      MDUDAT
       0200FC00H   XDATA    BYTE      MECON
       02008064H   XDATA    BYTE      MFPCON
       02008063H   XDATA    BYTE      MHLCON
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 14
-
-
-      02000233H   XDATA    ---       mon_table
+      00000021H.2 BIT      BIT       millisecondFlag
+      02000211H   XDATA    ---       mon_table
       02008061H   XDATA    BYTE      MOTCFG
       02008065H   XDATA    BYTE      MOTCMD
       02008060H   XDATA    BYTE      MOTCON
@@ -927,6 +951,9 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 00000090H   DATA     BYTE      P1
 *SFR* 00000090H.0 DATA     BIT       P10
       02008128H   XDATA    BYTE      P10C
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 15
+
+
       02008008H   XDATA    BYTE      P10F
 *SFR* 00000090H.1 DATA     BIT       P11
       02008129H   XDATA    BYTE      P11C
@@ -951,9 +978,6 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200800FH   XDATA    BYTE      P17F
 *SFR* 000000A0H   DATA     BYTE      P2
 *SFR* 000000A0H.0 DATA     BIT       P20
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 15
-
-
       02008130H   XDATA    BYTE      P20C
       02008010H   XDATA    BYTE      P20F
 *SFR* 000000A0H.1 DATA     BIT       P21
@@ -995,6 +1019,9 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200801CH   XDATA    BYTE      P34F
 *SFR* 000000B0H.5 DATA     BIT       P35
       0200813DH   XDATA    BYTE      P35C
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 16
+
+
       0200801DH   XDATA    BYTE      P35F
 *SFR* 000000B0H.6 DATA     BIT       P36
       0200813EH   XDATA    BYTE      P36C
@@ -1019,9 +1046,6 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008144H   XDATA    BYTE      P44C
       02008024H   XDATA    BYTE      P44F
 *SFR* 000000C0H.5 DATA     BIT       P45
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 16
-
-
       02008145H   XDATA    BYTE      P45C
       02008025H   XDATA    BYTE      P45F
 *SFR* 000000C0H.6 DATA     BIT       P46
@@ -1063,6 +1087,9 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008152H   XDATA    BYTE      P62C
       02008032H   XDATA    BYTE      P62F
       02008153H   XDATA    BYTE      P63C
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 17
+
+
       02008033H   XDATA    BYTE      P63F
       02008154H   XDATA    BYTE      P64C
       02008034H   XDATA    BYTE      P64F
@@ -1087,9 +1114,6 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200803DH   XDATA    BYTE      P75F
       0200FC04H   XDATA    BYTE      PADRD
 *SFR* 00000087H   DATA     BYTE      PCON
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 17
-
-
 *SFR* 000000AEH   DATA     BYTE      PLLCON
 *SFR* 000000B8H.4 DATA     BIT       PS0
 *SFR* 000000B8H.6 DATA     BIT       PS1
@@ -1100,7 +1124,7 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200FC06H   XDATA    BYTE      PTSH
       0200FC05H   XDATA    BYTE      PTSL
 *SFR* 00000086H   DATA     BYTE      PWCON
-      010016B1H   CODE     ---       PWM6_init
+      010019B2H   CODE     ---       PWM6_init
 *SFR* 000000D4H   DATA     BYTE      PWMAIF
 *SFR* 000000D5H   DATA     BYTE      PWMBIF
 *SFR* 000000DEH   DATA     BYTE      PWMCFG
@@ -1131,10 +1155,13 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000D0H.4 DATA     BIT       RS1
 *SFR* 000000ECH   DATA     BYTE      RTAH
 *SFR* 000000EBH   DATA     BYTE      RTAM
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 18
+
+
 *SFR* 000000EAH   DATA     BYTE      RTAS
-      01000F76H   CODE     ---       RTC_Get
-      01001388H   CODE     ---       RTC_init
-      01001724H   CODE     ---       RTC_ISR
+      01001095H   CODE     ---       RTC_Get
+      010015FEH   CODE     ---       RTC_init
+      010018D1H   CODE     ---       RTC_ISR
 *SFR* 000000F6H   DATA     BYTE      RTCDH
 *SFR* 000000F5H   DATA     BYTE      RTCDL
 *SFR* 000000F4H   DATA     BYTE      RTCH
@@ -1154,10 +1181,11 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000A1H   DATA     BYTE      S2CON
 *SFR* 000000A4H   DATA     BYTE      S2RELH
 *SFR* 000000A3H   DATA     BYTE      S2RELL
+      02000255H   XDATA    BYTE      ShortKey1
+      02000257H   XDATA    BYTE      ShortKey2
+      02000259H   XDATA    BYTE      ShortKey3
+      0200025AH   XDATA    BYTE      ShortKey4
 *SFR* 00000098H.7 DATA     BIT       SM0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 18
-
-
 *SFR* 00000098H.6 DATA     BIT       SM1
 *SFR* 00000098H.5 DATA     BIT       SM2
       02008078H   XDATA    BYTE      SMCON
@@ -1187,7 +1215,7 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000C8H.1 DATA     BIT       T2P1
 *SFR* 000000C8H.4 DATA     BIT       T2R0
 *SFR* 000000C8H.5 DATA     BIT       T2R1
-      02000227H   XDATA    ---       table_week
+      02000205H   XDATA    ---       table_week
 *SFR* 00000098H.3 DATA     BIT       TB8
 *SFR* 00000088H   DATA     BYTE      TCON
 *SFR* 00000088H.5 DATA     BIT       TF0
@@ -1195,9 +1223,14 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 *SFR* 000000C8H.7 DATA     BIT       TF2
       02008087H   XDATA    BYTE      TFCFG
 *SFR* 0000008CH   DATA     BYTE      TH0
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 19
+
+
 *SFR* 0000008DH   DATA     BYTE      TH1
 *SFR* 000000CDH   DATA     BYTE      TH2
 *SFR* 00000098H.1 DATA     BIT       TI0
+      02000204H   XDATA    BYTE      times10
+      02000203H   XDATA    BYTE      times10Flag
 *SFR* 000000C2H   DATA     BYTE      TKCFG
 *SFR* 000000C4H   DATA     BYTE      TKCHS
 *SFR* 000000C1H   DATA     BYTE      TKCON
@@ -1223,23 +1256,20 @@ PUBLIC SYMBOLS OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008106H   XDATA    BYTE      TLEN
       02008109H   XDATA    BYTE      TLFLG
 *SFR* 00000089H   DATA     BYTE      TMOD
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 19
-
-
       0200811FH   XDATA    BYTE      TPCTL
 *SFR* 00000088H.4 DATA     BIT       TR0
 *SFR* 00000088H.6 DATA     BIT       TR1
 *SFR* 000000C8H.6 DATA     BIT       TR2
-      01001404H   CODE     ---       UART1_ISR
-      02000187H   XDATA    ---       uart1_rev
-      02000189H   XDATA    ---       uart1_rx_buf
-      02000201H   XDATA    ---       uart1_send
-      020001EDH   XDATA    ---       uart1_tx_buf
-      00000021H.3 BIT      BIT       uart1_tx_flag
+      0100167AH   CODE     ---       UART1_ISR
+      02000185H   XDATA    ---       uart1_rev
+      02000187H   XDATA    ---       uart1_rx_buf
+      020001FFH   XDATA    ---       uart1_send
+      020001EBH   XDATA    ---       uart1_tx_buf
+      00000021H.4 BIT      BIT       uart1_tx_flag
 *SFR* 000000C8H.2 DATA     BIT       UCKS
 *SFR* 00000093H   DATA     BYTE      VCKDH
 *SFR* 00000092H   DATA     BYTE      VCKDL
-      02000257H   XDATA    FLOAT     VDD_Voltage
+      0200026DH   XDATA    FLOAT     VDD_Voltage
 *SFR* 000000AAH   DATA     BYTE      WDCON
 *SFR* 000000ABH   DATA     BYTE      WDFLG
 *SFR* 000000ADH   DATA     BYTE      WDVTHH
@@ -1253,17 +1283,20 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       VALUE       REP       CLASS    TYPE      SYMBOL NAME
       ====================================================
       ---         MODULE    ---      ---       UART
-      02000201H   PUBLIC    XDATA    ---       uart1_send
-      020001EDH   PUBLIC    XDATA    ---       uart1_tx_buf
-      02000189H   PUBLIC    XDATA    ---       uart1_rx_buf
-      00000021H.3 PUBLIC    BIT      BIT       uart1_tx_flag
-      02000187H   PUBLIC    XDATA    ---       uart1_rev
-      02000023H   PUBLIC    XDATA    BYTE      ?_uart_printf?BYTE
-      01001552H   PUBLIC    CODE     ---       _uart_printf
-      01001656H   PUBLIC    CODE     ---       _UartPutStr
-      01001404H   PUBLIC    CODE     ---       UART1_ISR
-      0100147EH   PUBLIC    CODE     ---       _Uart1_PutChar
-      010015B1H   PUBLIC    CODE     ---       _Uart1_Initial
+      020001FFH   PUBLIC    XDATA    ---       uart1_send
+      020001EBH   PUBLIC    XDATA    ---       uart1_tx_buf
+      02000187H   PUBLIC    XDATA    ---       uart1_rx_buf
+      00000021H.4 PUBLIC    BIT      BIT       uart1_tx_flag
+      02000185H   PUBLIC    XDATA    ---       uart1_rev
+      02000021H   PUBLIC    XDATA    BYTE      ?_uart_printf?BYTE
+      010017CDH   PUBLIC    CODE     ---       _uart_printf
+      0100194CH   PUBLIC    CODE     ---       _UartPutStr
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 20
+
+
+      0100167AH   PUBLIC    CODE     ---       UART1_ISR
+      010016F4H   PUBLIC    CODE     ---       _Uart1_PutChar
+      0100182CH   PUBLIC    CODE     ---       _Uart1_Initial
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -1291,9 +1324,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A7H   SFRSYM    DATA     BYTE      SPSTA
       00000083H   SFRSYM    DATA     BYTE      DP0H
       000000A8H   SFRSYM    DATA     BYTE      IE
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 20
-
-
       00000085H   SFRSYM    DATA     BYTE      DP1H
       000000E9H   SFRSYM    DATA     BYTE      RTCSS
       00000082H   SFRSYM    DATA     BYTE      DP0L
@@ -1329,6 +1359,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000ECH   SFRSYM    DATA     BYTE      RTAH
       000000D2H   SFRSYM    DATA     BYTE      PWMDUTL
       0000008EH   SFRSYM    DATA     BYTE      IT1CON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 21
+
+
       00000090H.0 SFRSYM    DATA     BIT       P10
       00000080H.1 SFRSYM    DATA     BIT       P01
       0000009DH   SFRSYM    DATA     BYTE      S1RELH
@@ -1359,9 +1392,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000E8H.3 SFRSYM    DATA     BIT       INT5EN
       000000EBH   SFRSYM    DATA     BYTE      RTAM
       0000009CH   SFRSYM    DATA     BYTE      S1RELL
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 21
-
-
       00000089H   SFRSYM    DATA     BYTE      TMOD
       00000088H   SFRSYM    DATA     BYTE      TCON
       000000D8H.1 SFRSYM    DATA     BIT       P51
@@ -1397,6 +1427,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C0H.6 SFRSYM    DATA     BIT       P46
       000000B0H.7 SFRSYM    DATA     BIT       P37
       000000D8H.6 SFRSYM    DATA     BIT       P56
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 22
+
+
       000000C0H.7 SFRSYM    DATA     BIT       P47
       000000EAH   SFRSYM    DATA     BYTE      RTAS
       000000AFH   SFRSYM    DATA     BYTE      HVTH
@@ -1427,9 +1460,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A8H.5 SFRSYM    DATA     BIT       ET2
       00000098H.0 SFRSYM    DATA     BIT       RI0
       00000088H.7 SFRSYM    DATA     BIT       TF1
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 22
-
-
       0000009EH   SFRSYM    DATA     BYTE      RCMSHL
       00000097H   SFRSYM    DATA     BYTE      RCMSLH
       000000C8H.7 SFRSYM    DATA     BIT       TF2
@@ -1465,6 +1495,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D0H.4 SFRSYM    DATA     BIT       RS1
       000000DDH   SFRSYM    DATA     BYTE      PWMCON
       00000088H.6 SFRSYM    DATA     BIT       TR1
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 23
+
+
       000000ADH   SFRSYM    DATA     BYTE      WDVTHH
       000000C8H.6 SFRSYM    DATA     BIT       TR2
       000000B8H.0 SFRSYM    DATA     BIT       PX0
@@ -1495,9 +1528,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000FBH   SFRSYM    DATA     BYTE      EPCON
       000000F6H   SFRSYM    DATA     BYTE      RTCDH
       000000C6H   SFRSYM    DATA     BYTE      ATKMH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 23
-
-
       00000091H   SFRSYM    DATA     BYTE      RCCON
       000000F7H   SFRSYM    DATA     BYTE      INDEX
       000000EEH   SFRSYM    DATA     BYTE      RTCIF
@@ -1508,122 +1538,125 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      010015B1H   BLOCK     CODE     ---       LVL=0
-      02000012H   SYMBOL    XDATA    DWORD     baudrate
-      010015B7H   BLOCK     CODE     NEAR LAB  LVL=1
+      0100182CH   BLOCK     CODE     ---       LVL=0
+      02000010H   SYMBOL    XDATA    DWORD     baudrate
+      01001832H   BLOCK     CODE     NEAR LAB  LVL=1
       00000004H   SYMBOL    DATA     WORD      value_temp
       ---         BLOCKEND  ---      ---       LVL=1
-      010015B1H   LINE      CODE     ---       #122
-      010015B7H   LINE      CODE     ---       #123
-      010015B7H   LINE      CODE     ---       #126
-      010015BCH   LINE      CODE     ---       #127
-      010015BEH   LINE      CODE     ---       #128
-      010015C2H   LINE      CODE     ---       #129
-      010015C4H   LINE      CODE     ---       #130
-      010015C6H   LINE      CODE     ---       #132
-      010015F7H   LINE      CODE     ---       #135
-      010015FDH   LINE      CODE     ---       #136
-      01001601H   LINE      CODE     ---       #139
-      01001604H   LINE      CODE     ---       #140
-      01001606H   LINE      CODE     ---       #142
-      01001609H   LINE      CODE     ---       #143
-      0100160BH   LINE      CODE     ---       #144
+      0100182CH   LINE      CODE     ---       #122
+      01001832H   LINE      CODE     ---       #123
+      01001832H   LINE      CODE     ---       #126
+      01001837H   LINE      CODE     ---       #127
+      01001839H   LINE      CODE     ---       #128
+      0100183DH   LINE      CODE     ---       #129
+      0100183FH   LINE      CODE     ---       #130
+      01001841H   LINE      CODE     ---       #132
+      01001872H   LINE      CODE     ---       #135
+      01001878H   LINE      CODE     ---       #136
+      0100187CH   LINE      CODE     ---       #139
+      0100187FH   LINE      CODE     ---       #140
+      01001881H   LINE      CODE     ---       #142
+      01001884H   LINE      CODE     ---       #143
+      01001886H   LINE      CODE     ---       #144
       ---         BLOCKEND  ---      ---       LVL=0
 
-      0100147EH   BLOCK     CODE     ---       LVL=0
+      010016F4H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      bdat
-      0100147EH   BLOCK     CODE     NEAR LAB  LVL=1
+      010016F4H   BLOCK     CODE     NEAR LAB  LVL=1
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 24
+
+
       00000006H   SYMBOL    DATA     BYTE      free_space
       00000005H   SYMBOL    DATA     BYTE      tail_tmp
       ---         BLOCKEND  ---      ---       LVL=1
-      0100147EH   LINE      CODE     ---       #145
-      0100147EH   LINE      CODE     ---       #146
-      0100147EH   LINE      CODE     ---       #149
-      0100147EH   LINE      CODE     ---       #150
-      0100147EH   LINE      CODE     ---       #151
-      01001483H   LINE      CODE     ---       #152
-      0100148CH   LINE      CODE     ---       #153
-      0100148CH   LINE      CODE     ---       #154
-      01001490H   LINE      CODE     ---       #155
-      01001492H   LINE      CODE     ---       #157
-      01001492H   LINE      CODE     ---       #158
-      0100149FH   LINE      CODE     ---       #159
-      0100149FH   LINE      CODE     ---       #160
-      010014A9H   LINE      CODE     ---       #161
-      010014A9H   LINE      CODE     ---       #162
-      010014ABH   LINE      CODE     ---       #163
-      010014B1H   LINE      CODE     ---       #164
-      010014B9H   LINE      CODE     ---       #165
-      010014C5H   LINE      CODE     ---       #166
-      010014C8H   LINE      CODE     ---       #167
-      010014C8H   LINE      CODE     ---       #168
-      010014CAH   LINE      CODE     ---       #169
-      010014D0H   LINE      CODE     ---       #170
-      010014D8H   LINE      CODE     ---       #171
-      010014E5H   LINE      CODE     ---       #172
-      010014E7H   LINE      CODE     ---       #173
-      010014E8H   LINE      CODE     ---       #175
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 24
-
-
-      010014E8H   LINE      CODE     ---       #176
-      010014EAH   LINE      CODE     ---       #177
-      010014EAH   LINE      CODE     ---       #178
-      010014EAH   LINE      CODE     ---       #179
-      010014EAH   LINE      CODE     ---       #180
-      010014EAH   LINE      CODE     ---       #181
+      010016F4H   LINE      CODE     ---       #145
+      010016F4H   LINE      CODE     ---       #146
+      010016F4H   LINE      CODE     ---       #149
+      010016F4H   LINE      CODE     ---       #150
+      010016F4H   LINE      CODE     ---       #151
+      010016F9H   LINE      CODE     ---       #152
+      01001702H   LINE      CODE     ---       #153
+      01001702H   LINE      CODE     ---       #154
+      01001706H   LINE      CODE     ---       #155
+      01001708H   LINE      CODE     ---       #157
+      01001708H   LINE      CODE     ---       #158
+      01001715H   LINE      CODE     ---       #159
+      01001715H   LINE      CODE     ---       #160
+      0100171FH   LINE      CODE     ---       #161
+      0100171FH   LINE      CODE     ---       #162
+      01001721H   LINE      CODE     ---       #163
+      01001727H   LINE      CODE     ---       #164
+      0100172FH   LINE      CODE     ---       #165
+      0100173BH   LINE      CODE     ---       #166
+      0100173EH   LINE      CODE     ---       #167
+      0100173EH   LINE      CODE     ---       #168
+      01001740H   LINE      CODE     ---       #169
+      01001746H   LINE      CODE     ---       #170
+      0100174EH   LINE      CODE     ---       #171
+      0100175BH   LINE      CODE     ---       #172
+      0100175DH   LINE      CODE     ---       #173
+      0100175EH   LINE      CODE     ---       #175
+      0100175EH   LINE      CODE     ---       #176
+      01001760H   LINE      CODE     ---       #177
+      01001760H   LINE      CODE     ---       #178
+      01001760H   LINE      CODE     ---       #179
+      01001760H   LINE      CODE     ---       #180
+      01001760H   LINE      CODE     ---       #181
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001404H   BLOCK     CODE     ---       LVL=0
-      01001404H   LINE      CODE     ---       #182
-      01001413H   LINE      CODE     ---       #184
-      01001418H   LINE      CODE     ---       #185
-      01001418H   LINE      CODE     ---       #186
-      01001420H   LINE      CODE     ---       #187
-      01001426H   LINE      CODE     ---       #188
-      0100142EH   LINE      CODE     ---       #189
-      0100143BH   LINE      CODE     ---       #190
-      0100143BH   LINE      CODE     ---       #191
-      01001440H   LINE      CODE     ---       #192
-      01001440H   LINE      CODE     ---       #193
-      01001448H   LINE      CODE     ---       #194
-      01001454H   LINE      CODE     ---       #195
-      01001454H   LINE      CODE     ---       #196
-      01001458H   LINE      CODE     ---       #197
-      01001460H   LINE      CODE     ---       #198
-      0100146DH   LINE      CODE     ---       #199
-      0100146FH   LINE      CODE     ---       #201
-      0100146FH   LINE      CODE     ---       #202
-      01001471H   LINE      CODE     ---       #203
-      01001471H   LINE      CODE     ---       #204
-      01001471H   LINE      CODE     ---       #205
+      0100167AH   BLOCK     CODE     ---       LVL=0
+      0100167AH   LINE      CODE     ---       #182
+      01001689H   LINE      CODE     ---       #184
+      0100168EH   LINE      CODE     ---       #185
+      0100168EH   LINE      CODE     ---       #186
+      01001696H   LINE      CODE     ---       #187
+      0100169CH   LINE      CODE     ---       #188
+      010016A4H   LINE      CODE     ---       #189
+      010016B1H   LINE      CODE     ---       #190
+      010016B1H   LINE      CODE     ---       #191
+      010016B6H   LINE      CODE     ---       #192
+      010016B6H   LINE      CODE     ---       #193
+      010016BEH   LINE      CODE     ---       #194
+      010016CAH   LINE      CODE     ---       #195
+      010016CAH   LINE      CODE     ---       #196
+      010016CEH   LINE      CODE     ---       #197
+      010016D6H   LINE      CODE     ---       #198
+      010016E3H   LINE      CODE     ---       #199
+      010016E5H   LINE      CODE     ---       #201
+      010016E5H   LINE      CODE     ---       #202
+      010016E7H   LINE      CODE     ---       #203
+      010016E7H   LINE      CODE     ---       #204
+      010016E7H   LINE      CODE     ---       #205
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001656H   BLOCK     CODE     ---       LVL=0
-      02000151H   SYMBOL    XDATA    ---       str
-      01001656H   LINE      CODE     ---       #298
-      01001661H   LINE      CODE     ---       #299
-      01001661H   LINE      CODE     ---       #300
-      01001671H   LINE      CODE     ---       #301
-      01001671H   LINE      CODE     ---       #302
-      01001686H   LINE      CODE     ---       #303
-      01001688H   LINE      CODE     ---       #304
+      0100194CH   BLOCK     CODE     ---       LVL=0
+      0200014FH   SYMBOL    XDATA    ---       str
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 25
+
+
+      0100194CH   LINE      CODE     ---       #298
+      01001957H   LINE      CODE     ---       #299
+      01001957H   LINE      CODE     ---       #300
+      01001967H   LINE      CODE     ---       #301
+      01001967H   LINE      CODE     ---       #302
+      0100197CH   LINE      CODE     ---       #303
+      0100197EH   LINE      CODE     ---       #304
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001552H   BLOCK     CODE     ---       LVL=0
-      02000023H   SYMBOL    XDATA    ---       fmt
-      0100155DH   BLOCK     CODE     NEAR LAB  LVL=1
-      02000026H   SYMBOL    XDATA    ---       ellipsis_40
-      0200004EH   SYMBOL    XDATA    ---       ap
-      02000051H   SYMBOL    XDATA    ---       string
+      010017CDH   BLOCK     CODE     ---       LVL=0
+      02000021H   SYMBOL    XDATA    ---       fmt
+      010017D8H   BLOCK     CODE     NEAR LAB  LVL=1
+      02000024H   SYMBOL    XDATA    ---       ellipsis_40
+      0200004CH   SYMBOL    XDATA    ---       ap
+      0200004FH   SYMBOL    XDATA    ---       string
       ---         BLOCKEND  ---      ---       LVL=1
-      01001552H   LINE      CODE     ---       #305
-      0100155DH   LINE      CODE     ---       #306
-      0100155DH   LINE      CODE     ---       #309
-      0100156BH   LINE      CODE     ---       #310
-      0100159EH   LINE      CODE     ---       #311
-      010015A7H   LINE      CODE     ---       #312
-      010015B0H   LINE      CODE     ---       #313
+      010017CDH   LINE      CODE     ---       #305
+      010017D8H   LINE      CODE     ---       #306
+      010017D8H   LINE      CODE     ---       #309
+      010017E6H   LINE      CODE     ---       #310
+      01001819H   LINE      CODE     ---       #311
+      01001822H   LINE      CODE     ---       #312
+      0100182BH   LINE      CODE     ---       #313
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       MAIN
@@ -1631,9 +1664,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200800EH   PUBLIC    XDATA    BYTE      P16F
       02008015H   PUBLIC    XDATA    BYTE      P25F
       0200801CH   PUBLIC    XDATA    BYTE      P34F
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 25
-
-
       02008023H   PUBLIC    XDATA    BYTE      P43F
       0200802AH   PUBLIC    XDATA    BYTE      P52F
       02008031H   PUBLIC    XDATA    BYTE      P61F
@@ -1669,6 +1699,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200813DH   PUBLIC    XDATA    BYTE      P35C
       02008144H   PUBLIC    XDATA    BYTE      P44C
       0200814BH   PUBLIC    XDATA    BYTE      P53C
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 26
+
+
       02008152H   PUBLIC    XDATA    BYTE      P62C
       02008159H   PUBLIC    XDATA    BYTE      P71C
       02008004H   PUBLIC    XDATA    BYTE      P04F
@@ -1699,9 +1732,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008149H   PUBLIC    XDATA    BYTE      P51C
       02008150H   PUBLIC    XDATA    BYTE      P60C
       02008002H   PUBLIC    XDATA    BYTE      P02F
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 26
-
-
       02008009H   PUBLIC    XDATA    BYTE      P11F
       02008010H   PUBLIC    XDATA    BYTE      P20F
       02008125H   PUBLIC    XDATA    BYTE      P05C
@@ -1737,6 +1767,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008080H   PUBLIC    XDATA    BYTE      CKCON
       0200FC01H   PUBLIC    XDATA    BYTE      FSCMD
       02008056H   PUBLIC    XDATA    BYTE      FT3SL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 27
+
+
       02008117H   PUBLIC    XDATA    BYTE      LXCAD
       02008054H   PUBLIC    XDATA    BYTE      FT2SL
       0200FC04H   PUBLIC    XDATA    BYTE      PADRD
@@ -1767,9 +1800,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008090H   PUBLIC    XDATA    BYTE      TKMAXF
       02008091H   PUBLIC    XDATA    BYTE      TKMINF
       0200810FH   PUBLIC    XDATA    BYTE      TLCNTD
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 27
-
-
       02008062H   PUBLIC    XDATA    BYTE      MTGCON
       0200807BH   PUBLIC    XDATA    BYTE      SMDATL
       02008058H   PUBLIC    XDATA    BYTE      CTMCON
@@ -1805,6 +1835,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200810BH   PUBLIC    XDATA    BYTE      TLCNTKL
       0200810EH   PUBLIC    XDATA    BYTE      TLCNTLH
       0200810CH   PUBLIC    XDATA    BYTE      TLCNTKH
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 28
+
+
       0200805BH   PUBLIC    XDATA    BYTE      CTMCNTL
       0200805CH   PUBLIC    XDATA    BYTE      CTMCNTH
       02008100H   PUBLIC    XDATA    BYTE      SPMAX
@@ -1835,9 +1868,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       02008157H   PUBLIC    XDATA    BYTE      P67C
       02008017H   PUBLIC    XDATA    BYTE      P27F
       0200801EH   PUBLIC    XDATA    BYTE      P36F
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 28
-
-
       02008025H   PUBLIC    XDATA    BYTE      P45F
       0200802CH   PUBLIC    XDATA    BYTE      P54F
       02008033H   PUBLIC    XDATA    BYTE      P63F
@@ -1857,7 +1887,7 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0200814EH   PUBLIC    XDATA    BYTE      P56C
       02008155H   PUBLIC    XDATA    BYTE      P65C
       0200815CH   PUBLIC    XDATA    BYTE      P74C
-      01000DB9H   PUBLIC    CODE     ---       main
+      010011FEH   PUBLIC    CODE     ---       main
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -1873,6 +1903,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000E1H   SFRSYM    DATA     BYTE      LXCON
       000000A9H   SFRSYM    DATA     BYTE      P6
       000000C8H.0 SFRSYM    DATA     BIT       T2P0
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 29
+
+
       000000D9H   SFRSYM    DATA     BYTE      P7
       000000C8H.1 SFRSYM    DATA     BIT       T2P1
       000000F1H   SFRSYM    DATA     BYTE      RTCON
@@ -1903,9 +1936,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D0H.7 SFRSYM    DATA     BIT       CY
       000000BBH   SFRSYM    DATA     BYTE      ADCFGH
       000000DCH   SFRSYM    DATA     BYTE      PWMCMAX
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 29
-
-
       000000B1H   SFRSYM    DATA     BYTE      I2CCON
       000000D1H   SFRSYM    DATA     BYTE      PWMDIVH
       000000BAH   SFRSYM    DATA     BYTE      ADCFGL
@@ -1941,6 +1971,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C0H.0 SFRSYM    DATA     BIT       P40
       000000B0H.1 SFRSYM    DATA     BIT       P31
       000000A0H.2 SFRSYM    DATA     BIT       P22
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 30
+
+
       00000090H.3 SFRSYM    DATA     BIT       P13
       00000080H.4 SFRSYM    DATA     BIT       P04
       000000E8H.2 SFRSYM    DATA     BIT       INT4EN
@@ -1971,9 +2004,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000080H.7 SFRSYM    DATA     BIT       P07
       000000E8H.5 SFRSYM    DATA     BIT       INT7EN
       000000C8H.2 SFRSYM    DATA     BIT       UCKS
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 30
-
-
       000000F8H   SFRSYM    DATA     BYTE      EXIP
       000000F3H   SFRSYM    DATA     BYTE      RTCM
       000000D8H.3 SFRSYM    DATA     BIT       P53
@@ -2009,6 +2039,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0000009FH   SFRSYM    DATA     BYTE      RCMSHH
       000000A8H.4 SFRSYM    DATA     BIT       ES0
       000000EFH   SFRSYM    DATA     BYTE      LVDCON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 31
+
+
       000000E6H   SFRSYM    DATA     BYTE      MDUCON
       000000D6H   SFRSYM    DATA     BYTE      PWMCIF
       000000A8H.1 SFRSYM    DATA     BIT       ET0
@@ -2039,9 +2072,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000096H   SFRSYM    DATA     BYTE      RCMSLL
       00000098H.7 SFRSYM    DATA     BIT       SM0
       0000008AH   SFRSYM    DATA     BYTE      TL0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 31
-
-
       00000098H.6 SFRSYM    DATA     BIT       SM1
       000000E5H   SFRSYM    DATA     BYTE      LXDIVH
       0000008BH   SFRSYM    DATA     BYTE      TL1
@@ -2077,6 +2107,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D0H.1 SFRSYM    DATA     BIT       DPS
       000000C9H   SFRSYM    DATA     BYTE      T2MOD
       000000C8H   SFRSYM    DATA     BYTE      T2CON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 32
+
+
       000000FFH   SFRSYM    DATA     BYTE      STPSTH
       000000BFH   SFRSYM    DATA     BYTE      CKMIF
       000000FEH   SFRSYM    DATA     BYTE      STPSTL
@@ -2099,101 +2132,88 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      01000DB9H   BLOCK     CODE     ---       LVL=0
-      01000DB9H   BLOCK     CODE     NEAR LAB  LVL=1
+      010011FEH   BLOCK     CODE     ---       LVL=0
+      010011FEH   BLOCK     CODE     NEAR LAB  LVL=1
       02000000H   SYMBOL    XDATA    BYTE      i
       02000001H   SYMBOL    XDATA    BYTE      ab
-      02000002H   SYMBOL    XDATA    WORD      times
-      02000004H   SYMBOL    XDATA    WORD      a
-      02000006H   SYMBOL    XDATA    WORD      b
-      02000008H   SYMBOL    XDATA    WORD      c
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 32
-
-
-      0200000AH   SYMBOL    XDATA    WORD      d
-      0200000CH   SYMBOL    XDATA    WORD      e
-      0200000EH   SYMBOL    XDATA    WORD      f
-      02000010H   SYMBOL    XDATA    WORD      g
+      02000002H   SYMBOL    XDATA    WORD      a
+      02000004H   SYMBOL    XDATA    WORD      b
+      02000006H   SYMBOL    XDATA    WORD      c
+      02000008H   SYMBOL    XDATA    WORD      d
+      0200000AH   SYMBOL    XDATA    WORD      e
+      0200000CH   SYMBOL    XDATA    WORD      f
+      0200000EH   SYMBOL    XDATA    WORD      g
       ---         BLOCKEND  ---      ---       LVL=1
-      01000DB9H   LINE      CODE     ---       #30
-      01000DB9H   LINE      CODE     ---       #31
-      01000DB9H   LINE      CODE     ---       #36
-      01000DBEH   LINE      CODE     ---       #37
-      01000DC2H   LINE      CODE     ---       #38
-      01000DC8H   LINE      CODE     ---       #40
-      01000DCBH   LINE      CODE     ---       #52
-      01000DD4H   LINE      CODE     ---       #59
-      01000DD6H   LINE      CODE     ---       #62
-      01000DDFH   LINE      CODE     ---       #98
-      01000DE2H   LINE      CODE     ---       #99
-      01000DE5H   LINE      CODE     ---       #100
-      01000DE8H   LINE      CODE     ---       #101
-      01000DEBH   LINE      CODE     ---       #102
-      01000DEEH   LINE      CODE     ---       #103
-      01000DF1H   LINE      CODE     ---       #104
-      01000DF4H   LINE      CODE     ---       #105
-      01000DF7H   LINE      CODE     ---       #107
-      01000E0FH   LINE      CODE     ---       #109
-      01000E0FH   LINE      CODE     ---       #110
-      01000E0FH   LINE      CODE     ---       #116
-      01000E17H   LINE      CODE     ---       #117
-      01000E17H   LINE      CODE     ---       #118
-      01000E1AH   LINE      CODE     ---       #119
-      01000E1AH   LINE      CODE     ---       #120
-      01000E28H   LINE      CODE     ---       #121
-      01000E2AH   LINE      CODE     ---       #123
-      01000E2AH   LINE      CODE     ---       #124
-      01000E2FH   LINE      CODE     ---       #125
-      01000E47H   LINE      CODE     ---       #127
-      01000E47H   LINE      CODE     ---       #128
-      01000E47H   LINE      CODE     ---       #129
-      01000E59H   LINE      CODE     ---       #130
-      01000E6BH   LINE      CODE     ---       #131
-      01000E7DH   LINE      CODE     ---       #132
-      01000E83H   LINE      CODE     ---       #133
-      01000E83H   LINE      CODE     ---       #134
-      01000E89H   LINE      CODE     ---       #135
-      01000E8BH   LINE      CODE     ---       #136
-      01000E90H   LINE      CODE     ---       #137
-      01000E92H   LINE      CODE     ---       #139
-      01000E92H   LINE      CODE     ---       #140
-      01000E97H   LINE      CODE     ---       #141
-      01000E9DH   LINE      CODE     ---       #142
-      01000E9FH   LINE      CODE     ---       #143
-      01000E9FH   LINE      CODE     ---       #145
-      01000EA5H   LINE      CODE     ---       #146
-      01000EA5H   LINE      CODE     ---       #147
-      01000EA7H   LINE      CODE     ---       #149
-      01000EAAH   LINE      CODE     ---       #151
-      01000EBAH   LINE      CODE     ---       #152
-      01000EC7H   LINE      CODE     ---       #153
-      01000ED4H   LINE      CODE     ---       #154
-      01000EE1H   LINE      CODE     ---       #155
-      01000EEEH   LINE      CODE     ---       #156
-      01000EFBH   LINE      CODE     ---       #157
-      01000F08H   LINE      CODE     ---       #158
-      01000F73H   LINE      CODE     ---       #161
-      01000F73H   LINE      CODE     ---       #171
+      010011FEH   LINE      CODE     ---       #30
+      010011FEH   LINE      CODE     ---       #31
+      010011FEH   LINE      CODE     ---       #38
+      01001203H   LINE      CODE     ---       #39
+      01001209H   LINE      CODE     ---       #41
+      0100120CH   LINE      CODE     ---       #53
+      01001215H   LINE      CODE     ---       #60
+      01001217H   LINE      CODE     ---       #63
+      01001220H   LINE      CODE     ---       #99
+      01001223H   LINE      CODE     ---       #100
+      01001226H   LINE      CODE     ---       #101
+      01001229H   LINE      CODE     ---       #102
+      0100122CH   LINE      CODE     ---       #103
+      0100122FH   LINE      CODE     ---       #104
+      01001232H   LINE      CODE     ---       #105
+      01001235H   LINE      CODE     ---       #106
+      01001238H   LINE      CODE     ---       #107
+      0100123BH   LINE      CODE     ---       #109
+      01001253H   LINE      CODE     ---       #111
+      01001253H   LINE      CODE     ---       #112
+      01001253H   LINE      CODE     ---       #118
+      0100125BH   LINE      CODE     ---       #119
+      0100125BH   LINE      CODE     ---       #120
+      0100125CH   LINE      CODE     ---       #121
+      0100125FH   LINE      CODE     ---       #122
+      0100125FH   LINE      CODE     ---       #123
+      01001265H   LINE      CODE     ---       #124
+      01001265H   LINE      CODE     ---       #125
+      0100126BH   LINE      CODE     ---       #126
+      0100126DH   LINE      CODE     ---       #127
+      01001272H   LINE      CODE     ---       #128
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 33
+
+
+      01001274H   LINE      CODE     ---       #130
+      01001274H   LINE      CODE     ---       #131
+      01001279H   LINE      CODE     ---       #132
+      0100127FH   LINE      CODE     ---       #133
+      01001281H   LINE      CODE     ---       #134
+      01001281H   LINE      CODE     ---       #136
+      01001284H   LINE      CODE     ---       #137
+      01001284H   LINE      CODE     ---       #138
+      01001286H   LINE      CODE     ---       #140
+      01001289H   LINE      CODE     ---       #142
+      01001299H   LINE      CODE     ---       #143
+      010012A6H   LINE      CODE     ---       #144
+      010012B3H   LINE      CODE     ---       #145
+      010012C0H   LINE      CODE     ---       #146
+      010012CDH   LINE      CODE     ---       #147
+      010012DAH   LINE      CODE     ---       #148
+      010012E7H   LINE      CODE     ---       #149
+      01001352H   LINE      CODE     ---       #152
+      01001352H   LINE      CODE     ---       #162
       ---         BLOCKEND  ---      ---       LVL=0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 33
-
-
 
       ---         MODULE    ---      ---       DELAY
-      010017D0H   PUBLIC    CODE     ---       _Delay_50us
+      01001AB0H   PUBLIC    CODE     ---       _Delay_50us
 
-      010017D0H   BLOCK     CODE     ---       LVL=0
+      01001AB0H   BLOCK     CODE     ---       LVL=0
       00000006H   SYMBOL    DATA     WORD      n
-      010017D0H   BLOCK     CODE     NEAR LAB  LVL=1
+      01001AB0H   BLOCK     CODE     NEAR LAB  LVL=1
       00000005H   SYMBOL    DATA     BYTE      i
       ---         BLOCKEND  ---      ---       LVL=1
-      010017D0H   LINE      CODE     ---       #5
-      010017D0H   LINE      CODE     ---       #6
-      010017D0H   LINE      CODE     ---       #12
-      010017DAH   LINE      CODE     ---       #13
-      010017DAH   LINE      CODE     ---       #14
-      010017E9H   LINE      CODE     ---       #15
-      010017E9H   LINE      CODE     ---       #16
+      01001AB0H   LINE      CODE     ---       #5
+      01001AB0H   LINE      CODE     ---       #6
+      01001AB0H   LINE      CODE     ---       #12
+      01001ABAH   LINE      CODE     ---       #13
+      01001ABAH   LINE      CODE     ---       #14
+      01001AC9H   LINE      CODE     ---       #15
+      01001AC9H   LINE      CODE     ---       #16
       ---         BLOCKEND  ---      ---       LVL=0
       00000006H   SYMBOL    DATA     WORD      n
       00000004H   SYMBOL    DATA     WORD      i
@@ -2223,6 +2243,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000086H   SFRSYM    DATA     BYTE      PWCON
       000000C8H.5 SFRSYM    DATA     BIT       T2R1
       000000CEH   SFRSYM    DATA     BYTE      TKMSL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 34
+
+
       000000A7H   SFRSYM    DATA     BYTE      SPSTA
       00000083H   SFRSYM    DATA     BYTE      DP0H
       000000A8H   SFRSYM    DATA     BYTE      IE
@@ -2243,9 +2266,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000EDH   SFRSYM    DATA     BYTE      RTMSS
       000000D0H.7 SFRSYM    DATA     BIT       CY
       000000BBH   SFRSYM    DATA     BYTE      ADCFGH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 34
-
-
       000000DCH   SFRSYM    DATA     BYTE      PWMCMAX
       000000B1H   SFRSYM    DATA     BYTE      I2CCON
       000000D1H   SFRSYM    DATA     BYTE      PWMDIVH
@@ -2291,6 +2311,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A0H.3 SFRSYM    DATA     BIT       P23
       00000090H.4 SFRSYM    DATA     BIT       P14
       00000080H.5 SFRSYM    DATA     BIT       P05
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 35
+
+
       000000E8H.3 SFRSYM    DATA     BIT       INT5EN
       000000EBH   SFRSYM    DATA     BYTE      RTAM
       0000009CH   SFRSYM    DATA     BYTE      S1RELL
@@ -2311,9 +2334,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000090H.6 SFRSYM    DATA     BIT       P16
       00000080H.7 SFRSYM    DATA     BIT       P07
       000000E8H.5 SFRSYM    DATA     BIT       INT7EN
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 35
-
-
       000000C8H.2 SFRSYM    DATA     BIT       UCKS
       000000F8H   SFRSYM    DATA     BYTE      EXIP
       000000F3H   SFRSYM    DATA     BYTE      RTCM
@@ -2359,6 +2379,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000088H.5 SFRSYM    DATA     BIT       TF0
       000000FDH   SFRSYM    DATA     BYTE      IDLSTH
       000000AEH   SFRSYM    DATA     BYTE      PLLCON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 36
+
+
       000000A8H.5 SFRSYM    DATA     BIT       ET2
       00000098H.0 SFRSYM    DATA     BIT       RI0
       00000088H.7 SFRSYM    DATA     BIT       TF1
@@ -2379,9 +2402,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D0H.0 SFRSYM    DATA     BIT       P
       00000096H   SFRSYM    DATA     BYTE      RCMSLL
       00000098H.7 SFRSYM    DATA     BIT       SM0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 36
-
-
       0000008AH   SFRSYM    DATA     BYTE      TL0
       00000098H.6 SFRSYM    DATA     BIT       SM1
       000000E5H   SFRSYM    DATA     BYTE      LXDIVH
@@ -2427,6 +2447,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000E2H   SFRSYM    DATA     BYTE      LXCFG
       000000ABH   SFRSYM    DATA     BYTE      WDFLG
       00000092H   SFRSYM    DATA     BYTE      VCKDL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 37
+
+
       000000FBH   SFRSYM    DATA     BYTE      EPCON
       000000F6H   SFRSYM    DATA     BYTE      RTCDH
       000000C6H   SFRSYM    DATA     BYTE      ATKMH
@@ -2447,9 +2470,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000080H   SFRSYM    DATA     BYTE      P0
       000000C1H   SFRSYM    DATA     BYTE      TKCON
       00000090H   SFRSYM    DATA     BYTE      P1
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 37
-
-
       000000A0H   SFRSYM    DATA     BYTE      P2
       000000B0H   SFRSYM    DATA     BYTE      P3
       000000D0H.6 SFRSYM    DATA     BIT       AC
@@ -2495,6 +2515,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000BAH   SFRSYM    DATA     BYTE      ADCFGL
       00000081H   SFRSYM    DATA     BYTE      SP
       000000F9H   SFRSYM    DATA     BYTE      EPIE
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 38
+
+
       000000D0H.2 SFRSYM    DATA     BIT       OV
       000000FAH   SFRSYM    DATA     BYTE      EPIF
       000000DFH   SFRSYM    DATA     BYTE      PWMDIVL
@@ -2515,9 +2538,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000090H.1 SFRSYM    DATA     BIT       P11
       00000080H.2 SFRSYM    DATA     BIT       P02
       000000E8H.0 SFRSYM    DATA     BIT       INT2EN
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 38
-
-
       000000F4H   SFRSYM    DATA     BYTE      RTCH
       000000A4H   SFRSYM    DATA     BYTE      S2RELH
       000000B0H.0 SFRSYM    DATA     BIT       P30
@@ -2563,6 +2583,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D8H.3 SFRSYM    DATA     BIT       P53
       000000C0H.4 SFRSYM    DATA     BIT       P44
       000000B0H.5 SFRSYM    DATA     BIT       P35
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 39
+
+
       000000A0H.6 SFRSYM    DATA     BIT       P26
       00000090H.7 SFRSYM    DATA     BIT       P17
       000000E8H.6 SFRSYM    DATA     BIT       INT8EN
@@ -2583,9 +2606,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000F2H   SFRSYM    DATA     BYTE      RTCS
       00000088H.1 SFRSYM    DATA     BIT       IE0
       00000088H.3 SFRSYM    DATA     BIT       IE1
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 39
-
-
       00000094H   SFRSYM    DATA     BYTE      RCTAGL
       000000F0H   SFRSYM    DATA     BYTE      B
       000000E7H   SFRSYM    DATA     BYTE      MDUDAT
@@ -2631,6 +2651,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0000008BH   SFRSYM    DATA     BYTE      TL1
       00000098H.5 SFRSYM    DATA     BIT       SM2
       000000CCH   SFRSYM    DATA     BYTE      TL2
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 40
+
+
       000000B8H.4 SFRSYM    DATA     BIT       PS0
       000000B8H.1 SFRSYM    DATA     BIT       PT0
       000000B8H.6 SFRSYM    DATA     BIT       PS1
@@ -2651,9 +2674,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000ACH   SFRSYM    DATA     BYTE      WDVTHL
       000000DBH   SFRSYM    DATA     BYTE      PWMUPD
       00000099H   SFRSYM    DATA     BYTE      S0BUF
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 40
-
-
       0000009BH   SFRSYM    DATA     BYTE      S1BUF
       000000A2H   SFRSYM    DATA     BYTE      S2BUF
       00000098H   SFRSYM    DATA     BYTE      S0CON
@@ -2688,16 +2708,7 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000003H   SYMBOL    DATA     BYTE      i
 
       ---         MODULE    ---      ---       GPIO
-      0200025BH   PUBLIC    XDATA    BYTE      key_value
-      010017B5H   PUBLIC    CODE     ---       INT5_ISR
-      01001840H   PUBLIC    CODE     ---       INT5_Init
-      0100179AH   PUBLIC    CODE     ---       INT4_ISR
-      0100182FH   PUBLIC    CODE     ---       INT4_Init
-      0100177FH   PUBLIC    CODE     ---       INT3_ISR
-      0100181EH   PUBLIC    CODE     ---       INT3_Init
-      01001764H   PUBLIC    CODE     ---       INT2_ISR
-      01001851H   PUBLIC    CODE     ---       INT2_Init
-      010014EBH   PUBLIC    CODE     ---       GPIO_init
+      0100197FH   PUBLIC    CODE     ---       GPIO_init
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -2708,6 +2719,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D0H.6 SFRSYM    DATA     BIT       AC
       000000C0H   SFRSYM    DATA     BYTE      P4
       000000D8H   SFRSYM    DATA     BYTE      P5
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 41
+
+
       000000A5H   SFRSYM    DATA     BYTE      SPCON
       000000A8H.7 SFRSYM    DATA     BIT       EA
       000000E1H   SFRSYM    DATA     BYTE      LXCON
@@ -2719,9 +2733,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C8H.4 SFRSYM    DATA     BIT       T2R0
       000000DAH   SFRSYM    DATA     BYTE      PWMEN
       000000CFH   SFRSYM    DATA     BYTE      TKMSH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 41
-
-
       00000086H   SFRSYM    DATA     BYTE      PWCON
       000000C8H.5 SFRSYM    DATA     BIT       T2R1
       000000CEH   SFRSYM    DATA     BYTE      TKMSL
@@ -2776,6 +2787,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000B0H.0 SFRSYM    DATA     BIT       P30
       000000A0H.1 SFRSYM    DATA     BIT       P21
       00000090H.2 SFRSYM    DATA     BIT       P12
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 42
+
+
       00000080H.3 SFRSYM    DATA     BIT       P03
       000000E8H.1 SFRSYM    DATA     BIT       INT3EN
       000000C0H.0 SFRSYM    DATA     BIT       P40
@@ -2787,9 +2801,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D8H.0 SFRSYM    DATA     BIT       P50
       000000C0H.1 SFRSYM    DATA     BIT       P41
       000000B0H.2 SFRSYM    DATA     BIT       P32
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 42
-
-
       000000A0H.3 SFRSYM    DATA     BIT       P23
       00000090H.4 SFRSYM    DATA     BIT       P14
       00000080H.5 SFRSYM    DATA     BIT       P05
@@ -2844,6 +2855,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000E7H   SFRSYM    DATA     BYTE      MDUDAT
       000000DEH   SFRSYM    DATA     BYTE      PWMCFG
       000000D4H   SFRSYM    DATA     BYTE      PWMAIF
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 43
+
+
       000000E0H   SFRSYM    DATA     BYTE      ACC
       000000D5H   SFRSYM    DATA     BYTE      PWMBIF
       0000009FH   SFRSYM    DATA     BYTE      RCMSHH
@@ -2855,9 +2869,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A8H.6 SFRSYM    DATA     BIT       ES1
       000000D7H   SFRSYM    DATA     BYTE      PWMDIF
       000000A8H.3 SFRSYM    DATA     BIT       ET1
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 43
-
-
       00000088H.5 SFRSYM    DATA     BIT       TF0
       000000FDH   SFRSYM    DATA     BYTE      IDLSTH
       000000AEH   SFRSYM    DATA     BYTE      PLLCON
@@ -2912,6 +2923,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000098H   SFRSYM    DATA     BYTE      S0CON
       00000098H.4 SFRSYM    DATA     BIT       REN
       0000009AH   SFRSYM    DATA     BYTE      S1CON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 44
+
+
       000000B9H   SFRSYM    DATA     BYTE      ADCON
       000000A1H   SFRSYM    DATA     BYTE      S2CON
       000000D0H.1 SFRSYM    DATA     BIT       DPS
@@ -2923,9 +2937,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C2H   SFRSYM    DATA     BYTE      TKCFG
       00000093H   SFRSYM    DATA     BYTE      VCKDH
       000000D0H.5 SFRSYM    DATA     BIT       F0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 44
-
-
       000000E2H   SFRSYM    DATA     BYTE      LXCFG
       000000ABH   SFRSYM    DATA     BYTE      WDFLG
       00000092H   SFRSYM    DATA     BYTE      VCKDL
@@ -2942,126 +2953,28 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      010014EBH   BLOCK     CODE     ---       LVL=0
-      010014EBH   LINE      CODE     ---       #42
-      010014EBH   LINE      CODE     ---       #43
-      010014EBH   LINE      CODE     ---       #46
-      010014F1H   LINE      CODE     ---       #47
-      010014F8H   LINE      CODE     ---       #50
-      010014FEH   LINE      CODE     ---       #51
-      01001505H   LINE      CODE     ---       #54
-      0100150BH   LINE      CODE     ---       #55
-      01001512H   LINE      CODE     ---       #58
-      01001518H   LINE      CODE     ---       #59
-      0100151FH   LINE      CODE     ---       #63
-      01001525H   LINE      CODE     ---       #66
-      01001527H   LINE      CODE     ---       #69
-      0100152DH   LINE      CODE     ---       #70
-      01001534H   LINE      CODE     ---       #72
-      0100153AH   LINE      CODE     ---       #74
-      01001541H   LINE      CODE     ---       #77
-      01001547H   LINE      CODE     ---       #78
-      01001549H   LINE      CODE     ---       #80
-      0100154FH   LINE      CODE     ---       #81
-      01001551H   LINE      CODE     ---       #86
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      01001851H   BLOCK     CODE     ---       LVL=0
-      01001851H   LINE      CODE     ---       #123
-      01001851H   LINE      CODE     ---       #124
-      01001851H   LINE      CODE     ---       #126
-      01001854H   LINE      CODE     ---       #127
-      01001857H   LINE      CODE     ---       #128
-      01001859H   LINE      CODE     ---       #129
-      0100185CH   LINE      CODE     ---       #130
-      01001860H   LINE      CODE     ---       #131
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      01001764H   BLOCK     CODE     ---       LVL=0
-      01001764H   LINE      CODE     ---       #132
-      0100176AH   LINE      CODE     ---       #134
-      0100176FH   LINE      CODE     ---       #135
-      0100176FH   LINE      CODE     ---       #136
-      01001772H   LINE      CODE     ---       #138
-      01001778H   LINE      CODE     ---       #139
-      01001778H   LINE      CODE     ---       #140
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      0100181EH   BLOCK     CODE     ---       LVL=0
-      0100181EH   LINE      CODE     ---       #143
-      0100181EH   LINE      CODE     ---       #144
-      0100181EH   LINE      CODE     ---       #146
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 45
-
-
-      01001821H   LINE      CODE     ---       #147
-      01001824H   LINE      CODE     ---       #148
-      01001826H   LINE      CODE     ---       #149
-      01001829H   LINE      CODE     ---       #150
-      0100182EH   LINE      CODE     ---       #151
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      0100177FH   BLOCK     CODE     ---       LVL=0
-      0100177FH   LINE      CODE     ---       #152
-      01001785H   LINE      CODE     ---       #154
-      0100178AH   LINE      CODE     ---       #155
-      0100178AH   LINE      CODE     ---       #156
-      0100178DH   LINE      CODE     ---       #157
-      01001793H   LINE      CODE     ---       #158
-      01001793H   LINE      CODE     ---       #159
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      0100182FH   BLOCK     CODE     ---       LVL=0
-      0100182FH   LINE      CODE     ---       #163
-      0100182FH   LINE      CODE     ---       #164
-      0100182FH   LINE      CODE     ---       #166
-      01001832H   LINE      CODE     ---       #167
-      01001835H   LINE      CODE     ---       #168
-      01001837H   LINE      CODE     ---       #169
-      0100183AH   LINE      CODE     ---       #170
-      0100183FH   LINE      CODE     ---       #171
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      0100179AH   BLOCK     CODE     ---       LVL=0
-      0100179AH   LINE      CODE     ---       #172
-      010017A0H   LINE      CODE     ---       #174
-      010017A5H   LINE      CODE     ---       #175
-      010017A5H   LINE      CODE     ---       #176
-      010017A8H   LINE      CODE     ---       #177
-      010017AEH   LINE      CODE     ---       #178
-      010017AEH   LINE      CODE     ---       #179
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      01001840H   BLOCK     CODE     ---       LVL=0
-      01001840H   LINE      CODE     ---       #183
-      01001840H   LINE      CODE     ---       #184
-      01001840H   LINE      CODE     ---       #186
-      01001843H   LINE      CODE     ---       #187
-      01001846H   LINE      CODE     ---       #188
-      01001848H   LINE      CODE     ---       #189
-      0100184BH   LINE      CODE     ---       #190
-      01001850H   LINE      CODE     ---       #191
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      010017B5H   BLOCK     CODE     ---       LVL=0
-      010017B5H   LINE      CODE     ---       #192
-      010017BBH   LINE      CODE     ---       #194
-      010017C0H   LINE      CODE     ---       #195
-      010017C0H   LINE      CODE     ---       #196
-      010017C3H   LINE      CODE     ---       #197
-      010017C9H   LINE      CODE     ---       #198
-      010017C9H   LINE      CODE     ---       #199
+      0100197FH   BLOCK     CODE     ---       LVL=0
+      0100197FH   LINE      CODE     ---       #39
+      0100197FH   LINE      CODE     ---       #40
+      0100197FH   LINE      CODE     ---       #42
+      01001985H   LINE      CODE     ---       #45
+      01001987H   LINE      CODE     ---       #48
+      0100198DH   LINE      CODE     ---       #49
+      01001994H   LINE      CODE     ---       #51
+      0100199AH   LINE      CODE     ---       #53
+      010019A1H   LINE      CODE     ---       #56
+      010019A7H   LINE      CODE     ---       #57
+      010019A9H   LINE      CODE     ---       #59
+      010019AFH   LINE      CODE     ---       #60
+      010019B1H   LINE      CODE     ---       #65
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       GXHTC
-      02000253H   PUBLIC    XDATA    FLOAT     GXHTC3_Humidity
-      0200024FH   PUBLIC    XDATA    FLOAT     GXHTC3_temp
-      0200024BH   PUBLIC    XDATA    FLOAT     GXHTC3_humi
-      02000247H   PUBLIC    XDATA    FLOAT     GXHTC3_Temperature
-      01001861H   PUBLIC    CODE     ---       GXHTC3_INIT
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 46
-
-
+      02000269H   PUBLIC    XDATA    FLOAT     GXHTC3_Humidity
+      02000265H   PUBLIC    XDATA    FLOAT     GXHTC3_temp
+      02000261H   PUBLIC    XDATA    FLOAT     GXHTC3_humi
+      0200025DH   PUBLIC    XDATA    FLOAT     GXHTC3_Temperature
+      01001B41H   PUBLIC    CODE     ---       GXHTC3_INIT
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -3078,6 +2991,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A9H   SFRSYM    DATA     BYTE      P6
       000000C8H.0 SFRSYM    DATA     BIT       T2P0
       000000D9H   SFRSYM    DATA     BYTE      P7
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 45
+
+
       000000C8H.1 SFRSYM    DATA     BIT       T2P1
       000000F1H   SFRSYM    DATA     BYTE      RTCON
       000000C8H.4 SFRSYM    DATA     BIT       T2R0
@@ -3127,9 +3043,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000090H.0 SFRSYM    DATA     BIT       P10
       00000080H.1 SFRSYM    DATA     BIT       P01
       0000009DH   SFRSYM    DATA     BYTE      S1RELH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 47
-
-
       00000087H   SFRSYM    DATA     BYTE      PCON
       000000A0H.0 SFRSYM    DATA     BIT       P20
       00000090H.1 SFRSYM    DATA     BIT       P11
@@ -3146,6 +3059,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000B0H.1 SFRSYM    DATA     BIT       P31
       000000A0H.2 SFRSYM    DATA     BIT       P22
       00000090H.3 SFRSYM    DATA     BIT       P13
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 46
+
+
       00000080H.4 SFRSYM    DATA     BIT       P04
       000000E8H.2 SFRSYM    DATA     BIT       INT4EN
       000000D8H.0 SFRSYM    DATA     BIT       P50
@@ -3195,9 +3111,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C0H.7 SFRSYM    DATA     BIT       P47
       000000EAH   SFRSYM    DATA     BYTE      RTAS
       000000AFH   SFRSYM    DATA     BYTE      HVTH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 48
-
-
       00000095H   SFRSYM    DATA     BYTE      RCTAGH
       000000D8H.7 SFRSYM    DATA     BIT       P57
       000000F2H   SFRSYM    DATA     BYTE      RTCS
@@ -3214,6 +3127,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A8H.4 SFRSYM    DATA     BIT       ES0
       000000EFH   SFRSYM    DATA     BYTE      LVDCON
       000000E6H   SFRSYM    DATA     BYTE      MDUCON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 47
+
+
       000000D6H   SFRSYM    DATA     BYTE      PWMCIF
       000000A8H.1 SFRSYM    DATA     BIT       ET0
       000000A8H.6 SFRSYM    DATA     BIT       ES1
@@ -3263,9 +3179,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000ADH   SFRSYM    DATA     BYTE      WDVTHH
       000000C8H.6 SFRSYM    DATA     BIT       TR2
       000000B8H.0 SFRSYM    DATA     BIT       PX0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 49
-
-
       000000B8H.2 SFRSYM    DATA     BIT       PX1
       000000BCH   SFRSYM    DATA     BYTE      ADCDL
       000000ACH   SFRSYM    DATA     BYTE      WDVTHL
@@ -3282,6 +3195,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C9H   SFRSYM    DATA     BYTE      T2MOD
       000000C8H   SFRSYM    DATA     BYTE      T2CON
       000000FFH   SFRSYM    DATA     BYTE      STPSTH
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 48
+
+
       000000BFH   SFRSYM    DATA     BYTE      CKMIF
       000000FEH   SFRSYM    DATA     BYTE      STPSTL
       000000C2H   SFRSYM    DATA     BYTE      TKCFG
@@ -3303,21 +3219,21 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      01001861H   BLOCK     CODE     ---       LVL=0
-      01001861H   LINE      CODE     ---       #29
-      01001861H   LINE      CODE     ---       #30
-      01001861H   LINE      CODE     ---       #31
-      01001867H   LINE      CODE     ---       #32
-      0100186BH   LINE      CODE     ---       #34
-      0100186DH   LINE      CODE     ---       #35
-      0100186FH   LINE      CODE     ---       #36
+      01001B41H   BLOCK     CODE     ---       LVL=0
+      01001B41H   LINE      CODE     ---       #29
+      01001B41H   LINE      CODE     ---       #30
+      01001B41H   LINE      CODE     ---       #31
+      01001B47H   LINE      CODE     ---       #32
+      01001B4BH   LINE      CODE     ---       #34
+      01001B4DH   LINE      CODE     ---       #35
+      01001B4FH   LINE      CODE     ---       #36
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       DISP
-      02000203H   PUBLIC    XDATA    ---       lcd_ram
+      02000225H   PUBLIC    XDATA    ---       lcd_ram
 
       ---         MODULE    ---      ---       BUZZER
-      010016B1H   PUBLIC    CODE     ---       PWM6_init
+      010019B2H   PUBLIC    CODE     ---       PWM6_init
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -3331,9 +3247,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A5H   SFRSYM    DATA     BYTE      SPCON
       000000A8H.7 SFRSYM    DATA     BIT       EA
       000000E1H   SFRSYM    DATA     BYTE      LXCON
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 50
-
-
       000000A9H   SFRSYM    DATA     BYTE      P6
       000000C8H.0 SFRSYM    DATA     BIT       T2P0
       000000D9H   SFRSYM    DATA     BYTE      P7
@@ -3350,6 +3263,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A8H   SFRSYM    DATA     BYTE      IE
       00000085H   SFRSYM    DATA     BYTE      DP1H
       000000E9H   SFRSYM    DATA     BYTE      RTCSS
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 49
+
+
       00000082H   SFRSYM    DATA     BYTE      DP0L
       000000CBH   SFRSYM    DATA     BYTE      T2CH
       000000B3H   SFRSYM    DATA     BYTE      I2CADM
@@ -3399,9 +3315,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000080H.3 SFRSYM    DATA     BIT       P03
       000000E8H.1 SFRSYM    DATA     BIT       INT3EN
       000000C0H.0 SFRSYM    DATA     BIT       P40
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 51
-
-
       000000B0H.1 SFRSYM    DATA     BIT       P31
       000000A0H.2 SFRSYM    DATA     BIT       P22
       00000090H.3 SFRSYM    DATA     BIT       P13
@@ -3418,6 +3331,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0000009CH   SFRSYM    DATA     BYTE      S1RELL
       00000089H   SFRSYM    DATA     BYTE      TMOD
       00000088H   SFRSYM    DATA     BYTE      TCON
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 50
+
+
       000000D8H.1 SFRSYM    DATA     BIT       P51
       000000C0H.2 SFRSYM    DATA     BIT       P42
       000000B0H.3 SFRSYM    DATA     BIT       P33
@@ -3467,9 +3383,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000E0H   SFRSYM    DATA     BYTE      ACC
       000000D5H   SFRSYM    DATA     BYTE      PWMBIF
       0000009FH   SFRSYM    DATA     BYTE      RCMSHH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 52
-
-
       000000A8H.4 SFRSYM    DATA     BIT       ES0
       000000EFH   SFRSYM    DATA     BYTE      LVDCON
       000000E6H   SFRSYM    DATA     BYTE      MDUCON
@@ -3486,6 +3399,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000088H.7 SFRSYM    DATA     BIT       TF1
       0000009EH   SFRSYM    DATA     BYTE      RCMSHL
       00000097H   SFRSYM    DATA     BYTE      RCMSLH
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 51
+
+
       000000C8H.7 SFRSYM    DATA     BIT       TF2
       00000098H.2 SFRSYM    DATA     BIT       RB8
       0000008CH   SFRSYM    DATA     BYTE      TH0
@@ -3535,9 +3451,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000B9H   SFRSYM    DATA     BYTE      ADCON
       000000A1H   SFRSYM    DATA     BYTE      S2CON
       000000D0H.1 SFRSYM    DATA     BIT       DPS
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 53
-
-
       000000C9H   SFRSYM    DATA     BYTE      T2MOD
       000000C8H   SFRSYM    DATA     BYTE      T2CON
       000000FFH   SFRSYM    DATA     BYTE      STPSTH
@@ -3554,6 +3467,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C6H   SFRSYM    DATA     BYTE      ATKMH
       00000091H   SFRSYM    DATA     BYTE      RCCON
       000000F7H   SFRSYM    DATA     BYTE      INDEX
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 52
+
+
       000000EEH   SFRSYM    DATA     BYTE      RTCIF
       000000BEH   SFRSYM    DATA     BYTE      CKMON
       000000F5H   SFRSYM    DATA     BYTE      RTCDL
@@ -3562,26 +3478,26 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      010016B1H   BLOCK     CODE     ---       LVL=0
-      010016B1H   LINE      CODE     ---       #30
-      010016B1H   LINE      CODE     ---       #31
-      010016B1H   LINE      CODE     ---       #33
-      010016B7H   LINE      CODE     ---       #34
-      010016B9H   LINE      CODE     ---       #36
-      010016BCH   LINE      CODE     ---       #37
-      010016BFH   LINE      CODE     ---       #38
-      010016C1H   LINE      CODE     ---       #40
-      010016C4H   LINE      CODE     ---       #41
-      010016C7H   LINE      CODE     ---       #42
-      010016CAH   LINE      CODE     ---       #43
-      010016CDH   LINE      CODE     ---       #46
-      010016D0H   LINE      CODE     ---       #47
-      010016D4H   LINE      CODE     ---       #48
-      010016D7H   LINE      CODE     ---       #50
+      010019B2H   BLOCK     CODE     ---       LVL=0
+      010019B2H   LINE      CODE     ---       #30
+      010019B2H   LINE      CODE     ---       #31
+      010019B2H   LINE      CODE     ---       #33
+      010019B8H   LINE      CODE     ---       #34
+      010019BAH   LINE      CODE     ---       #36
+      010019BDH   LINE      CODE     ---       #37
+      010019C0H   LINE      CODE     ---       #38
+      010019C2H   LINE      CODE     ---       #40
+      010019C5H   LINE      CODE     ---       #41
+      010019C8H   LINE      CODE     ---       #42
+      010019CBH   LINE      CODE     ---       #43
+      010019CEH   LINE      CODE     ---       #46
+      010019D1H   LINE      CODE     ---       #47
+      010019D5H   LINE      CODE     ---       #48
+      010019D8H   LINE      CODE     ---       #50
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ADC
-      02000257H   PUBLIC    XDATA    FLOAT     VDD_Voltage
+      0200026DH   PUBLIC    XDATA    FLOAT     VDD_Voltage
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -3603,9 +3519,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C8H.4 SFRSYM    DATA     BIT       T2R0
       000000DAH   SFRSYM    DATA     BYTE      PWMEN
       000000CFH   SFRSYM    DATA     BYTE      TKMSH
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 54
-
-
       00000086H   SFRSYM    DATA     BYTE      PWCON
       000000C8H.5 SFRSYM    DATA     BIT       T2R1
       000000CEH   SFRSYM    DATA     BYTE      TKMSL
@@ -3622,6 +3535,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C3H   SFRSYM    DATA     BYTE      TKMTS
       000000CAH   SFRSYM    DATA     BYTE      T2CL
       000000B2H   SFRSYM    DATA     BYTE      I2CADR
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 53
+
+
       000000B4H   SFRSYM    DATA     BYTE      I2CCCR
       000000B8H   SFRSYM    DATA     BYTE      IP
       000000B7H   SFRSYM    DATA     BYTE      I2CFLG
@@ -3671,9 +3587,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000D8H.0 SFRSYM    DATA     BIT       P50
       000000C0H.1 SFRSYM    DATA     BIT       P41
       000000B0H.2 SFRSYM    DATA     BIT       P32
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 55
-
-
       000000A0H.3 SFRSYM    DATA     BIT       P23
       00000090H.4 SFRSYM    DATA     BIT       P14
       00000080H.5 SFRSYM    DATA     BIT       P05
@@ -3690,6 +3603,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000080H.6 SFRSYM    DATA     BIT       P06
       000000E8H.4 SFRSYM    DATA     BIT       INT6EN
       000000A3H   SFRSYM    DATA     BYTE      S2RELL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 54
+
+
       000000D8H.2 SFRSYM    DATA     BIT       P52
       000000C0H.3 SFRSYM    DATA     BIT       P43
       000000B0H.4 SFRSYM    DATA     BIT       P34
@@ -3739,9 +3655,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A8H.6 SFRSYM    DATA     BIT       ES1
       000000D7H   SFRSYM    DATA     BYTE      PWMDIF
       000000A8H.3 SFRSYM    DATA     BIT       ET1
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 56
-
-
       00000088H.5 SFRSYM    DATA     BIT       TF0
       000000FDH   SFRSYM    DATA     BYTE      IDLSTH
       000000AEH   SFRSYM    DATA     BYTE      PLLCON
@@ -3758,6 +3671,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000088H.0 SFRSYM    DATA     BIT       IT0
       0000008DH   SFRSYM    DATA     BYTE      TH1
       000000A8H.2 SFRSYM    DATA     BIT       EX1
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 55
+
+
       00000098H.3 SFRSYM    DATA     BIT       TB8
       00000088H.2 SFRSYM    DATA     BIT       IT1
       000000FCH   SFRSYM    DATA     BYTE      IDLSTL
@@ -3807,9 +3723,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000C2H   SFRSYM    DATA     BYTE      TKCFG
       00000093H   SFRSYM    DATA     BYTE      VCKDH
       000000D0H.5 SFRSYM    DATA     BIT       F0
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 57
-
-
       000000E2H   SFRSYM    DATA     BYTE      LXCFG
       000000ABH   SFRSYM    DATA     BYTE      WDFLG
       00000092H   SFRSYM    DATA     BYTE      VCKDL
@@ -3826,25 +3739,31 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
       00000006H   SYMBOL    DATA     WORD      AD_Value
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 56
+
+
 
       ---         MODULE    ---      ---       RTC
-      0200023FH   PUBLIC    XDATA    ---       calendar
-      02000233H   PUBLIC    XDATA    ---       mon_table
-      00000021H.2 PUBLIC    BIT      BIT       AlarmEvFlag
-      02000227H   PUBLIC    XDATA    ---       table_week
+      0200021DH   PUBLIC    XDATA    ---       calendar
+      02000211H   PUBLIC    XDATA    ---       mon_table
+      00000021H.3 PUBLIC    BIT      BIT       AlarmEvFlag
+      02000205H   PUBLIC    XDATA    ---       table_week
+      00000021H.2 PUBLIC    BIT      BIT       millisecondFlag
       00000021H.1 PUBLIC    BIT      BIT       HalfSecFlag
-      0100121BH   PUBLIC    CODE     ---       _RTC_Set_Week
-      01000F76H   PUBLIC    CODE     ---       RTC_Get
-      02000012H   PUBLIC    XDATA    BYTE      ?_RTC_Set?BYTE
-      010010DFH   PUBLIC    CODE     ---       _RTC_Set
+      02000204H   PUBLIC    XDATA    BYTE      times10
+      02000203H   PUBLIC    XDATA    BYTE      times10Flag
+      01001491H   PUBLIC    CODE     ---       _RTC_Set_Week
+      01001095H   PUBLIC    CODE     ---       RTC_Get
+      02000010H   PUBLIC    XDATA    BYTE      ?_RTC_Set?BYTE
+      01001355H   PUBLIC    CODE     ---       _RTC_Set
       01000008H   PUBLIC    CODE     ---       _IS_Leap_Year
-      01001388H   PUBLIC    CODE     ---       RTC_init
-      01001724H   PUBLIC    CODE     ---       RTC_ISR
-      010016FFH   PUBLIC    CODE     ---       _RTC_WriteWeek
+      010015FEH   PUBLIC    CODE     ---       RTC_init
+      010018D1H   PUBLIC    CODE     ---       RTC_ISR
+      01001A00H   PUBLIC    CODE     ---       _RTC_WriteWeek
       01000056H   PUBLIC    CODE     ---       _RTC_WriteDay
-      01001745H   PUBLIC    CODE     ---       _RTC_WriteHour
-      01001804H   PUBLIC    CODE     ---       _RTC_WriteMinute
-      010017EAH   PUBLIC    CODE     ---       _RTC_WriteSecond
+      01001A25H   PUBLIC    CODE     ---       _RTC_WriteHour
+      01001AE4H   PUBLIC    CODE     ---       _RTC_WriteMinute
+      01001ACAH   PUBLIC    CODE     ---       _RTC_WriteSecond
       000000E3H   SFRSYM    DATA     BYTE      LXDAT
       000000C4H   SFRSYM    DATA     BYTE      TKCHS
       00000080H   SFRSYM    DATA     BYTE      P0
@@ -3875,9 +3794,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000085H   SFRSYM    DATA     BYTE      DP1H
       000000E9H   SFRSYM    DATA     BYTE      RTCSS
       00000082H   SFRSYM    DATA     BYTE      DP0L
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 58
-
-
       000000CBH   SFRSYM    DATA     BYTE      T2CH
       000000B3H   SFRSYM    DATA     BYTE      I2CADM
       00000084H   SFRSYM    DATA     BYTE      DP1L
@@ -3891,6 +3807,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000B5H   SFRSYM    DATA     BYTE      I2CDAT
       000000EDH   SFRSYM    DATA     BYTE      RTMSS
       000000D0H.7 SFRSYM    DATA     BIT       CY
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 57
+
+
       000000BBH   SFRSYM    DATA     BYTE      ADCFGH
       000000DCH   SFRSYM    DATA     BYTE      PWMCMAX
       000000B1H   SFRSYM    DATA     BYTE      I2CCON
@@ -3943,9 +3862,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000089H   SFRSYM    DATA     BYTE      TMOD
       00000088H   SFRSYM    DATA     BYTE      TCON
       000000D8H.1 SFRSYM    DATA     BIT       P51
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 59
-
-
       000000C0H.2 SFRSYM    DATA     BIT       P42
       000000B0H.3 SFRSYM    DATA     BIT       P33
       000000A0H.4 SFRSYM    DATA     BIT       P24
@@ -3959,6 +3875,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000A0H.5 SFRSYM    DATA     BIT       P25
       00000090H.6 SFRSYM    DATA     BIT       P16
       00000080H.7 SFRSYM    DATA     BIT       P07
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 58
+
+
       000000E8H.5 SFRSYM    DATA     BIT       INT7EN
       000000C8H.2 SFRSYM    DATA     BIT       UCKS
       000000F8H   SFRSYM    DATA     BYTE      EXIP
@@ -4011,9 +3930,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0000009EH   SFRSYM    DATA     BYTE      RCMSHL
       00000097H   SFRSYM    DATA     BYTE      RCMSLH
       000000C8H.7 SFRSYM    DATA     BIT       TF2
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 60
-
-
       00000098H.2 SFRSYM    DATA     BIT       RB8
       0000008CH   SFRSYM    DATA     BYTE      TH0
       000000A8H.0 SFRSYM    DATA     BIT       EX0
@@ -4027,6 +3943,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000CDH   SFRSYM    DATA     BYTE      TH2
       000000D0H.0 SFRSYM    DATA     BIT       P
       00000096H   SFRSYM    DATA     BYTE      RCMSLL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 59
+
+
       00000098H.7 SFRSYM    DATA     BIT       SM0
       0000008AH   SFRSYM    DATA     BYTE      TL0
       00000098H.6 SFRSYM    DATA     BIT       SM1
@@ -4079,9 +3998,6 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000091H   SFRSYM    DATA     BYTE      RCCON
       000000F7H   SFRSYM    DATA     BYTE      INDEX
       000000EEH   SFRSYM    DATA     BYTE      RTCIF
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 61
-
-
       000000BEH   SFRSYM    DATA     BYTE      CKMON
       000000F5H   SFRSYM    DATA     BYTE      RTCDL
       000000D0H   SFRSYM    DATA     BYTE      PSW
@@ -4089,40 +4005,43 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       000000AAH   SFRSYM    DATA     BYTE      WDCON
       000000A6H   SFRSYM    DATA     BYTE      SPDAT
 
-      010017EAH   BLOCK     CODE     ---       LVL=0
+      01001ACAH   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      second
-      010017EAH   LINE      CODE     ---       #27
-      010017EAH   LINE      CODE     ---       #28
-      010017EAH   LINE      CODE     ---       #29
-      010017F4H   LINE      CODE     ---       #30
-      010017F7H   LINE      CODE     ---       #31
-      010017F9H   LINE      CODE     ---       #32
-      01001800H   LINE      CODE     ---       #33
-      01001803H   LINE      CODE     ---       #34
+      01001ACAH   LINE      CODE     ---       #27
+      01001ACAH   LINE      CODE     ---       #28
+      01001ACAH   LINE      CODE     ---       #29
+      01001AD4H   LINE      CODE     ---       #30
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 60
+
+
+      01001AD7H   LINE      CODE     ---       #31
+      01001AD9H   LINE      CODE     ---       #32
+      01001AE0H   LINE      CODE     ---       #33
+      01001AE3H   LINE      CODE     ---       #34
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001804H   BLOCK     CODE     ---       LVL=0
+      01001AE4H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      minute
-      01001804H   LINE      CODE     ---       #43
-      01001804H   LINE      CODE     ---       #44
-      01001804H   LINE      CODE     ---       #45
-      0100180EH   LINE      CODE     ---       #46
-      01001811H   LINE      CODE     ---       #47
-      01001813H   LINE      CODE     ---       #48
-      0100181AH   LINE      CODE     ---       #49
-      0100181DH   LINE      CODE     ---       #50
+      01001AE4H   LINE      CODE     ---       #43
+      01001AE4H   LINE      CODE     ---       #44
+      01001AE4H   LINE      CODE     ---       #45
+      01001AEEH   LINE      CODE     ---       #46
+      01001AF1H   LINE      CODE     ---       #47
+      01001AF3H   LINE      CODE     ---       #48
+      01001AFAH   LINE      CODE     ---       #49
+      01001AFDH   LINE      CODE     ---       #50
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001745H   BLOCK     CODE     ---       LVL=0
+      01001A25H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      hour
-      01001745H   LINE      CODE     ---       #59
-      01001745H   LINE      CODE     ---       #60
-      01001745H   LINE      CODE     ---       #61
-      0100174FH   LINE      CODE     ---       #62
-      01001752H   LINE      CODE     ---       #63
-      01001759H   LINE      CODE     ---       #64
-      01001760H   LINE      CODE     ---       #65
-      01001763H   LINE      CODE     ---       #66
+      01001A25H   LINE      CODE     ---       #59
+      01001A25H   LINE      CODE     ---       #60
+      01001A25H   LINE      CODE     ---       #61
+      01001A2FH   LINE      CODE     ---       #62
+      01001A32H   LINE      CODE     ---       #63
+      01001A39H   LINE      CODE     ---       #64
+      01001A40H   LINE      CODE     ---       #65
+      01001A43H   LINE      CODE     ---       #66
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000056H   BLOCK     CODE     ---       LVL=0
@@ -4137,71 +4056,78 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       01000069H   LINE      CODE     ---       #82
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010016FFH   BLOCK     CODE     ---       LVL=0
+      01001A00H   BLOCK     CODE     ---       LVL=0
       00000007H   SYMBOL    DATA     BYTE      week
-      010016FFH   LINE      CODE     ---       #89
-      010016FFH   LINE      CODE     ---       #90
-      010016FFH   LINE      CODE     ---       #91
-      01001709H   LINE      CODE     ---       #92
-      0100170CH   LINE      CODE     ---       #93
-      01001712H   LINE      CODE     ---       #94
-      01001719H   LINE      CODE     ---       #95
-      01001720H   LINE      CODE     ---       #96
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 62
-
-
-      01001723H   LINE      CODE     ---       #97
+      01001A00H   LINE      CODE     ---       #89
+      01001A00H   LINE      CODE     ---       #90
+      01001A00H   LINE      CODE     ---       #91
+      01001A0AH   LINE      CODE     ---       #92
+      01001A0DH   LINE      CODE     ---       #93
+      01001A13H   LINE      CODE     ---       #94
+      01001A1AH   LINE      CODE     ---       #95
+      01001A21H   LINE      CODE     ---       #96
+      01001A24H   LINE      CODE     ---       #97
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001724H   BLOCK     CODE     ---       LVL=0
-      01001724H   LINE      CODE     ---       #105
-      01001726H   LINE      CODE     ---       #107
-      0100172BH   LINE      CODE     ---       #108
-      0100172BH   LINE      CODE     ---       #109
-      0100172EH   LINE      CODE     ---       #110
-      0100172EH   LINE      CODE     ---       #111
-      01001733H   LINE      CODE     ---       #112
-      01001733H   LINE      CODE     ---       #113
-      01001736H   LINE      CODE     ---       #114
-      01001738H   LINE      CODE     ---       #115
-      01001738H   LINE      CODE     ---       #116
-      0100173DH   LINE      CODE     ---       #117
-      0100173DH   LINE      CODE     ---       #118
-      01001740H   LINE      CODE     ---       #119
-      01001742H   LINE      CODE     ---       #120
-      01001742H   LINE      CODE     ---       #121
+      010018D1H   BLOCK     CODE     ---       LVL=0
+      010018D1H   LINE      CODE     ---       #107
+      010018D9H   LINE      CODE     ---       #109
+      010018DEH   LINE      CODE     ---       #110
+      010018DEH   LINE      CODE     ---       #111
+      010018E1H   LINE      CODE     ---       #112
+      010018E3H   LINE      CODE     ---       #113
+      010018E9H   LINE      CODE     ---       #114
+      010018F3H   LINE      CODE     ---       #115
+      010018F3H   LINE      CODE     ---       #116
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 61
+
+
+      010018F5H   LINE      CODE     ---       #117
+      010018FAH   LINE      CODE     ---       #118
+      010018FAH   LINE      CODE     ---       #119
+      010018FAH   LINE      CODE     ---       #120
+      010018FFH   LINE      CODE     ---       #121
+      010018FFH   LINE      CODE     ---       #122
+      01001902H   LINE      CODE     ---       #123
+      01001904H   LINE      CODE     ---       #124
+      01001904H   LINE      CODE     ---       #125
+      01001909H   LINE      CODE     ---       #126
+      01001909H   LINE      CODE     ---       #127
+      0100190CH   LINE      CODE     ---       #128
+      0100190EH   LINE      CODE     ---       #129
+      0100190EH   LINE      CODE     ---       #130
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01001388H   BLOCK     CODE     ---       LVL=0
-      01001388H   LINE      CODE     ---       #128
-      01001388H   LINE      CODE     ---       #129
-      01001388H   LINE      CODE     ---       #131
-      0100138EH   LINE      CODE     ---       #132
-      01001392H   LINE      CODE     ---       #133
-      01001399H   LINE      CODE     ---       #134
-      010013A0H   LINE      CODE     ---       #135
-      010013A3H   LINE      CODE     ---       #137
-      010013AAH   LINE      CODE     ---       #140
-      010013AFH   LINE      CODE     ---       #141
-      010013B4H   LINE      CODE     ---       #142
-      010013B9H   LINE      CODE     ---       #145
-      010013BCH   LINE      CODE     ---       #146
-      010013BFH   LINE      CODE     ---       #147
-      010013C2H   LINE      CODE     ---       #149
-      010013C4H   LINE      CODE     ---       #150
-      010013C6H   LINE      CODE     ---       #152
-      010013C8H   LINE      CODE     ---       #153
-      010013CAH   LINE      CODE     ---       #156
-      010013CDH   LINE      CODE     ---       #157
-      010013CDH   LINE      CODE     ---       #158
-      010013CFH   LINE      CODE     ---       #160
-      010013F5H   LINE      CODE     ---       #162
-      010013F5H   LINE      CODE     ---       #163
-      010013F8H   LINE      CODE     ---       #164
-      010013F8H   LINE      CODE     ---       #165
-      010013FAH   LINE      CODE     ---       #167
-      01001403H   LINE      CODE     ---       #169
-      01001403H   LINE      CODE     ---       #171
+      010015FEH   BLOCK     CODE     ---       LVL=0
+      010015FEH   LINE      CODE     ---       #137
+      010015FEH   LINE      CODE     ---       #138
+      010015FEH   LINE      CODE     ---       #140
+      01001604H   LINE      CODE     ---       #141
+      01001608H   LINE      CODE     ---       #142
+      0100160FH   LINE      CODE     ---       #143
+      01001616H   LINE      CODE     ---       #144
+      01001619H   LINE      CODE     ---       #146
+      01001620H   LINE      CODE     ---       #149
+      01001625H   LINE      CODE     ---       #150
+      0100162AH   LINE      CODE     ---       #151
+      0100162FH   LINE      CODE     ---       #154
+      01001632H   LINE      CODE     ---       #155
+      01001635H   LINE      CODE     ---       #156
+      01001638H   LINE      CODE     ---       #158
+      0100163AH   LINE      CODE     ---       #159
+      0100163CH   LINE      CODE     ---       #161
+      0100163EH   LINE      CODE     ---       #162
+      01001640H   LINE      CODE     ---       #165
+      01001643H   LINE      CODE     ---       #166
+      01001643H   LINE      CODE     ---       #167
+      01001645H   LINE      CODE     ---       #169
+      0100166BH   LINE      CODE     ---       #171
+      0100166BH   LINE      CODE     ---       #172
+      0100166EH   LINE      CODE     ---       #173
+      0100166EH   LINE      CODE     ---       #174
+      01001670H   LINE      CODE     ---       #176
+      01001679H   LINE      CODE     ---       #178
+      01001679H   LINE      CODE     ---       #180
       ---         BLOCKEND  ---      ---       LVL=0
 
       01000003H   BLOCK     CODE     ---       LVL=0
@@ -4209,152 +4135,675 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 
       01000008H   BLOCK     CODE     ---       LVL=0
       00000002H   SYMBOL    DATA     WORD      year
-      01000008H   LINE      CODE     ---       #179
-      0100000CH   LINE      CODE     ---       #180
-      0100000CH   LINE      CODE     ---       #182
-      0100002BH   LINE      CODE     ---       #183
-      0100002EH   LINE      CODE     ---       #185
-      01000030H   LINE      CODE     ---       #187
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 63
-
-
+      01000008H   LINE      CODE     ---       #188
+      0100000CH   LINE      CODE     ---       #189
+      0100000CH   LINE      CODE     ---       #191
+      0100002BH   LINE      CODE     ---       #192
+      0100002EH   LINE      CODE     ---       #194
+      01000030H   LINE      CODE     ---       #196
       ---         BLOCKEND  ---      ---       LVL=0
 
-      010010DFH   BLOCK     CODE     ---       LVL=0
-      02000012H   SYMBOL    XDATA    WORD      syear
-      02000014H   SYMBOL    XDATA    BYTE      smon
-      02000015H   SYMBOL    XDATA    BYTE      sday
-      02000016H   SYMBOL    XDATA    BYTE      hour
-      02000017H   SYMBOL    XDATA    BYTE      min
-      02000018H   SYMBOL    XDATA    BYTE      sec
-      010010EDH   BLOCK     CODE     NEAR LAB  LVL=1
-      02000019H   SYMBOL    XDATA    WORD      t
-      0200001BH   SYMBOL    XDATA    WORD      sdaycount
+      01001355H   BLOCK     CODE     ---       LVL=0
+      02000010H   SYMBOL    XDATA    WORD      syear
+      02000012H   SYMBOL    XDATA    BYTE      smon
+      02000013H   SYMBOL    XDATA    BYTE      sday
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 62
+
+
+      02000014H   SYMBOL    XDATA    BYTE      hour
+      02000015H   SYMBOL    XDATA    BYTE      min
+      02000016H   SYMBOL    XDATA    BYTE      sec
+      01001363H   BLOCK     CODE     NEAR LAB  LVL=1
+      02000017H   SYMBOL    XDATA    WORD      t
+      02000019H   SYMBOL    XDATA    WORD      sdaycount
       ---         BLOCKEND  ---      ---       LVL=1
-      010010DFH   LINE      CODE     ---       #197
-      010010EDH   LINE      CODE     ---       #198
-      010010EDH   LINE      CODE     ---       #201
-      010010F4H   LINE      CODE     ---       #204
-      010010F7H   LINE      CODE     ---       #207
-      01001110H   LINE      CODE     ---       #208
-      01001113H   LINE      CODE     ---       #209
-      01001133H   LINE      CODE     ---       #210
-      01001133H   LINE      CODE     ---       #211
-      0100113CH   LINE      CODE     ---       #212
-      01001141H   LINE      CODE     ---       #214
-      0100114CH   LINE      CODE     ---       #215
-      0100115CH   LINE      CODE     ---       #216
-      01001162H   LINE      CODE     ---       #217
-      0100117DH   LINE      CODE     ---       #218
-      0100117DH   LINE      CODE     ---       #219
-      01001196H   LINE      CODE     ---       #220
-      010011ABH   LINE      CODE     ---       #221
-      010011B9H   LINE      CODE     ---       #222
-      010011C9H   LINE      CODE     ---       #223
-      010011E0H   LINE      CODE     ---       #226
-      010011F5H   LINE      CODE     ---       #228
-      01001200H   LINE      CODE     ---       #230
-      01001208H   LINE      CODE     ---       #231
-      01001210H   LINE      CODE     ---       #232
-      01001218H   LINE      CODE     ---       #242
-      0100121AH   LINE      CODE     ---       #243
+      01001355H   LINE      CODE     ---       #206
+      01001363H   LINE      CODE     ---       #207
+      01001363H   LINE      CODE     ---       #210
+      0100136AH   LINE      CODE     ---       #213
+      0100136DH   LINE      CODE     ---       #216
+      01001386H   LINE      CODE     ---       #217
+      01001389H   LINE      CODE     ---       #218
+      010013A9H   LINE      CODE     ---       #219
+      010013A9H   LINE      CODE     ---       #220
+      010013B2H   LINE      CODE     ---       #221
+      010013B7H   LINE      CODE     ---       #223
+      010013C2H   LINE      CODE     ---       #224
+      010013D2H   LINE      CODE     ---       #225
+      010013D8H   LINE      CODE     ---       #226
+      010013F3H   LINE      CODE     ---       #227
+      010013F3H   LINE      CODE     ---       #228
+      0100140CH   LINE      CODE     ---       #229
+      01001421H   LINE      CODE     ---       #230
+      0100142FH   LINE      CODE     ---       #231
+      0100143FH   LINE      CODE     ---       #232
+      01001456H   LINE      CODE     ---       #235
+      0100146BH   LINE      CODE     ---       #237
+      01001476H   LINE      CODE     ---       #239
+      0100147EH   LINE      CODE     ---       #240
+      01001486H   LINE      CODE     ---       #241
+      0100148EH   LINE      CODE     ---       #251
+      01001490H   LINE      CODE     ---       #252
       ---         BLOCKEND  ---      ---       LVL=0
 
-      01000F76H   BLOCK     CODE     ---       LVL=0
-      01000F76H   BLOCK     CODE     NEAR LAB  LVL=1
-      02000225H   SYMBOL    XDATA    WORD      daycnt
+      01001095H   BLOCK     CODE     ---       LVL=0
+      01001095H   BLOCK     CODE     NEAR LAB  LVL=1
+      02000201H   SYMBOL    XDATA    WORD      daycnt
       00000006H   SYMBOL    DATA     WORD      timecount
-      02000012H   SYMBOL    XDATA    WORD      temp
-      02000014H   SYMBOL    XDATA    WORD      temp1
+      02000010H   SYMBOL    XDATA    WORD      temp
+      02000012H   SYMBOL    XDATA    WORD      temp1
       ---         BLOCKEND  ---      ---       LVL=1
-      01000F76H   LINE      CODE     ---       #291
-      01000F76H   LINE      CODE     ---       #292
-      01000F76H   LINE      CODE     ---       #294
-      01000F77H   LINE      CODE     ---       #295
-      01000F7DH   LINE      CODE     ---       #296
-      01000F81H   LINE      CODE     ---       #298
-      01000F8FH   LINE      CODE     ---       #299
-      01000F96H   LINE      CODE     ---       #301
-      01000FA5H   LINE      CODE     ---       #302
-      01000FA5H   LINE      CODE     ---       #303
-      01000FB4H   LINE      CODE     ---       #304
-      01000FBEH   LINE      CODE     ---       #305
-      01000FCDH   LINE      CODE     ---       #306
-      01000FCDH   LINE      CODE     ---       #307
-      01000FD6H   LINE      CODE     ---       #308
-      01000FD6H   LINE      CODE     ---       #309
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 64
+      01001095H   LINE      CODE     ---       #300
+      01001095H   LINE      CODE     ---       #301
+      01001095H   LINE      CODE     ---       #303
+      01001096H   LINE      CODE     ---       #304
+      0100109CH   LINE      CODE     ---       #305
+      010010A0H   LINE      CODE     ---       #307
+      010010AEH   LINE      CODE     ---       #308
+      010010B5H   LINE      CODE     ---       #310
+      010010C4H   LINE      CODE     ---       #311
+      010010C4H   LINE      CODE     ---       #312
+      010010D3H   LINE      CODE     ---       #313
+      010010DDH   LINE      CODE     ---       #314
+      010010ECH   LINE      CODE     ---       #315
+      010010ECH   LINE      CODE     ---       #316
+      010010F5H   LINE      CODE     ---       #317
+      010010F5H   LINE      CODE     ---       #318
+      01001104H   LINE      CODE     ---       #319
+      01001104H   LINE      CODE     ---       #320
+      01001108H   LINE      CODE     ---       #321
+      0100110AH   LINE      CODE     ---       #323
+      0100110AH   LINE      CODE     ---       #324
+      01001118H   LINE      CODE     ---       #325
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 63
 
 
-      01000FE5H   LINE      CODE     ---       #310
-      01000FE5H   LINE      CODE     ---       #311
-      01000FE9H   LINE      CODE     ---       #312
-      01000FEBH   LINE      CODE     ---       #314
-      01000FEBH   LINE      CODE     ---       #315
-      01000FF9H   LINE      CODE     ---       #316
-      01000FFBH   LINE      CODE     ---       #317
-      01000FFBH   LINE      CODE     ---       #318
-      01000FFBH   LINE      CODE     ---       #320
-      01000FFBH   LINE      CODE     ---       #321
-      01001009H   LINE      CODE     ---       #322
-      01001009H   LINE      CODE     ---       #323
-      01001017H   LINE      CODE     ---       #324
-      01001019H   LINE      CODE     ---       #325
-      01001028H   LINE      CODE     ---       #326
-      0100102FH   LINE      CODE     ---       #327
-      0100103EH   LINE      CODE     ---       #328
-      0100103EH   LINE      CODE     ---       #329
-      01001053H   LINE      CODE     ---       #330
-      01001053H   LINE      CODE     ---       #331
-      01001062H   LINE      CODE     ---       #332
-      01001070H   LINE      CODE     ---       #334
-      01001070H   LINE      CODE     ---       #335
-      01001070H   LINE      CODE     ---       #337
-      01001070H   LINE      CODE     ---       #338
-      01001091H   LINE      CODE     ---       #339
-      0100109EH   LINE      CODE     ---       #341
-      0100109EH   LINE      CODE     ---       #342
-      0100109EH   LINE      CODE     ---       #343
-      010010ACH   LINE      CODE     ---       #344
-      010010AEH   LINE      CODE     ---       #345
-      010010B8H   LINE      CODE     ---       #346
-      010010C2H   LINE      CODE     ---       #347
-      010010C2H   LINE      CODE     ---       #349
-      010010CAH   LINE      CODE     ---       #350
-      010010CEH   LINE      CODE     ---       #351
-      010010D2H   LINE      CODE     ---       #352
-      010010DCH   LINE      CODE     ---       #353
-      010010DEH   LINE      CODE     ---       #354
+      0100111AH   LINE      CODE     ---       #326
+      0100111AH   LINE      CODE     ---       #327
+      0100111AH   LINE      CODE     ---       #329
+      0100111AH   LINE      CODE     ---       #330
+      01001128H   LINE      CODE     ---       #331
+      01001128H   LINE      CODE     ---       #332
+      01001136H   LINE      CODE     ---       #333
+      01001138H   LINE      CODE     ---       #334
+      01001147H   LINE      CODE     ---       #335
+      0100114EH   LINE      CODE     ---       #336
+      0100115DH   LINE      CODE     ---       #337
+      0100115DH   LINE      CODE     ---       #338
+      01001172H   LINE      CODE     ---       #339
+      01001172H   LINE      CODE     ---       #340
+      01001181H   LINE      CODE     ---       #341
+      0100118FH   LINE      CODE     ---       #343
+      0100118FH   LINE      CODE     ---       #344
+      0100118FH   LINE      CODE     ---       #346
+      0100118FH   LINE      CODE     ---       #347
+      010011B0H   LINE      CODE     ---       #348
+      010011BDH   LINE      CODE     ---       #350
+      010011BDH   LINE      CODE     ---       #351
+      010011BDH   LINE      CODE     ---       #352
+      010011CBH   LINE      CODE     ---       #353
+      010011CDH   LINE      CODE     ---       #354
+      010011D7H   LINE      CODE     ---       #355
+      010011E1H   LINE      CODE     ---       #356
+      010011E1H   LINE      CODE     ---       #358
+      010011E9H   LINE      CODE     ---       #359
+      010011EDH   LINE      CODE     ---       #360
+      010011F1H   LINE      CODE     ---       #361
+      010011FBH   LINE      CODE     ---       #362
+      010011FDH   LINE      CODE     ---       #363
       ---         BLOCKEND  ---      ---       LVL=0
 
-      0100121BH   BLOCK     CODE     ---       LVL=0
-      0200001DH   SYMBOL    XDATA    WORD      year
+      01001491H   BLOCK     CODE     ---       LVL=0
+      0200001BH   SYMBOL    XDATA    WORD      year
       00000002H   SYMBOL    DATA     BYTE      month
-      0200001FH   SYMBOL    XDATA    BYTE      day
-      01001228H   BLOCK     CODE     NEAR LAB  LVL=1
-      02000020H   SYMBOL    XDATA    WORD      tem
-      02000022H   SYMBOL    XDATA    BYTE      yearH
+      0200001DH   SYMBOL    XDATA    BYTE      day
+      0100149EH   BLOCK     CODE     NEAR LAB  LVL=1
+      0200001EH   SYMBOL    XDATA    WORD      tem
+      02000020H   SYMBOL    XDATA    BYTE      yearH
       00000003H   SYMBOL    DATA     BYTE      yearL
       ---         BLOCKEND  ---      ---       LVL=1
-      0100121BH   LINE      CODE     ---       #359
-      01001228H   LINE      CODE     ---       #360
-      01001228H   LINE      CODE     ---       #363
-      0100123CH   LINE      CODE     ---       #364
-      0100124DH   LINE      CODE     ---       #365
-      0100125AH   LINE      CODE     ---       #366
-      0100125EH   LINE      CODE     ---       #367
-      01001270H   LINE      CODE     ---       #368
-      01001287H   LINE      CODE     ---       #369
-      010012A8H   LINE      CODE     ---       #370
-      010012B7H   LINE      CODE     ---       #371
-      010012C2H   LINE      CODE     ---       #372
-      010012D9H   LINE      CODE     ---       #373
-      010012DDH   LINE      CODE     ---       #375
-      010012F5H   LINE      CODE     ---       #377
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 65
+      01001491H   LINE      CODE     ---       #368
+      0100149EH   LINE      CODE     ---       #369
+      0100149EH   LINE      CODE     ---       #372
+      010014B2H   LINE      CODE     ---       #373
+      010014C3H   LINE      CODE     ---       #374
+      010014D0H   LINE      CODE     ---       #375
+      010014D4H   LINE      CODE     ---       #376
+      010014E6H   LINE      CODE     ---       #377
+      010014FDH   LINE      CODE     ---       #378
+      0100151EH   LINE      CODE     ---       #379
+      0100152DH   LINE      CODE     ---       #380
+      01001538H   LINE      CODE     ---       #381
+      0100154FH   LINE      CODE     ---       #382
+      01001553H   LINE      CODE     ---       #384
+      0100156BH   LINE      CODE     ---       #386
+      01001571H   LINE      CODE     ---       #387
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       KEY
+      0200025CH   PUBLIC    XDATA    BYTE      key_value2
+      0200025BH   PUBLIC    XDATA    BYTE      key_value1
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 64
 
 
-      010012FBH   LINE      CODE     ---       #378
+      0200025AH   PUBLIC    XDATA    BYTE      ShortKey4
+      02000259H   PUBLIC    XDATA    BYTE      ShortKey3
+      02000258H   PUBLIC    XDATA    BYTE      LongKey4
+      02000257H   PUBLIC    XDATA    BYTE      ShortKey2
+      02000256H   PUBLIC    XDATA    BYTE      LongKey3
+      02000255H   PUBLIC    XDATA    BYTE      ShortKey1
+      02000254H   PUBLIC    XDATA    BYTE      LongKey2
+      02000253H   PUBLIC    XDATA    BYTE      LongKey1
+      02000252H   PUBLIC    XDATA    BYTE      Hold_down2
+      02000251H   PUBLIC    XDATA    BYTE      Hold_down1
+      02000250H   PUBLIC    XDATA    BYTE      key_value4
+      0200024FH   PUBLIC    XDATA    BYTE      key_value3
+      01000DB9H   PUBLIC    CODE     ---       Key_Scanf
+      01001A95H   PUBLIC    CODE     ---       INT5_ISR
+      01001B20H   PUBLIC    CODE     ---       INT5_Init
+      01001A7AH   PUBLIC    CODE     ---       INT4_ISR
+      01001B0FH   PUBLIC    CODE     ---       INT4_Init
+      01001A5FH   PUBLIC    CODE     ---       INT3_ISR
+      01001AFEH   PUBLIC    CODE     ---       INT3_Init
+      01001A44H   PUBLIC    CODE     ---       INT2_ISR
+      01001B31H   PUBLIC    CODE     ---       INT2_Init
+      01001917H   PUBLIC    CODE     ---       KEY_init
+      000000E3H   SFRSYM    DATA     BYTE      LXDAT
+      000000C4H   SFRSYM    DATA     BYTE      TKCHS
+      00000080H   SFRSYM    DATA     BYTE      P0
+      000000C1H   SFRSYM    DATA     BYTE      TKCON
+      00000090H   SFRSYM    DATA     BYTE      P1
+      000000A0H   SFRSYM    DATA     BYTE      P2
+      000000B0H   SFRSYM    DATA     BYTE      P3
+      000000D0H.6 SFRSYM    DATA     BIT       AC
+      000000C0H   SFRSYM    DATA     BYTE      P4
+      000000D8H   SFRSYM    DATA     BYTE      P5
+      000000A5H   SFRSYM    DATA     BYTE      SPCON
+      000000A8H.7 SFRSYM    DATA     BIT       EA
+      000000E1H   SFRSYM    DATA     BYTE      LXCON
+      000000A9H   SFRSYM    DATA     BYTE      P6
+      000000C8H.0 SFRSYM    DATA     BIT       T2P0
+      000000D9H   SFRSYM    DATA     BYTE      P7
+      000000C8H.1 SFRSYM    DATA     BIT       T2P1
+      000000F1H   SFRSYM    DATA     BYTE      RTCON
+      000000C8H.4 SFRSYM    DATA     BIT       T2R0
+      000000DAH   SFRSYM    DATA     BYTE      PWMEN
+      000000CFH   SFRSYM    DATA     BYTE      TKMSH
+      00000086H   SFRSYM    DATA     BYTE      PWCON
+      000000C8H.5 SFRSYM    DATA     BIT       T2R1
+      000000CEH   SFRSYM    DATA     BYTE      TKMSL
+      000000A7H   SFRSYM    DATA     BYTE      SPSTA
+      00000083H   SFRSYM    DATA     BYTE      DP0H
+      000000A8H   SFRSYM    DATA     BYTE      IE
+      00000085H   SFRSYM    DATA     BYTE      DP1H
+      000000E9H   SFRSYM    DATA     BYTE      RTCSS
+      00000082H   SFRSYM    DATA     BYTE      DP0L
+      000000CBH   SFRSYM    DATA     BYTE      T2CH
+      000000B3H   SFRSYM    DATA     BYTE      I2CADM
+      00000084H   SFRSYM    DATA     BYTE      DP1L
+      000000C8H.3 SFRSYM    DATA     BIT       T2IE
+      000000C3H   SFRSYM    DATA     BYTE      TKMTS
+      000000CAH   SFRSYM    DATA     BYTE      T2CL
+      000000B2H   SFRSYM    DATA     BYTE      I2CADR
+      000000B4H   SFRSYM    DATA     BYTE      I2CCCR
+      000000B8H   SFRSYM    DATA     BYTE      IP
+      000000B7H   SFRSYM    DATA     BYTE      I2CFLG
+      000000B5H   SFRSYM    DATA     BYTE      I2CDAT
+      000000EDH   SFRSYM    DATA     BYTE      RTMSS
+      000000D0H.7 SFRSYM    DATA     BIT       CY
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 65
+
+
+      000000BBH   SFRSYM    DATA     BYTE      ADCFGH
+      000000DCH   SFRSYM    DATA     BYTE      PWMCMAX
+      000000B1H   SFRSYM    DATA     BYTE      I2CCON
+      000000D1H   SFRSYM    DATA     BYTE      PWMDIVH
+      000000BAH   SFRSYM    DATA     BYTE      ADCFGL
+      00000081H   SFRSYM    DATA     BYTE      SP
+      000000F9H   SFRSYM    DATA     BYTE      EPIE
+      000000D0H.2 SFRSYM    DATA     BIT       OV
+      000000FAH   SFRSYM    DATA     BYTE      EPIF
+      000000DFH   SFRSYM    DATA     BYTE      PWMDIVL
+      000000B6H   SFRSYM    DATA     BYTE      I2CSTA
+      000000E8H   SFRSYM    DATA     BYTE      EXIE
+      000000D3H   SFRSYM    DATA     BYTE      PWMDUTH
+      000000C7H   SFRSYM    DATA     BYTE      TKIF
+      0000008FH   SFRSYM    DATA     BYTE      IT0CON
+      00000080H.0 SFRSYM    DATA     BIT       P00
+      000000ECH   SFRSYM    DATA     BYTE      RTAH
+      000000D2H   SFRSYM    DATA     BYTE      PWMDUTL
+      0000008EH   SFRSYM    DATA     BYTE      IT1CON
+      00000090H.0 SFRSYM    DATA     BIT       P10
+      00000080H.1 SFRSYM    DATA     BIT       P01
+      0000009DH   SFRSYM    DATA     BYTE      S1RELH
+      00000087H   SFRSYM    DATA     BYTE      PCON
+      000000A0H.0 SFRSYM    DATA     BIT       P20
+      00000090H.1 SFRSYM    DATA     BIT       P11
+      00000080H.2 SFRSYM    DATA     BIT       P02
+      000000E8H.0 SFRSYM    DATA     BIT       INT2EN
+      000000F4H   SFRSYM    DATA     BYTE      RTCH
+      000000A4H   SFRSYM    DATA     BYTE      S2RELH
+      000000B0H.0 SFRSYM    DATA     BIT       P30
+      000000A0H.1 SFRSYM    DATA     BIT       P21
+      00000090H.2 SFRSYM    DATA     BIT       P12
+      00000080H.3 SFRSYM    DATA     BIT       P03
+      000000E8H.1 SFRSYM    DATA     BIT       INT3EN
+      000000C0H.0 SFRSYM    DATA     BIT       P40
+      000000B0H.1 SFRSYM    DATA     BIT       P31
+      000000A0H.2 SFRSYM    DATA     BIT       P22
+      00000090H.3 SFRSYM    DATA     BIT       P13
+      00000080H.4 SFRSYM    DATA     BIT       P04
+      000000E8H.2 SFRSYM    DATA     BIT       INT4EN
+      000000D8H.0 SFRSYM    DATA     BIT       P50
+      000000C0H.1 SFRSYM    DATA     BIT       P41
+      000000B0H.2 SFRSYM    DATA     BIT       P32
+      000000A0H.3 SFRSYM    DATA     BIT       P23
+      00000090H.4 SFRSYM    DATA     BIT       P14
+      00000080H.5 SFRSYM    DATA     BIT       P05
+      000000E8H.3 SFRSYM    DATA     BIT       INT5EN
+      000000EBH   SFRSYM    DATA     BYTE      RTAM
+      0000009CH   SFRSYM    DATA     BYTE      S1RELL
+      00000089H   SFRSYM    DATA     BYTE      TMOD
+      00000088H   SFRSYM    DATA     BYTE      TCON
+      000000D8H.1 SFRSYM    DATA     BIT       P51
+      000000C0H.2 SFRSYM    DATA     BIT       P42
+      000000B0H.3 SFRSYM    DATA     BIT       P33
+      000000A0H.4 SFRSYM    DATA     BIT       P24
+      00000090H.5 SFRSYM    DATA     BIT       P15
+      00000080H.6 SFRSYM    DATA     BIT       P06
+      000000E8H.4 SFRSYM    DATA     BIT       INT6EN
+      000000A3H   SFRSYM    DATA     BYTE      S2RELL
+      000000D8H.2 SFRSYM    DATA     BIT       P52
+      000000C0H.3 SFRSYM    DATA     BIT       P43
+      000000B0H.4 SFRSYM    DATA     BIT       P34
+      000000A0H.5 SFRSYM    DATA     BIT       P25
+      00000090H.6 SFRSYM    DATA     BIT       P16
+      00000080H.7 SFRSYM    DATA     BIT       P07
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 66
+
+
+      000000E8H.5 SFRSYM    DATA     BIT       INT7EN
+      000000C8H.2 SFRSYM    DATA     BIT       UCKS
+      000000F8H   SFRSYM    DATA     BYTE      EXIP
+      000000F3H   SFRSYM    DATA     BYTE      RTCM
+      000000D8H.3 SFRSYM    DATA     BIT       P53
+      000000C0H.4 SFRSYM    DATA     BIT       P44
+      000000B0H.5 SFRSYM    DATA     BIT       P35
+      000000A0H.6 SFRSYM    DATA     BIT       P26
+      00000090H.7 SFRSYM    DATA     BIT       P17
+      000000E8H.6 SFRSYM    DATA     BIT       INT8EN
+      000000D8H.4 SFRSYM    DATA     BIT       P54
+      000000C0H.5 SFRSYM    DATA     BIT       P45
+      000000B0H.6 SFRSYM    DATA     BIT       P36
+      000000A0H.7 SFRSYM    DATA     BIT       P27
+      000000E8H.7 SFRSYM    DATA     BIT       INT9EN
+      000000D8H.5 SFRSYM    DATA     BIT       P55
+      000000C0H.6 SFRSYM    DATA     BIT       P46
+      000000B0H.7 SFRSYM    DATA     BIT       P37
+      000000D8H.6 SFRSYM    DATA     BIT       P56
+      000000C0H.7 SFRSYM    DATA     BIT       P47
+      000000EAH   SFRSYM    DATA     BYTE      RTAS
+      000000AFH   SFRSYM    DATA     BYTE      HVTH
+      00000095H   SFRSYM    DATA     BYTE      RCTAGH
+      000000D8H.7 SFRSYM    DATA     BIT       P57
+      000000F2H   SFRSYM    DATA     BYTE      RTCS
+      00000088H.1 SFRSYM    DATA     BIT       IE0
+      00000088H.3 SFRSYM    DATA     BIT       IE1
+      00000094H   SFRSYM    DATA     BYTE      RCTAGL
+      000000F0H   SFRSYM    DATA     BYTE      B
+      000000E7H   SFRSYM    DATA     BYTE      MDUDAT
+      000000DEH   SFRSYM    DATA     BYTE      PWMCFG
+      000000D4H   SFRSYM    DATA     BYTE      PWMAIF
+      000000E0H   SFRSYM    DATA     BYTE      ACC
+      000000D5H   SFRSYM    DATA     BYTE      PWMBIF
+      0000009FH   SFRSYM    DATA     BYTE      RCMSHH
+      000000A8H.4 SFRSYM    DATA     BIT       ES0
+      000000EFH   SFRSYM    DATA     BYTE      LVDCON
+      000000E6H   SFRSYM    DATA     BYTE      MDUCON
+      000000D6H   SFRSYM    DATA     BYTE      PWMCIF
+      000000A8H.1 SFRSYM    DATA     BIT       ET0
+      000000A8H.6 SFRSYM    DATA     BIT       ES1
+      000000D7H   SFRSYM    DATA     BYTE      PWMDIF
+      000000A8H.3 SFRSYM    DATA     BIT       ET1
+      00000088H.5 SFRSYM    DATA     BIT       TF0
+      000000FDH   SFRSYM    DATA     BYTE      IDLSTH
+      000000AEH   SFRSYM    DATA     BYTE      PLLCON
+      000000A8H.5 SFRSYM    DATA     BIT       ET2
+      00000098H.0 SFRSYM    DATA     BIT       RI0
+      00000088H.7 SFRSYM    DATA     BIT       TF1
+      0000009EH   SFRSYM    DATA     BYTE      RCMSHL
+      00000097H   SFRSYM    DATA     BYTE      RCMSLH
+      000000C8H.7 SFRSYM    DATA     BIT       TF2
+      00000098H.2 SFRSYM    DATA     BIT       RB8
+      0000008CH   SFRSYM    DATA     BYTE      TH0
+      000000A8H.0 SFRSYM    DATA     BIT       EX0
+      00000098H.1 SFRSYM    DATA     BIT       TI0
+      00000088H.0 SFRSYM    DATA     BIT       IT0
+      0000008DH   SFRSYM    DATA     BYTE      TH1
+      000000A8H.2 SFRSYM    DATA     BIT       EX1
+      00000098H.3 SFRSYM    DATA     BIT       TB8
+      00000088H.2 SFRSYM    DATA     BIT       IT1
+      000000FCH   SFRSYM    DATA     BYTE      IDLSTL
+      000000CDH   SFRSYM    DATA     BYTE      TH2
+      000000D0H.0 SFRSYM    DATA     BIT       P
+      00000096H   SFRSYM    DATA     BYTE      RCMSLL
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 67
+
+
+      00000098H.7 SFRSYM    DATA     BIT       SM0
+      0000008AH   SFRSYM    DATA     BYTE      TL0
+      00000098H.6 SFRSYM    DATA     BIT       SM1
+      000000E5H   SFRSYM    DATA     BYTE      LXDIVH
+      0000008BH   SFRSYM    DATA     BYTE      TL1
+      00000098H.5 SFRSYM    DATA     BIT       SM2
+      000000CCH   SFRSYM    DATA     BYTE      TL2
+      000000B8H.4 SFRSYM    DATA     BIT       PS0
+      000000B8H.1 SFRSYM    DATA     BIT       PT0
+      000000B8H.6 SFRSYM    DATA     BIT       PS1
+      000000B8H.3 SFRSYM    DATA     BIT       PT1
+      000000D0H.3 SFRSYM    DATA     BIT       RS0
+      000000E4H   SFRSYM    DATA     BYTE      LXDIVL
+      000000BDH   SFRSYM    DATA     BYTE      ADCDH
+      000000B8H.5 SFRSYM    DATA     BIT       PT2
+      00000088H.4 SFRSYM    DATA     BIT       TR0
+      000000D0H.4 SFRSYM    DATA     BIT       RS1
+      000000DDH   SFRSYM    DATA     BYTE      PWMCON
+      00000088H.6 SFRSYM    DATA     BIT       TR1
+      000000ADH   SFRSYM    DATA     BYTE      WDVTHH
+      000000C8H.6 SFRSYM    DATA     BIT       TR2
+      000000B8H.0 SFRSYM    DATA     BIT       PX0
+      000000B8H.2 SFRSYM    DATA     BIT       PX1
+      000000BCH   SFRSYM    DATA     BYTE      ADCDL
+      000000ACH   SFRSYM    DATA     BYTE      WDVTHL
+      000000DBH   SFRSYM    DATA     BYTE      PWMUPD
+      00000099H   SFRSYM    DATA     BYTE      S0BUF
+      0000009BH   SFRSYM    DATA     BYTE      S1BUF
+      000000A2H   SFRSYM    DATA     BYTE      S2BUF
+      00000098H   SFRSYM    DATA     BYTE      S0CON
+      00000098H.4 SFRSYM    DATA     BIT       REN
+      0000009AH   SFRSYM    DATA     BYTE      S1CON
+      000000B9H   SFRSYM    DATA     BYTE      ADCON
+      000000A1H   SFRSYM    DATA     BYTE      S2CON
+      000000D0H.1 SFRSYM    DATA     BIT       DPS
+      000000C9H   SFRSYM    DATA     BYTE      T2MOD
+      000000C8H   SFRSYM    DATA     BYTE      T2CON
+      000000FFH   SFRSYM    DATA     BYTE      STPSTH
+      000000BFH   SFRSYM    DATA     BYTE      CKMIF
+      000000FEH   SFRSYM    DATA     BYTE      STPSTL
+      000000C2H   SFRSYM    DATA     BYTE      TKCFG
+      00000093H   SFRSYM    DATA     BYTE      VCKDH
+      000000D0H.5 SFRSYM    DATA     BIT       F0
+      000000E2H   SFRSYM    DATA     BYTE      LXCFG
+      000000ABH   SFRSYM    DATA     BYTE      WDFLG
+      00000092H   SFRSYM    DATA     BYTE      VCKDL
+      000000FBH   SFRSYM    DATA     BYTE      EPCON
+      000000F6H   SFRSYM    DATA     BYTE      RTCDH
+      000000C6H   SFRSYM    DATA     BYTE      ATKMH
+      00000091H   SFRSYM    DATA     BYTE      RCCON
+      000000F7H   SFRSYM    DATA     BYTE      INDEX
+      000000EEH   SFRSYM    DATA     BYTE      RTCIF
+      000000BEH   SFRSYM    DATA     BYTE      CKMON
+      000000F5H   SFRSYM    DATA     BYTE      RTCDL
+      000000D0H   SFRSYM    DATA     BYTE      PSW
+      000000C5H   SFRSYM    DATA     BYTE      ATKML
+      000000AAH   SFRSYM    DATA     BYTE      WDCON
+      000000A6H   SFRSYM    DATA     BYTE      SPDAT
+
+      01001917H   BLOCK     CODE     ---       LVL=0
+      01001917H   LINE      CODE     ---       #22
+      01001917H   LINE      CODE     ---       #23
+      01001917H   LINE      CODE     ---       #26
+      0100191DH   LINE      CODE     ---       #27
+      01001924H   LINE      CODE     ---       #30
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 68
+
+
+      0100192AH   LINE      CODE     ---       #31
+      01001931H   LINE      CODE     ---       #34
+      01001937H   LINE      CODE     ---       #35
+      0100193EH   LINE      CODE     ---       #38
+      01001944H   LINE      CODE     ---       #39
+      0100194BH   LINE      CODE     ---       #41
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001B31H   BLOCK     CODE     ---       LVL=0
+      01001B31H   LINE      CODE     ---       #44
+      01001B31H   LINE      CODE     ---       #45
+      01001B31H   LINE      CODE     ---       #47
+      01001B34H   LINE      CODE     ---       #48
+      01001B37H   LINE      CODE     ---       #49
+      01001B39H   LINE      CODE     ---       #50
+      01001B3CH   LINE      CODE     ---       #51
+      01001B40H   LINE      CODE     ---       #52
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001A44H   BLOCK     CODE     ---       LVL=0
+      01001A44H   LINE      CODE     ---       #53
+      01001A4AH   LINE      CODE     ---       #55
+      01001A4FH   LINE      CODE     ---       #56
+      01001A4FH   LINE      CODE     ---       #57
+      01001A52H   LINE      CODE     ---       #59
+      01001A58H   LINE      CODE     ---       #60
+      01001A58H   LINE      CODE     ---       #61
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001AFEH   BLOCK     CODE     ---       LVL=0
+      01001AFEH   LINE      CODE     ---       #64
+      01001AFEH   LINE      CODE     ---       #65
+      01001AFEH   LINE      CODE     ---       #67
+      01001B01H   LINE      CODE     ---       #68
+      01001B04H   LINE      CODE     ---       #69
+      01001B06H   LINE      CODE     ---       #70
+      01001B09H   LINE      CODE     ---       #71
+      01001B0EH   LINE      CODE     ---       #72
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001A5FH   BLOCK     CODE     ---       LVL=0
+      01001A5FH   LINE      CODE     ---       #73
+      01001A65H   LINE      CODE     ---       #75
+      01001A6AH   LINE      CODE     ---       #76
+      01001A6AH   LINE      CODE     ---       #77
+      01001A6DH   LINE      CODE     ---       #78
+      01001A73H   LINE      CODE     ---       #79
+      01001A73H   LINE      CODE     ---       #80
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001B0FH   BLOCK     CODE     ---       LVL=0
+      01001B0FH   LINE      CODE     ---       #84
+      01001B0FH   LINE      CODE     ---       #85
+      01001B0FH   LINE      CODE     ---       #87
+      01001B12H   LINE      CODE     ---       #88
+      01001B15H   LINE      CODE     ---       #89
+      01001B17H   LINE      CODE     ---       #90
+      01001B1AH   LINE      CODE     ---       #91
+      01001B1FH   LINE      CODE     ---       #92
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001A7AH   BLOCK     CODE     ---       LVL=0
+      01001A7AH   LINE      CODE     ---       #93
+      01001A80H   LINE      CODE     ---       #95
+      01001A85H   LINE      CODE     ---       #96
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 69
+
+
+      01001A85H   LINE      CODE     ---       #97
+      01001A88H   LINE      CODE     ---       #98
+      01001A8EH   LINE      CODE     ---       #99
+      01001A8EH   LINE      CODE     ---       #100
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001B20H   BLOCK     CODE     ---       LVL=0
+      01001B20H   LINE      CODE     ---       #104
+      01001B20H   LINE      CODE     ---       #105
+      01001B20H   LINE      CODE     ---       #107
+      01001B23H   LINE      CODE     ---       #108
+      01001B26H   LINE      CODE     ---       #109
+      01001B28H   LINE      CODE     ---       #110
+      01001B2BH   LINE      CODE     ---       #111
+      01001B30H   LINE      CODE     ---       #112
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01001A95H   BLOCK     CODE     ---       LVL=0
+      01001A95H   LINE      CODE     ---       #113
+      01001A9BH   LINE      CODE     ---       #115
+      01001AA0H   LINE      CODE     ---       #116
+      01001AA0H   LINE      CODE     ---       #117
+      01001AA3H   LINE      CODE     ---       #118
+      01001AA9H   LINE      CODE     ---       #119
+      01001AA9H   LINE      CODE     ---       #120
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      01000DB9H   BLOCK     CODE     ---       LVL=0
+      01000DB9H   BLOCK     CODE     NEAR LAB  LVL=1
+      02000010H   SYMBOL    XDATA    BYTE      Key1Flag
+      02000011H   SYMBOL    XDATA    BYTE      Key2Flag
+      02000012H   SYMBOL    XDATA    BYTE      Key3Flag
+      00000007H   SYMBOL    DATA     BYTE      Key4Flag
+      02000247H   SYMBOL    XDATA    WORD      times4
+      02000249H   SYMBOL    XDATA    WORD      times3
+      0200024BH   SYMBOL    XDATA    WORD      times2
+      0200024DH   SYMBOL    XDATA    WORD      times1
+      ---         BLOCKEND  ---      ---       LVL=1
+      01000DB9H   LINE      CODE     ---       #125
+      01000DB9H   LINE      CODE     ---       #126
+      01000DB9H   LINE      CODE     ---       #127
+      01000DC3H   LINE      CODE     ---       #129
+      01000DCEH   LINE      CODE     ---       #130
+      01000DCEH   LINE      CODE     ---       #131
+      01000DD1H   LINE      CODE     ---       #132
+      01000DD1H   LINE      CODE     ---       #133
+      01000DDFH   LINE      CODE     ---       #134
+      01000DDFH   LINE      CODE     ---       #135
+      01000DEEH   LINE      CODE     ---       #136
+      01000DEEH   LINE      CODE     ---       #137
+      01000DF5H   LINE      CODE     ---       #138
+      01000DF5H   LINE      CODE     ---       #139
+      01000DF7H   LINE      CODE     ---       #141
+      01000DF7H   LINE      CODE     ---       #142
+      01000DFCH   LINE      CODE     ---       #143
+      01000E0CH   LINE      CODE     ---       #144
+      01000E0EH   LINE      CODE     ---       #145
+      01000E1CH   LINE      CODE     ---       #146
+      01000E1CH   LINE      CODE     ---       #147
+      01000E1FH   LINE      CODE     ---       #148
+      01000E1FH   LINE      CODE     ---       #149
+      01000E1FH   LINE      CODE     ---       #150
+      01000E21H   LINE      CODE     ---       #151
+      01000E35H   LINE      CODE     ---       #152
+      01000E35H   LINE      CODE     ---       #153
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 70
+
+
+      01000E3AH   LINE      CODE     ---       #154
+      01000E41H   LINE      CODE     ---       #155
+      01000E41H   LINE      CODE     ---       #156
+      01000E41H   LINE      CODE     ---       #157
+      01000E59H   LINE      CODE     ---       #158
+      01000E59H   LINE      CODE     ---       #159
+      01000E59H   LINE      CODE     ---       #160
+      01000E64H   LINE      CODE     ---       #161
+      01000E64H   LINE      CODE     ---       #162
+      01000E67H   LINE      CODE     ---       #163
+      01000E67H   LINE      CODE     ---       #164
+      01000E75H   LINE      CODE     ---       #165
+      01000E7AH   LINE      CODE     ---       #166
+      01000E8CH   LINE      CODE     ---       #167
+      01000E8CH   LINE      CODE     ---       #168
+      01000E93H   LINE      CODE     ---       #169
+      01000E99H   LINE      CODE     ---       #170
+      01000E99H   LINE      CODE     ---       #171
+      01000E9BH   LINE      CODE     ---       #173
+      01000E9BH   LINE      CODE     ---       #174
+      01000EA0H   LINE      CODE     ---       #175
+      01000EB0H   LINE      CODE     ---       #176
+      01000EB6H   LINE      CODE     ---       #177
+      01000EC7H   LINE      CODE     ---       #178
+      01000EC7H   LINE      CODE     ---       #179
+      01000ECAH   LINE      CODE     ---       #180
+      01000ECAH   LINE      CODE     ---       #181
+      01000ECAH   LINE      CODE     ---       #182
+      01000ECCH   LINE      CODE     ---       #183
+      01000EE3H   LINE      CODE     ---       #184
+      01000EE3H   LINE      CODE     ---       #185
+      01000EE8H   LINE      CODE     ---       #186
+      01000EEFH   LINE      CODE     ---       #187
+      01000EF3H   LINE      CODE     ---       #188
+      01000EF3H   LINE      CODE     ---       #189
+      01000F0BH   LINE      CODE     ---       #190
+      01000F0BH   LINE      CODE     ---       #191
+      01000F0BH   LINE      CODE     ---       #192
+      01000F1FH   LINE      CODE     ---       #193
+      01000F1FH   LINE      CODE     ---       #194
+      01000F24H   LINE      CODE     ---       #195
+      01000F24H   LINE      CODE     ---       #196
+      01000F2FH   LINE      CODE     ---       #197
+      01000F2FH   LINE      CODE     ---       #198
+      01000F32H   LINE      CODE     ---       #199
+      01000F32H   LINE      CODE     ---       #200
+      01000F40H   LINE      CODE     ---       #201
+      01000F45H   LINE      CODE     ---       #202
+      01000F54H   LINE      CODE     ---       #203
+      01000F54H   LINE      CODE     ---       #204
+      01000F5BH   LINE      CODE     ---       #205
+      01000F61H   LINE      CODE     ---       #206
+      01000F61H   LINE      CODE     ---       #207
+      01000F63H   LINE      CODE     ---       #209
+      01000F63H   LINE      CODE     ---       #210
+      01000F68H   LINE      CODE     ---       #211
+      01000F78H   LINE      CODE     ---       #212
+      01000F7EH   LINE      CODE     ---       #213
+      01000F8FH   LINE      CODE     ---       #214
+      01000F8FH   LINE      CODE     ---       #215
+      01000F92H   LINE      CODE     ---       #216
+      01000F92H   LINE      CODE     ---       #217
+      01000F92H   LINE      CODE     ---       #218
+      01000F94H   LINE      CODE     ---       #219
+      01000FABH   LINE      CODE     ---       #220
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 71
+
+
+      01000FABH   LINE      CODE     ---       #221
+      01000FB0H   LINE      CODE     ---       #222
+      01000FB7H   LINE      CODE     ---       #223
+      01000FBBH   LINE      CODE     ---       #224
+      01000FBBH   LINE      CODE     ---       #225
+      01000FD3H   LINE      CODE     ---       #226
+      01000FD3H   LINE      CODE     ---       #227
+      01000FD3H   LINE      CODE     ---       #228
+      01000FE7H   LINE      CODE     ---       #229
+      01000FE7H   LINE      CODE     ---       #230
+      01000FECH   LINE      CODE     ---       #231
+      01000FECH   LINE      CODE     ---       #232
+      01000FF7H   LINE      CODE     ---       #233
+      01000FF7H   LINE      CODE     ---       #234
+      01000FFAH   LINE      CODE     ---       #235
+      01000FFAH   LINE      CODE     ---       #236
+      01001008H   LINE      CODE     ---       #237
+      0100100DH   LINE      CODE     ---       #238
+      0100101CH   LINE      CODE     ---       #239
+      0100101CH   LINE      CODE     ---       #240
+      01001023H   LINE      CODE     ---       #241
+      01001023H   LINE      CODE     ---       #242
+      01001024H   LINE      CODE     ---       #244
+      01001024H   LINE      CODE     ---       #245
+      01001029H   LINE      CODE     ---       #246
+      01001039H   LINE      CODE     ---       #247
+      0100103FH   LINE      CODE     ---       #248
+      01001050H   LINE      CODE     ---       #249
+      01001050H   LINE      CODE     ---       #250
+      01001053H   LINE      CODE     ---       #251
+      01001053H   LINE      CODE     ---       #252
+      01001053H   LINE      CODE     ---       #253
+      01001055H   LINE      CODE     ---       #254
+      0100106CH   LINE      CODE     ---       #255
+      0100106CH   LINE      CODE     ---       #256
+      01001071H   LINE      CODE     ---       #257
+      01001078H   LINE      CODE     ---       #258
+      0100107CH   LINE      CODE     ---       #259
+      0100107CH   LINE      CODE     ---       #260
+      01001094H   LINE      CODE     ---       #261
+      01001094H   LINE      CODE     ---       #262
+      01001094H   LINE      CODE     ---       #263
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_STARTUP
@@ -4366,7 +4815,7 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000000H   SYMBOL    NUMBER   ---       IBPSTACK
       00000100H   SYMBOL    NUMBER   ---       IBPSTACKTOP
       00000080H   SYMBOL    NUMBER   ---       IDATALEN
-      010012FFH   SYMBOL    CODE     ---       IDATALOOP
+      01001575H   SYMBOL    CODE     ---       IDATALOOP
       00000000H   SYMBOL    NUMBER   ---       PBPSTACK
       00000100H   SYMBOL    NUMBER   ---       PBPSTACKTOP
       00000000H   SYMBOL    NUMBER   ---       PDATALEN
@@ -4375,18 +4824,21 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       00000000H   SYMBOL    NUMBER   ---       PPAGEENABLE
       000000A0H   SYMBOL    DATA     ---       PPAGE_SFR
       00000081H   SYMBOL    DATA     ---       SP
-      010012FCH   SYMBOL    CODE     ---       STARTUP1
+      01001572H   SYMBOL    CODE     ---       STARTUP1
       00000000H   SYMBOL    NUMBER   ---       XBPSTACK
       00000000H   SYMBOL    NUMBER   ---       XBPSTACKTOP
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 72
+
+
       00000000H   SYMBOL    NUMBER   ---       XDATALEN
       00000000H   SYMBOL    NUMBER   ---       XDATASTART
       01000000H   LINE      CODE     ---       #126
-      010012FCH   LINE      CODE     ---       #133
-      010012FEH   LINE      CODE     ---       #134
-      010012FFH   LINE      CODE     ---       #135
-      01001300H   LINE      CODE     ---       #136
-      01001302H   LINE      CODE     ---       #185
-      01001305H   LINE      CODE     ---       #196
+      01001572H   LINE      CODE     ---       #133
+      01001574H   LINE      CODE     ---       #134
+      01001575H   LINE      CODE     ---       #135
+      01001576H   LINE      CODE     ---       #136
+      01001578H   LINE      CODE     ---       #185
+      0100157BH   LINE      CODE     ---       #196
 
       ---         MODULE    ---      ---       ?C?FPADD
       01000075H   PUBLIC    CODE     ---       ?C?FPADD
@@ -4408,8 +4860,8 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       01000385H   PUBLIC    CODE     ---       ?C?FCASTL
 
       ---         MODULE    ---      ---       VSPRINTF
-      0201014EH   PUBLIC    XDATA    ---       ?_VSPRINTF?BYTE
-      0100160CH   PUBLIC    CODE     ---       _VSPRINTF
+      0201014CH   PUBLIC    XDATA    ---       ?_VSPRINTF?BYTE
+      01001887H   PUBLIC    CODE     ---       _VSPRINTF
 
       ---         MODULE    ---      ---       ?C?FPGETOPN
       010003C3H   PUBLIC    CODE     ---       ?C?FPGETOPN2
@@ -4419,12 +4871,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       010003EEH   PUBLIC    CODE     ---       ?C?FPRESULT2
       010003FFH   PUBLIC    CODE     ---       ?C?FPUNDERFLOW
 
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 66
-
-
       ---         MODULE    ---      ---       PRINTF
-      02000157H   PUBLIC    XDATA    ---       ?_PRINTF?BYTE
-      02000157H   PUBLIC    XDATA    ---       ?_SPRINTF?BYTE
+      02000155H   PUBLIC    XDATA    ---       ?_PRINTF?BYTE
+      02000155H   PUBLIC    XDATA    ---       ?_SPRINTF?BYTE
       010009A1H   PUBLIC    CODE     ---       _PRINTF
       0100099BH   PUBLIC    CODE     ---       _SPRINTF
 
@@ -4438,13 +4887,16 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       0100057FH   PUBLIC    CODE     ---       ?C?FTNPWR
 
       ---         MODULE    ---      ---       ?C_INIT
-      01001343H   PUBLIC    CODE     ---       ?C_START
+      010015B9H   PUBLIC    CODE     ---       ?C_START
 
       ---         MODULE    ---      ---       ?C?CLDPTR
       010005BFH   PUBLIC    CODE     ---       ?C?CLDPTR
 
       ---         MODULE    ---      ---       ?C?CLDOPTR
       010005D8H   PUBLIC    CODE     ---       ?C?CLDOPTR
+
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 73
+
 
       ---         MODULE    ---      ---       ?C?CSTPTR
       01000605H   PUBLIC    CODE     ---       ?C?CSTPTR
@@ -4487,12 +4939,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 
       ---         MODULE    ---      ---       ?C?CCASE
       0100088EH   PUBLIC    CODE     ---       ?C?CCASE
-LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  12:55:01  PAGE 67
-
-
 
       ---         MODULE    ---      ---       PUTCHAR
-      010016D8H   PUBLIC    CODE     ---       _PUTCHAR
+      010019D9H   PUBLIC    CODE     ---       _PUTCHAR
 
       ---         MODULE    ---      ---       ?C?LLDIDATA
       010008B4H   PUBLIC    CODE     ---       ?C?LLDIDATA
@@ -4514,6 +4963,9 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
 
       ---         MODULE    ---      ---       ?C?LLDPDATA0
       01000901H   PUBLIC    CODE     ---       ?C?LLDPDATA0
+LX51 LINKER/LOCATER V4.66.97.0                                                        06/24/2023  17:53:29  PAGE 74
+
+
 
       ---         MODULE    ---      ---       ?C?LLDCODE0
       0100090EH   PUBLIC    CODE     ---       ?C?LLDCODE0
@@ -4524,5 +4976,5 @@ SYMBOL TABLE OF MODULE:  .\output\CA51F252L3-ZigBee (UART)
       ---         MODULE    ---      ---       ?C?LSTPDATA
       0100092AH   PUBLIC    CODE     ---       ?C?LSTPDATA
 
-Program Size: data=15.4 xdata=822 const=184 code=6233
+Program Size: data=15.5 xdata=843 const=205 code=6969
 LX51 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

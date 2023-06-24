@@ -102,11 +102,20 @@ void RTC_WriteWeek(unsigned char week) //hour = 1~7代表星期一~星期天, 如果week =
 *********************************************************************************************************************/
 bit HalfSecFlag;
 bit AlarmEvFlag;
+bit millisecondFlag;
+uint8_t times10 = 0,times10Flag = 0;
 void RTC_ISR (void) interrupt 13 	 
 {
 	if(RTCIF & RTC_MF)			//毫秒中断
 	{
-		RTCIF = RTC_MF;			
+		RTCIF = RTC_MF;	
+		millisecondFlag = 1;
+		times10++;
+		if(times10 >= 10)
+		{
+			times10 = 0;
+			times10Flag = 1;
+		}
 	}
 	if(RTCIF & RTC_HF)			//半秒中断
 	{

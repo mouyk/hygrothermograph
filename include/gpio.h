@@ -10,9 +10,6 @@
 
 void PWM6_init(void);
 void GPIO_init(void);
-void INT2_Init(void);
-void INT3_Init(void);
-void INT4_Init(void);
-void INT5_Init(void);
+
 
 #endif

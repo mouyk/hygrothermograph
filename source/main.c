@@ -12,6 +12,7 @@
 #include "include/lcd_led.h"
 #include "include/delay.h"
 #include "include/lcd.h"
+#include "include/key.h"
 #include "include/gpio.h"
 #include "include/gxhtc.h"
 #include "include/rtc.h"
@@ -25,16 +26,16 @@
 	重要提示：
 	在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象。
 *********************************************************************************************************************/			
-extern uint8_t key_value;
 
 void main(void)
 {
 extern float GXHTC3_temp,GXHTC3_humi;
 extern bit HalfSecFlag;
-extern bit AlarmEvFlag;	
+extern bit AlarmEvFlag;
+extern bit millisecondFlag;
+extern uint8_t times10Flag;
 	unsigned char i;
 	uint8_t ab = 0;
-	uint16_t times = 0;
 	uint16_t a,b,c,d,e,f,g=0;
 #ifdef LVD_RST_ENABLE
 	LVDCON = 0xE1;					//设置LVD复位电压为2V
@@ -98,6 +99,7 @@ extern bit AlarmEvFlag;
 GXHTC3_INIT();	
 PWM6_init();
 GPIO_init();
+KEY_init();
 INT2_Init();
 INT3_Init();
 INT4_Init();
@@ -112,23 +114,12 @@ RTC_Set(2023,6,17,14,37,0);
 //		PWMEN  = (1<<PWM_CH6);		//PWM6使能		
 //		Delay_ms(10);
 //		PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
-//		Delay_ms(1000);		
-		if(40==key_value)
+//		Delay_ms(1000);	
+		if(times10Flag ==1)
 		{
-			if(P40 == 0)
-			{
-				times++;
-			}
-			else
-			{
-				key_value=0;
-				uart_printf("%Key1 times=%d\n",times);	
-//			uart_printf("Key1=S4\n");
-			}
+			times10Flag = 0;
+			Key_Scanf();
 		}
-		if(41==key_value){key_value=0;	uart_printf("Key2=S3\n");};		
-		if(42==key_value){key_value=0;	uart_printf("Key3=S2\n");};		
-		if(43==key_value){key_value=0;	uart_printf("Key4=S1\n");};	
 		if(ab == 0)
 			{
 				P32F = OUTPUT;					//P32设置为推挽输出模式	

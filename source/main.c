@@ -34,6 +34,7 @@ extern bit HalfSecFlag;
 extern bit AlarmEvFlag;	
 	unsigned char i;
 	uint8_t ab = 0;
+	uint16_t times = 0;
 	uint16_t a,b,c,d,e,f,g=0;
 #ifdef LVD_RST_ENABLE
 	LVDCON = 0xE1;					//设置LVD复位电压为2V
@@ -112,7 +113,19 @@ RTC_Set(2023,6,17,14,37,0);
 //		Delay_ms(10);
 //		PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
 //		Delay_ms(1000);		
-		if(40==key_value){key_value=0;	uart_printf("Key1=S4\n");};
+		if(40==key_value)
+		{
+			if(P40 == 0)
+			{
+				times++;
+			}
+			else
+			{
+				key_value=0;
+				uart_printf("%Key1 times=%d\n",times);	
+//			uart_printf("Key1=S4\n");
+			}
+		}
 		if(41==key_value){key_value=0;	uart_printf("Key2=S3\n");};		
 		if(42==key_value){key_value=0;	uart_printf("Key3=S2\n");};		
 		if(43==key_value){key_value=0;	uart_printf("Key4=S1\n");};	

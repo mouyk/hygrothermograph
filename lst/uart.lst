@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 1   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
@@ -62,7 +62,7 @@ line level    source
               //  TMOD = (TMOD&0xCF)|0x20;
               //  TH1 = 0xff;   //19200
               //  TL1 = 0xff;
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 2   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 2   
 
               //  ET1=0;
               //  TR1=1;    
@@ -126,7 +126,7 @@ line level    source
                   if(uart0_send.head!=uart0_send.tail)
                   {
                     uart0_send.tail++;
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 3   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 3   
 
                     uart0_send.tail %= UART0_TX_BUF_SIZE;
                     S0BUF=uart0_tx_buf[uart0_send.tail];        
@@ -190,7 +190,7 @@ line level    source
  170   4              uart1_send.tail %= UART1_TX_BUF_SIZE;   
  171   4              S1BUF = uart1_tx_buf[uart1_send.tail];        
  172   4              uart1_tx_flag = 1;    
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 4   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 4   
 
  173   4            }
  174   3            else
@@ -254,7 +254,7 @@ line level    source
                 while(1)
                 {   
                   tail_tmp = uart2_send.tail;
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 5   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 5   
 
                   if(uart2_send.head < tail_tmp)
                   {
@@ -318,7 +318,7 @@ line level    source
  294              #define Uart_PutChar  Uart1_PutChar
  295            #elif defined  UART2_PRINT
                   #define Uart_PutChar  Uart2_PutChar
-C51 COMPILER V9.60.0.0   UART                                                              06/18/2023 14:55:43 PAGE 6   
+C51 COMPILER V9.60.0.0   UART                                                              06/24/2023 12:55:00 PAGE 6   
 
                 #endif
  298          void UartPutStr(char *str)

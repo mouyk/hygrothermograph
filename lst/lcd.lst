@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 1   
+C51 COMPILER V9.60.0.0   LCD                                                               06/24/2023 12:55:00 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LCD
@@ -62,7 +62,7 @@ line level    source
   46   1        P34F = OUTPUT; 
   47   1        P35F = OUTPUT;  
   48   1        P56F = OUTPUT; 
-C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 2   
+C51 COMPILER V9.60.0.0   LCD                                                               06/24/2023 12:55:00 PAGE 2   
 
   49   1        P50F = OUTPUT;
   50   1        P51F = OUTPUT;
@@ -126,7 +126,7 @@ line level    source
  108   1        
  109   1        P07F = P07_LCD_SEG32_SETTING; 
  110   1        P06F = P06_LCD_SEG33_SETTING;
-C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 3   
+C51 COMPILER V9.60.0.0   LCD                                                               06/24/2023 12:55:00 PAGE 3   
 
  111   1      
  112   1      

@@ -1,0 +1,190 @@
+C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LCD
+OBJECT MODULE PLACED IN .\output\lcd.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE source\lcd.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\sour
+                    -ce;.\include) DEBUG PRINT(.\lst\lcd.lst) TABS(2) OBJECT(.\output\lcd.obj)
+
+line level    source
+
+   1          
+   2          #ifndef _LCD_C_
+   3          #define _LCD_C_
+   4          /*********************************************************************************************************
+             -************/
+   5          #include "include/ca51f_config.h"   
+   6          #include "include/ca51f2sfr.h"
+   7          #include "include/ca51f2xsfr.h"
+   8          #include "include/gpiodef_f2.h"
+   9          #include "include/system_clock.h"
+  10          
+  11          #include "include/uart.h"
+  12          #include "include/lcd_led.h"
+  13          #include "include/delay.h"
+  14          #include "include/lcd.h"
+*** WARNING C318 IN LINE 14 OF source\lcd.c: can't open file 'include/lcd.h'
+  15          #include <intrins.h>
+  16          /*********************************************************************************************************
+             -************      
+  17            本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
+  18            
+  19            重要提示：
+  20            在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象
+             -。
+  21          **********************************************************************************************************
+             -***********/      
+  22          void LCD_Off(void)
+  23          {
+  24   1        //在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现
+             -象。
+  25   1        P00 = 0;
+  26   1        P01 = 0;
+  27   1        P02 = 0;
+  28   1        P03 = 0;   
+  29   1             
+  30   1        P57 = 0;
+  31   1        P34 = 0; 
+  32   1        P35 = 0;  
+  33   1        P56 = 0; 
+  34   1        P50 = 0;
+  35   1        P51 = 0;
+  36   1        P52 = 0; 
+  37   1        P53 = 0;
+  38   1        P54 = 0;
+  39   1        
+  40   1        P00F = OUTPUT;
+  41   1        P01F = OUTPUT;
+  42   1        P02F = OUTPUT;
+  43   1        P03F = OUTPUT;   
+  44   1             
+  45   1        P57F = OUTPUT;
+  46   1        P34F = OUTPUT; 
+  47   1        P35F = OUTPUT;  
+  48   1        P56F = OUTPUT; 
+C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 2   
+
+  49   1        P50F = OUTPUT;
+  50   1        P51F = OUTPUT;
+  51   1        P52F = OUTPUT; 
+  52   1        P53F = OUTPUT;
+  53   1        P54F = OUTPUT;
+  54   1        
+  55   1        LXCON = 0;            //关闭LCD功能
+  56   1      }
+  57          
+  58          void Lcd_init(void)
+  59          {
+  60   1        unsigned char i;
+  61   1        EA = 1;                         //开全局中断
+  62   1      
+  63   1      #ifdef PRINT_EN
+  64   1        uart_printf("LCD Power Saving Mode Demo Code\n");
+  65   1      #endif
+  66   1      
+  67   1          //初始化LCD驱动引脚
+  68   1        P00F = P00_COM0_SETTING;
+  69   1        P01F = P01_COM1_SETTING;
+  70   1        P02F = P02_COM2_SETTING;
+  71   1        P03F = P03_COM3_SETTING;   
+  72   1             
+  73   1        P57F = P57_SEG0_SETTING;
+  74   1        P34F = P34_SEG1_SETTING; 
+  75   1        P35F = P35_SEG2_SETTING;  
+  76   1        P56F = P56_SEG3_SETTING; 
+  77   1        P50F = P50_SEG4_SETTING;
+  78   1        P51F = P51_SEG5_SETTING;
+  79   1        P52F = P52_SEG6_SETTING; 
+  80   1        P53F = P53_SEG7_SETTING;
+  81   1        
+  82   1        P54F = P54_SEG8_SETTING;
+  83   1        P55F = P55_SEG9_SETTING;
+  84   1        P60F = P60_SEG10_SETTING; 
+  85   1        P61F = P61_SEG11_SETTING;
+  86   1        P62F = P62_SEG12_SETTING;   
+  87   1        P63F = P63_SEG13_SETTING; 
+  88   1        P64F = P64_SEG14_SETTING; 
+  89   1        P65F = P65_SEG15_SETTING; 
+  90   1      
+  91   1        P10F = P10_SEG16_SETTING; 
+  92   1        P11F = P11_SEG17_SETTING; 
+  93   1        P12F = P12_SEG18_SETTING; 
+  94   1        P13F = P13_SEG19_SETTING; 
+  95   1        P14F = P14_SEG20_SETTING; 
+  96   1        P15F = P15_SEG21_SETTING; 
+  97   1        P16F = P16_SEG22_SETTING; 
+  98   1        P17F = P17_SEG23_SETTING; 
+  99   1        
+ 100   1        P27F = P27_SEG24_SETTING; 
+ 101   1        P26F = P26_SEG25_SETTING; 
+ 102   1        P25F = P25_SEG26_SETTING; 
+ 103   1        P24F = P24_SEG27_SETTING; 
+ 104   1        P23F = P23_SEG28_SETTING; 
+ 105   1        P22F = P22_SEG29_SETTING; 
+ 106   1        P21F = P21_SEG30_SETTING; 
+ 107   1        P20F = P20_SEG31_SETTING; 
+ 108   1        
+ 109   1        P07F = P07_LCD_SEG32_SETTING; 
+ 110   1        P06F = P06_LCD_SEG33_SETTING;
+C51 COMPILER V9.60.0.0   LCD                                                               06/18/2023 14:55:43 PAGE 3   
+
+ 111   1      
+ 112   1      
+ 113   1        //LCD RAM清零
+ 114   1        for(i = 0; i < 9; i++)
+ 115   1        {
+ 116   2          INDEX = i;
+ 117   2          LXDAT = 0;
+ 118   2        }
+ 119   1        
+ 120   1        P72F = P72_XOSCL_IN_SETTING;      //设置P72为晶振引脚
+ 121   1        P71F = P71_XOSCL_OUT_SETTING;     //设置P71为晶振引脚
+ 122   1        CKCON |= XLCKE;             //使能XSOCL
+ 123   1        while(!(CKCON & XLSTA));        //等待XSOCL稳定
+ 124   1        
+ 125   1      //  CKCON |= ILCKE;             //使能IRCL
+ 126   1      
+ 127   1        LXDIVH = 0;       //设置LCD时钟分频，目标帧频率为64HZ
+ 128   1        LXDIVL = 0; 
+ 129   1        LXCAD = 0;
+ 130   1        LXCFG =  DMOD(DMOD_5ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);      //设置LCD驱动电流、偏压(bias)、辉度
+ 131   1        LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);             //设置LCD时钟源为XOSCL，选择LCD模式
+ 132   1      //  LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);              //设置LCD时钟源为IRCL，选择LCD模式
+ 133   1        
+ 134   1        //设置LCD全显
+ 135   1        for(i = 0; i < 34; i++)
+ 136   1        {
+ 137   2          INDEX = i;
+ 138   2          LXDAT = 0xFF;
+ 139   2        }
+ 140   1      
+ 141   1      //  LCD_Off();
+ 142   1        
+ 143   1        I2CCON = 0;           //关闭I2C，否则系统时钟无法关闭
+ 144   1        CKCON = XLCKE;          //关闭除LCD时钟外的其他时钟
+ 145   1      //  CKCON = ILCKE;  
+ 146   1        PWCON &= ~0x08;         //LDO进入低功率模式
+ 147   1        
+ 148   1        PCON = (PCON&0x84) | 0x02;      //进入STOP模式
+ 149   1        _nop_();
+ 150   1      
+ 151   1      }
+ 152          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    352    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

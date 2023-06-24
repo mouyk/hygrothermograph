@@ -1,0 +1,17 @@
+".\output\uart.obj",
+".\output\main.obj",
+".\output\delay.obj",
+".\output\system_clock.obj",
+".\output\lcd.obj",
+".\output\gpio.obj",
+".\output\gxhtc.obj",
+".\output\Disp.obj",
+".\output\buzzer.obj",
+".\output\adc.obj",
+".\output\rtc.obj",
+".\output\STARTUP.obj" 
+TO ".\output\CA51F252L3-ZigBee" 
+
+PRINT(".\lst\CA51F252L3-ZigBee.map") REMOVEUNUSED 
+CLASSES (XDATA (X:0x0-X:0x7FFF), HDATA (X:0x0-X:0x7FFF), CODE (C:0x0-C:0x7FFF), CONST (C:0x0-C:0x7FFF), 
+ECODE (C:0x0-C:0x7FFF), HCONST (C:0x0-C:0x7FFF)) 

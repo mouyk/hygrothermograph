@@ -1,0 +1,86 @@
+C51 COMPILER V9.60.0.0   BUZZER                                                            06/18/2023 14:55:43 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BUZZER
+OBJECT MODULE PLACED IN .\output\buzzer.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE source\buzzer.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\s
+                    -ource;.\include) DEBUG PRINT(.\lst\buzzer.lst) TABS(2) OBJECT(.\output\buzzer.obj)
+
+line level    source
+
+   1          
+   2          #ifndef _GPIO_C_
+   3          #define _GPIO_C_
+   4          /*********************************************************************************************************
+             -************/
+   5          #include "include/ca51f_config.h"   
+   6          #include "include/ca51f2sfr.h"
+   7          #include "include/ca51f2xsfr.h"
+   8          #include "include/gpiodef_f2.h"
+   9          #include "include/system_clock.h"
+  10          
+  11          #include "include/uart.h"
+  12          #include "include/lcd_led.h"
+  13          #include "include/delay.h"
+  14          #include "include/gpio.h"
+  15          #include "include/pwm.h"
+  16          #include <intrins.h>
+  17          /*********************************************************************************************************
+             -************      
+  18          
+  19          
+  20          
+  21          **********************************************************************************************************
+             -***********/  
+  22          //#define PWMDIV_V        (3686400/2700)    //当PWM时钟为其他时钟频率时，需相应修改参数
+  23          //#define PWMDUT_V        (PWMDIV_V/2)    //占空比为50%
+  24          /*****************************************************************************
+  25           ** \brief   PWM6_init  
+  26                 蜂鸣器输出控制 P33 PWM6  2.7K 占空比50%
+  27           ** \param   [in] none       
+  28           ** \return   none
+  29          *****************************************************************************/
+  30          void PWM6_init(void)
+  31          {
+  32   1      /* 蜂鸣器输出控制 P33 PWM*/ 
+  33   1        P33F = P33_PWM6_SETTING;    //P33设置为PWM 输出模式
+  34   1        P33  = 0;           //默认蜂鸣器关闭
+  35   1        
+  36   1        INDEX = PWM_CH6;
+  37   1        PWMCON = TIE(0) | ZIE(0) | PIE(0) | NIE(0) | MS(0) | MOD(0);    //设置PWM时钟源为IRCH  
+  38   1        PWMCFG = TOG(0) | 0;
+  39   1        //设置PWMDIV、PWMDUT
+  40   1        PWMDIVH = (unsigned char)(PWMDIV_V>>8);     
+  41   1        PWMDIVL = (unsigned char)(PWMDIV_V);      
+  42   1        PWMDUTH = (unsigned char)(PWMDUT_V>>8);   
+  43   1        PWMDUTL = (unsigned char)(PWMDUT_V);  
+  44   1      //--------------------------------------------------------------------------------------------- 
+  45   1      
+  46   1        PWMUPD = (1<<PWM_CH6);    //PWMDIV、PWMDUT更新使能
+  47   1        while(PWMUPD);        //等待更新完成
+  48   1        PWMEN  = ~(1<<PWM_CH6);   //PWM6使能  
+  49   1        
+  50   1      }
+  51          
+C51 COMPILER V9.60.0.0   BUZZER                                                            06/18/2023 14:55:43 PAGE 2   
+
+  52          
+  53          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     39    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

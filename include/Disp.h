@@ -31,7 +31,7 @@
 // SEG13 INDEX13 月 个位
 // SEG14 INDEX14 月 个位
 #define month1              		0x01            //月十位1	   INDEX 14
-// SEG15 INDEX15 日 十位  3:0X0E  2:0x07  1:0xC0 0:0x00
+// SEG15 INDEX15 日 十位  3:0X0E  2:0x07  1:0x0C 0:0x00
 // SEG16 INDEX16 日 个位
 // SEG17 INDEX17 日 个位
 #define thursday              		0x01            //星期4		   INDEX 17

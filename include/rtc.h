@@ -36,7 +36,7 @@ void RTC_WriteMinute(unsigned char minute);
 void RTC_WriteHour(unsigned char hour);
 void RTC_WriteWeek(unsigned char week);
 void RTC_init(void);
-
+uint8_t RTC_Daysmonth(uint16_t year, uint8_t month);
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 uint8_t RTC_Get( void );

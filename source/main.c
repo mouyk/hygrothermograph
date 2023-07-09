@@ -112,7 +112,7 @@ INT4_Init();
 INT5_Init();
 RTC_init();
 ADC_init();
-RTC_Set(2023,6,19,12,04,41);
+RTC_Set(2023,7,11,12,04,41);
 Lcd_init();
 
 //zigbee_protocol_init();
@@ -172,18 +172,11 @@ Lcd_init();
 			
 			UpdateNixieTubeRAMA(f/10,5);
 			UpdateNixieTubeRAMA(f%10,7);
-			a=a-2000;
-			UpdateNixieTubeRAMA(a/10,9);
-			UpdateNixieTubeRAMA(a%10,11);	
 
-			lcd_ram[10] |=0x01;
-			Lcd_Colon(0);
-				
-			UpdateNixieTubeRAMA(b%10,13);	
-			
-			UpdateNixieTubeRAMA(c/10,15);	
-			UpdateNixieTubeRAMA(c%10,16);	
+			Lcd_Colon(1);
+			Lcd_IconFunction();
 			Lcd_Humiture();
+			Lcd_DateFunction(calendar.w_year,calendar.w_month,calendar.w_date);
 //			g=calendar.sec;
 //			uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g);	
 //			mcu_join_zigbee();

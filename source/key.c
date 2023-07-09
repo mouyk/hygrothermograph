@@ -127,7 +127,7 @@ void Key_Scanf(void)
 {
 	uint8_t Key1Flag = 0,Key2Flag = 0,Key3Flag = 0,Key4Flag = 0;
 	static uint16_t times4 = 0,times3 = 0,times2 = 0,times1 = 0;
-	if(40==key_value4)																						//key4   S4
+	if(40==key_value4)																						//key4   S4     减号
 		{
 			if(P40 == 0)
 			{
@@ -158,7 +158,7 @@ void Key_Scanf(void)
 				uart_printf("%Key1 times=%d\n",times4);	
 			}
 		}
-		if(41==key_value3)																						//key3   S3
+		if(41==key_value3)																						//key3   S3        模式
 		{
 			if(P41 == 0)
 			{
@@ -194,7 +194,7 @@ void Key_Scanf(void)
 		{
 			Hold_down1 = 1;
 		}
-		if(42==key_value2)																						//key2   S2
+		if(42==key_value2)																						//key2   S2        加号
 		{
 			if(P42 == 0)
 			{
@@ -230,7 +230,7 @@ void Key_Scanf(void)
 		{
 			Hold_down2 = 1;
 		}	
-		if(43==key_value1)																						//key1   S1
+		if(43==key_value1)																						//key1   S1          贪睡/背光
 		{
 			if(P43 == 0)
 			{

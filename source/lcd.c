@@ -14,6 +14,7 @@
 #include "include/gxhtc.h"
 #include "include/disp.h"
 #include "include/key.h"
+#include "include/rtc.h"
 #include <intrins.h>
 /*********************************************************************************************************************			
 	本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
@@ -200,5 +201,45 @@ void Lcd_Colon(uint8_t flag)
 	{
 		lcd_ram[4] |= 0x01;
 	}
+}
+void Lcd_IconFunction(void)
+{
+	lcd_ram[32] = SOC3;
+}
+void Lcd_WeekDisplay(uint8_t num)
+{
+	if(num == 1)
+		lcd_ram[18] = Monday;
+	else if(num == 2)
+		lcd_ram[18] = Tuesday;
+	else if(num == 3)
+		lcd_ram[18] = wednesday;
+	else if(num == 0)
+		lcd_ram[18] = Sunday;
+	if(num == 4)
+		lcd_ram[17] |= thursday;
+	if(num == 5)
+		lcd_ram[8] |= friday;
+	if(num == 6)
+		lcd_ram[27] |= Saturday;
+}
+void Lcd_DateFunction(uint16_t year, uint8_t month,uint8_t day)
+{
+	uint8_t week = 0;
+	UpdateNixieTubeRAMA((year-2000)/10,9);
+	UpdateNixieTubeRAMA((year-2000)%10,11);
+	UpdateNixieTubeRAMA(month%10,13);	
+	if(month>=10)	
+		lcd_ram[14] |= month1;	
+	if((day>=10)&&(day<20))
+		lcd_ram[15] = 0x0C;
+	else if((day>=20)&&(day<30))
+		lcd_ram[15] = 0x07;
+	else if(day>=30)
+		lcd_ram[15] = 0X0E;
+	UpdateNixieTubeRAMA(day%10,16);		
+	lcd_ram[10] |=0x01;
+	week = RTC_Set_Week(year,month,day);
+	Lcd_WeekDisplay(week);
 }
 #endif

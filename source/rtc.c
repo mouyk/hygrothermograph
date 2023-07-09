@@ -385,8 +385,28 @@ uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day )
 	#endif	
     return tem;
 }
-
-
+uint8_t RTC_Daysmonth(uint16_t year, uint8_t month)
+{
+	uint8_t days =0;
+	if((year%4 ==0)&&(year%100 != 0)||year%400 == 0)
+	{
+		if(month == 2)
+			days =29;
+	}
+	else
+	{
+		if(month == 2)
+			days =28;
+	}
+	if(month == 1|month == 3|month == 5|month == 7|month == 8|month == 10|month == 12)
+		days =31;
+	else
+	{
+		if(month != 2)
+			days = 30;
+	}
+	return days;
+}
 
 
 

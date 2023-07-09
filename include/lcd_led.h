@@ -69,4 +69,10 @@ enum
 	LDRV_6		= 6,
 	LDRV_7		= 7,
 };
+
+
+void LCD_Off(void);
+void Lcd_init(void);
+void Lcd_Humiture(void);
+void Lcd_Colon(uint8_t flag);
 #endif

@@ -79,7 +79,9 @@
 // SEG33 INDEX33 闹铃logo
 #define alarm_timer              	0x01            //闹铃 LoGo	   INDEX 33
 
+void UpdateNixieTubeRAMA(char dataRAM,char addr);
 
+void UpdateNixieTubeRAMB(char dataRAM,char addr);
 
 
 

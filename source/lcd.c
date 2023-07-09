@@ -11,7 +11,9 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-#include "include/lcd.h"
+#include "include/gxhtc.h"
+#include "include/disp.h"
+#include "include/key.h"
 #include <intrins.h>
 /*********************************************************************************************************************			
 	本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
@@ -111,23 +113,23 @@ void Lcd_init(void)
 
 
 	//LCD RAM清零
-	for(i = 0; i < 9; i++)
+	for(i = 0; i < 34; i++)
 	{
 		INDEX = i;
 		LXDAT = 0;
 	}
 	
-	P72F = P72_XOSCL_IN_SETTING;			//设置P72为晶振引脚
-	P71F = P71_XOSCL_OUT_SETTING;			//设置P71为晶振引脚
-	CKCON |= XLCKE;							//使能XSOCL
-	while(!(CKCON & XLSTA));				//等待XSOCL稳定
+//	P72F = P72_XOSCL_IN_SETTING;			//设置P72为晶振引脚
+//	P71F = P71_XOSCL_OUT_SETTING;			//设置P71为晶振引脚
+//	CKCON |= XLCKE;							//使能XSOCL
+//	while(!(CKCON & XLSTA));				//等待XSOCL稳定
 	
 // 	CKCON |= ILCKE;							//使能IRCL
 
 	LXDIVH = 0;				//设置LCD时钟分频，目标帧频率为64HZ
 	LXDIVL = 0;	
 	LXCAD = 0;
-	LXCFG =	 DMOD(DMOD_5ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);			//设置LCD驱动电流、偏压(bias)、辉度
+	LXCFG =	 DMOD(DMOD_80ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);			//设置LCD驱动电流、偏压(bias)、辉度
 	LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为XOSCL，选择LCD模式
 // 	LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为IRCL，选择LCD模式
 	
@@ -135,7 +137,7 @@ void Lcd_init(void)
 	for(i = 0; i < 34; i++)
 	{
 		INDEX = i;
-		LXDAT = 0xFF;
+		LXDAT = 0x0F;
 	}
 
 //	LCD_Off();
@@ -148,5 +150,55 @@ void Lcd_init(void)
 	PCON = (PCON&0x84) | 0x02;      //进入STOP模式
 	_nop_();
 
+}
+void Lcd_Humiture(void)
+{
+	extern uint8_t lcd_ram[34];
+	uint16_t lcdtemp=0,lcdhumi=0;
+	
+	lcdtemp=GXHTC3_temp*10;
+	lcdhumi=GXHTC3_humi;
+	UpdateNixieTubeRAMB(lcdtemp/100,27);
+	UpdateNixieTubeRAMB(lcdtemp%100/10,25);	
+	UpdateNixieTubeRAMB(lcdtemp%100%10,23);	
+	UpdateNixieTubeRAMA(lcdhumi/10,19);
+	UpdateNixieTubeRAMA(lcdhumi%10,21);	
+	if(FahrenFlag == 0)
+	{
+		lcd_ram[30] = C_Tmp;
+	}
+	else
+	{
+		lcd_ram[30] =F_Tmp;
+	}
+	lcd_ram[25] |= 0x01;     //.
+	lcd_ram[23] |= 0x01;      //温湿度标
+	lcd_ram[22] |= 0x01;     //%
+	if((GXHTC3_humi>=40)&&(GXHTC3_humi<=70))    //湿度笑脸
+		lcd_ram[20] |=smile_Humi;
+	if((GXHTC3_temp>=-10)&&(GXHTC3_temp<=50))    //温度笑脸
+		lcd_ram[29] |=smile_Temp;
+	if(GXHTC3_temp<0)
+		lcd_ram[29] |=negative;                    //负号
+}
+void Lcd_Colon(uint8_t flag)
+{
+	static uint8_t a = 0;
+	if(flag == 1)
+	{
+		if(a == 0)
+		{
+			lcd_ram[4] |= 0x01;
+			a = 1;
+		}
+		else
+		{
+			a = 0;
+		}
+	}
+	else
+	{
+		lcd_ram[4] |= 0x01;
+	}
 }
 #endif

@@ -11,6 +11,7 @@
 #include <intrins.h>
 
 uint8_t key_value1,key_value2,key_value3,key_value4=0;
+uint8_t FahrenFlag = 0;
 //EPCON¼Ä´æÆ÷¶¨Òå
 #define EPPL(N)	(N<<7)
 /*****************************************************************************

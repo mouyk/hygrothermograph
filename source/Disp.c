@@ -1,3 +1,6 @@
+#ifndef _DISP_C_
+#define _DISP_C_
+
 #include "stdlib.h"
 #include "stdio.h"
 //#include "main.h"
@@ -5,8 +8,9 @@
 #include "Disp.h"
 #include "include/ca51f_config.h"	
 
- uint8_t            			lcd_ram[34];
+uint8_t lcd_ram[34] = {0};
 
+#define LCD_DRV	1
 
 #ifdef LCD_DRV
 /* 
@@ -35,7 +39,7 @@ static uint8_t            DispLcdTableNum[]        = {
 };
  */
  /*万年历湿度数码管*/
-const  uint8_t            DispLcdTableNum[]        = {
+const  uint8_t            DispLcdTableNum[10]        = {
   0xaf,		   //0 
   0xa0,        //1
   0x6d,        //2
@@ -73,7 +77,7 @@ static uint8_t            DispLcdTableNumTemp[]        = {
 
 
 /*温度特殊数码管*/
-const uint8_t            DispLcdTableNumTemp[]        = {
+const uint8_t            DispLcdTableNumTemp[10]        = {
   0xfa,		   //0 
   0x0a,        //1
   0xbc,        //2
@@ -98,23 +102,25 @@ const uint8_t            DispLcdTableNumTemp[]        = {
  ** \param   [in] none       
  ** \return   none
 *****************************************************************************/
-void UpdateNixieTubeRAM1(char buffer,char addr){
-      lcd_ram[addr]                                 =0x0f&DispLcdTableNum[buffer];
-      lcd_ram[addr+1]                               =0x0f&DispLcdTableNum[buffer]>>4;
+void UpdateNixieTubeRAMA(char dataRAM,char addr){
+//extern	 uint8_t            			lcd_ram[34];
+      lcd_ram[addr]                                 =0x0f&DispLcdTableNum[dataRAM];
+      lcd_ram[addr+1]                               =0x0f&DispLcdTableNum[dataRAM]>>4;
 //	  printf("addr %#x\n",d[addr]);
 //	  printf("addr++ %#x\n",d[addr+1]);	
 }
-void UpdateNixieTubeRAM2(char buffer,char addr){
-      lcd_ram[addr]                                 =0x0f&DispLcdTableNumTemp[buffer];
-      lcd_ram[addr+1]                               =0x0f&DispLcdTableNumTemp[buffer]>>4;
+void UpdateNixieTubeRAMB(char dataRAM,char addr){
+//extern	 uint8_t            			lcd_ram[34];	
+      lcd_ram[addr]                                 =0x0f&DispLcdTableNumTemp[dataRAM];
+      lcd_ram[addr+1]                               =0x0f&DispLcdTableNumTemp[dataRAM]>>4;
 //	  printf("addr %#x\n",d[addr]);
 //	  printf("addr++ %#x\n",d[addr+1]);	
 }
 
 
-void DispLcdUpdate(uint8_t *mBufL1){
+//void DispLcdUpdate(uint8_t *mBufL1){
 
-}
+//}
 
 
 #endif

@@ -11,21 +11,23 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-#include "include/lcd.h"
+//#include "include/lcd.h"
 #include "include/key.h"
 #include "include/gpio.h"
 #include "include/gxhtc.h"
 #include "include/rtc.h"
 #include <intrins.h>
 #include "include/pwm.h"
-
-
+#include "include/adc.h"
+#include "mcu_sdk/zigbee.h"
+#include "include/disp.h"
 /*********************************************************************************************************************			
 	本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
 	
 	重要提示：
 	在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象。
 *********************************************************************************************************************/			
+extern uint8_t key_value;
 
 void main(void)
 {
@@ -37,6 +39,9 @@ extern uint8_t times10Flag;
 	unsigned char i;
 	uint8_t ab = 0;
 	uint16_t a,b,c,d,e,f,g=0;
+	extern double VDD_Voltage;
+	extern  uint8_t            			lcd_ram[34];		
+	
 #ifdef LVD_RST_ENABLE
 	LVDCON = 0xE1;					//设置LVD复位电压为2V
 #endif	
@@ -46,6 +51,7 @@ extern uint8_t times10Flag;
 #endif
 	
 #ifdef UART0_EN
+	Zigbee_GPIO_init();		
 	Uart0_Initial(UART0_BAUTRATE);	//初始化UART0
 #endif
 	
@@ -105,39 +111,55 @@ INT3_Init();
 INT4_Init();
 INT5_Init();
 RTC_init();
+ADC_init();
+RTC_Set(2023,6,19,12,04,41);
+Lcd_init();
 
-RTC_Set(2023,6,17,14,37,0);
+//zigbee_protocol_init();
 
+//mcu_exit_zigbee();
 	while(1)
 	{
-//			get_gxth30();	
+//		zigbee_uart_service();
 //		PWMEN  = (1<<PWM_CH6);		//PWM6使能		
 //		Delay_ms(10);
 //		PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
 //		Delay_ms(1000);	
+//			Uart0_PutChar(0x55);
+//			Uart0_PutChar(0xaa);
+//			Uart0_PutChar(0x00);
+//			Uart0_PutChar(0x04);	
+//			Uart0_PutChar(0x00);
+//			Uart0_PutChar(0x00);	
+//			Uart0_PutChar(0x03);			
+//			mcu_network_start();
 		if(times10Flag ==1)
 		{
 			times10Flag = 0;
 			Key_Scanf();
 		}
-		if(ab == 0)
-			{
-				P32F = OUTPUT;					//P32设置为推挽输出模式	
-				P32 = 1;
-				ab = 1;
-			}
-			else
-			{
-				ab = 0;
-				P32F = OUTPUT;					//P32设置为推挽输出模式	
-				P32 = 0;
-			}
-
+//		if(ab == 0)
+//			{
+//				P32F = OUTPUT;					//P32设置为推挽输出模式	
+//				P32 = 1;
+//				ab = 1;
+//			}
+//			else
+//			{
+//				ab = 0;
+//				P32F = OUTPUT;					//P32设置为推挽输出模式	
+//				P32 = 0;
+//			}
+	for(i = 0; i < 34; i++)
+	{
+		INDEX = i;
+		LXDAT = lcd_ram[i];
+	}
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
 	#ifdef PRINT_EN
-			RTC_Get();
+			RTC_Get();		get_gxth30();
 //			uart_printf("%d-%d-%d %d:%d:%d ( %d )\n",calendar.w_year,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,calendar.week);	
 			a=calendar.w_year;
 			b=calendar.w_month;		
@@ -145,10 +167,31 @@ RTC_Set(2023,6,17,14,37,0);
 		    d=calendar.week;
 			e=calendar.hour;
 			f=calendar.min;
-			g=calendar.sec;
-			uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g);	
+			UpdateNixieTubeRAMA(e/10,1);
+			UpdateNixieTubeRAMA(e%10,3);
+			
+			UpdateNixieTubeRAMA(f/10,5);
+			UpdateNixieTubeRAMA(f%10,7);
+			a=a-2000;
+			UpdateNixieTubeRAMA(a/10,9);
+			UpdateNixieTubeRAMA(a%10,11);	
+
+			lcd_ram[10] |=0x01;
+			Lcd_Colon(0);
 				
-	#endif		
+			UpdateNixieTubeRAMA(b%10,13);	
+			
+			UpdateNixieTubeRAMA(c/10,15);	
+			UpdateNixieTubeRAMA(c%10,16);	
+			Lcd_Humiture();
+//			g=calendar.sec;
+//			uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g);	
+//			mcu_join_zigbee();
+//			Uart0_PutChar(0x31);
+//			uart_printf("Current Voltage %f\n",VDD_Voltage);					
+//	#endif		
+			
+			
 		}
 /*		
 		if(AlarmEvFlag)	//闹钟中断产生时打印

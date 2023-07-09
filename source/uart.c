@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <absacc.h>
+#include "mcu_sdk/zigbee.h"
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
 #ifdef UART0_EN
@@ -101,6 +102,7 @@ void UART0_ISR (void) interrupt 4
 		uart0_rev.head++;
 		uart0_rev.head %= UART0_RX_BUF_SIZE;
 		uart0_rx_buf[uart0_rev.head]=S0BUF;
+		uart_receive_input(S0BUF);		
 	}
 	if(TI0)
 	{	

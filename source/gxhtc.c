@@ -9,11 +9,12 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-#include "include/lcd.h"
+//#include "include/lcd.h"
 #include "include/gpio.h"
 #include "include/gxhtc.h"
 #include <intrins.h>
 #include "stdio.h"
+#include "include/disp.h"
 
 #define write 0
 #define read  1
@@ -282,7 +283,8 @@ void get_gxth30(void)
 ///* ²»¼ÓÂË²¨
 
 	float temp=0,humi=0;
-	uint8_t i=0;
+	uint8_t i = 0;
+//	extern  uint8_t            			lcd_ram[34];	
 	for(i = 0;i < 5;i++)
 	{	
 		GXHTC3_read_result(0x70);
@@ -292,8 +294,8 @@ void get_gxth30(void)
 	
 	GXHTC3_temp = temp / 5;
 	GXHTC3_humi = humi / 5;
-	
 	uart_printf("Temp=%0.2f ||| Humi=%0.2f \n",GXHTC3_temp,GXHTC3_humi);
+	
 //*/	
 	
 }

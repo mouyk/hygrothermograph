@@ -14,4 +14,6 @@ void INT3_Init(void);
 void INT4_Init(void);
 void INT5_Init(void);
 void Key_Scanf(void);
+
+extern uint8_t FahrenFlag;
 #endif

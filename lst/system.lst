@@ -1,0 +1,766 @@
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SYSTEM
+OBJECT MODULE PLACED IN .\output\system.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE mcu_sdk\system.c LARGE OMF2 OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\
+                    -source;.\include) DEBUG PRINT(.\lst\system.lst) TABS(2) OBJECT(.\output\system.obj)
+
+line level    source
+
+   1          /**
+   2          * @file  system.c
+   3          * @brief this file contains frame analysis of communication between MCU and zigbee 
+   4          * and construct these functions which used send data in a frame format
+   5          * @author qinlang
+   6          * @date 2022.05.06
+   7          * @par email:
+   8          * @par email:qinlang.chen@tuya.com
+   9          * @copyright HANGZHOU TUYA INFORMATION TECHNOLOGY CO.,LTD
+  10          * @par company
+  11          * http://www.tuya.com
+  12          */
+  13          
+  14          
+  15          #define SYSTEM_GLOBAL
+  16          
+  17          #include "zigbee.h"
+  18          
+  19          
+  20          extern const DOWNLOAD_CMD_S download_cmd[];
+  21          
+  22          
+  23          #ifdef SUPPORT_MCU_RTC_CHECK
+              const unsigned char mon_table[12]={31,28,31,30,31,30,31,31,30,31,30,31};  
+              #endif
+  26          
+  27          #ifdef CHECK_MCU_TYPE
+              MCU_TYPE_E mcu_type = MCU_TYPE_DC_POWER;   
+              #endif
+  30          
+  31          
+  32          static volatile unsigned short global_seq_num;
+  33          
+  34          #ifdef CHECK_MCU_TYPE
+              static void response_mcu_type(void);
+              #endif
+  37          
+  38          
+  39          #ifdef SET_ZIGBEE_NWK_PARAMETER
+              nwk_parameter_t  nwk_paremeter;
+              #endif
+  42          
+  43          
+  44          
+  45          #ifdef SET_ZIGBEE_NWK_PARAMETER
+              void init_nwk_paremeter(void)
+              {
+                #error "please call this fuction in main init"
+                nwk_paremeter.fast_poll_period = 0xfffe;
+                nwk_paremeter.heart_period = 0xfffe;
+                nwk_paremeter.join_nwk_time = 0xfffe;
+                nwk_paremeter.rejion_period = 0xfffe;
+                nwk_paremeter.poll_period = 0xfffe;
+                nwk_paremeter.fast_poll_period = 0xfffe;
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 2   
+
+                nwk_paremeter.poll_failure_times = 0xfe;
+                nwk_paremeter.rejoin_try_times = 0xfe;
+                nwk_paremeter.app_trigger_rejoin = 0xfe;
+                nwk_paremeter.rf_send_power = 0xfe;
+              }
+              #endif
+  61          
+  62          /**
+  63          * @brief get frame seq_num
+  64          * @param[in] {void}
+  65          * @return seq_num  
+  66          */
+  67          static unsigned short seq_num_get(void)
+  68          {
+  69   1        global_seq_num ++;
+  70   1        if(global_seq_num > 0xfff0){
+  71   2          global_seq_num = 1;
+  72   2        }
+  73   1        return global_seq_num;
+  74   1      }
+  75          
+  76          /**
+  77          * @brief padding a byte in send buf base on dest
+  78          * @param[in] {dest} the location of padding byte 
+  79          * @param[in] {byte} padding byte 
+  80          * @return  sum of frame after this operation 
+  81          */
+  82          unsigned short set_zigbee_uart_byte(unsigned short dest, unsigned char byte)
+  83          {
+  84   1        unsigned char *obj = (unsigned char *)zigbee_uart_tx_buf + DATA_START + dest;
+  85   1        
+  86   1        *obj = byte;
+  87   1        dest += 1;
+  88   1        
+  89   1        return dest;
+  90   1      }
+  91          
+  92          /**
+  93          * @brief padding buf in send buf base on dest
+  94          * @param[in] {dest} the location of padding 
+  95          * @param[in] {src}  the head address of padding buf
+  96          * @param[in] {len}  the length of padding buf
+  97          * @return  sum of frame after this operation 
+  98          */
+  99          unsigned short set_zigbee_uart_buffer(unsigned short dest, unsigned char *src, unsigned short len)
+ 100          {
+ 101   1        unsigned char *obj = (unsigned char *)zigbee_uart_tx_buf + DATA_START + dest;
+ 102   1        
+ 103   1        my_memcpy(obj,src,len);
+ 104   1        
+ 105   1        dest += len;
+ 106   1        return dest;
+ 107   1      }
+ 108          
+ 109          /**
+ 110          * @brief send len bytes data
+ 111          * @param[in] {in} the head address of send data
+ 112          * @param[in] {len}  the length of send data
+ 113          * @return  void
+ 114          */
+ 115          void zigbee_uart_write_data(unsigned char *in, unsigned short len)
+ 116          {
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 3   
+
+ 117   1        if((NULL == in) || (0 == len)){
+ 118   2          return;
+ 119   2        }
+ 120   1        
+ 121   1        while(len --){
+ 122   2          uart_transmit_output(*in);
+ 123   2          in ++;
+ 124   2        }
+ 125   1      }
+ 126          
+ 127          /**
+ 128          * @brief calculate the sum of the array
+ 129          * @param[in] {pack} the head address of array
+ 130          * @param[in] {pack_len}  the length of  array
+ 131          * @return  sum
+ 132          */
+ 133          unsigned char get_check_sum(unsigned char *pack, unsigned short pack_len)
+ 134          {
+ 135   1        unsigned short i;
+ 136   1        unsigned char check_sum = 0;
+ 137   1        
+ 138   1        for(i = 0; i < pack_len; i ++){
+ 139   2          check_sum += *pack ++;
+ 140   2        }
+ 141   1        
+ 142   1        return check_sum;
+ 143   1      }
+ 144          
+ 145          /**
+ 146          * @brief send a frame data 
+ 147          * @param[in] {fr_cmd} frame cmd id
+ 148          * @param[in] {len}    len of frame data 
+ 149          * @return  void
+ 150          */
+ 151          void zigbee_uart_write_frame(unsigned char fr_cmd, unsigned short len)
+ 152          {
+ 153   1        unsigned char check_sum = 0;  
+ 154   1        unsigned short  seq;
+ 155   1        
+ 156   1        zigbee_uart_tx_buf[HEAD_FIRST] = FIRST_FRAME_HEAD;
+ 157   1        zigbee_uart_tx_buf[HEAD_SECOND] = SECOND_FRAME_HEAD;
+ 158   1        zigbee_uart_tx_buf[PROTOCOL_VERSION] = SERIAL_PROTOCOL_VER;
+ 159   1        
+ 160   1       
+ 161   1        seq = seq_num_get();
+ 162   1        zigbee_uart_tx_buf[SEQ_HIGH] = (seq << 8);
+ 163   1        zigbee_uart_tx_buf[SEQ_LOW] = (seq & 0xff); 
+ 164   1      
+ 165   1        
+ 166   1        zigbee_uart_tx_buf[FRAME_TYPE] = fr_cmd;
+ 167   1        zigbee_uart_tx_buf[LENGTH_HIGH] = len >> 8;
+ 168   1        zigbee_uart_tx_buf[LENGTH_LOW] = len & 0xff;
+ 169   1        
+ 170   1        len += PROTOCOL_HEAD;
+ 171   1        
+ 172   1        check_sum = get_check_sum((unsigned char *)zigbee_uart_tx_buf, len-1);
+ 173   1        zigbee_uart_tx_buf[len -1] = check_sum;
+ 174   1        
+ 175   1        zigbee_uart_write_data((unsigned char *)zigbee_uart_tx_buf, len);
+ 176   1      }
+ 177          
+ 178          /**
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 4   
+
+ 179          * @brief send product info and mcu version 
+ 180          * @param[in] {void} 
+ 181          * @return  void
+ 182          */
+ 183          static void product_info_update(void)
+ 184          {
+ 185   1        unsigned short length = 0;
+ 186   1        length = set_zigbee_uart_buffer(length, "{\"p\":\"", my_strlen("{\"p\":\""));
+ 187   1        length = set_zigbee_uart_buffer(length,(unsigned char *)PRODUCT_KEY,my_strlen((unsigned char *)PRODUCT_K
+             -EY));
+ 188   1        length = set_zigbee_uart_buffer(length, "\",\"v\":\"", my_strlen("\",\"v\":\""));
+ 189   1        length = set_zigbee_uart_buffer(length,(unsigned char *)MCU_VER,my_strlen((unsigned char *)MCU_VER));
+ 190   1        length = set_zigbee_uart_buffer(length, "\"}", my_strlen("\"}"));
+ 191   1        zigbee_uart_write_frame(PRODUCT_INFO_CMD, length);
+ 192   1      }
+ 193          
+ 194          /**
+ 195          * @brief get the serial number of dpid in dp array  
+ 196          * @param[in] {dpid} dp id 
+ 197          * @return  serial number of dp 
+ 198          */
+ 199          static unsigned char get_dowmload_dpid_index(unsigned char dpid)
+ 200          {
+ 201   1        unsigned char index;
+ 202   1        unsigned char total = get_download_cmd_total();
+ 203   1        
+ 204   1        for(index = 0; index < total; index ++){
+ 205   2          if(download_cmd[index].dp_id == dpid){
+ 206   3            break;
+ 207   3          }
+ 208   2        }
+ 209   1        return index;
+ 210   1      }
+ 211          
+ 212          /**
+ 213          * @brief handle received dp data from zigbee module
+ 214          * @param[in] {value} dp data
+ 215          * @return  result of handle
+ 216          */
+ 217          static unsigned char zigbee_data_point_handle(const unsigned char value[])
+ 218          {
+ 219   1        unsigned char dp_id,index;
+ 220   1        unsigned char dp_type;
+ 221   1        unsigned char ret;
+ 222   1        unsigned short dp_len;
+ 223   1        
+ 224   1        dp_id = value[0];
+ 225   1        dp_type = value[1];
+ 226   1        dp_len = value[2] * 0x100;
+ 227   1        dp_len += value[3];
+ 228   1        
+ 229   1      
+ 230   1        index = get_dowmload_dpid_index(dp_id);
+ 231   1      
+ 232   1        if(dp_type != download_cmd[index].dp_type){
+ 233   2          return FALSE;
+ 234   2        }
+ 235   1        else{
+ 236   2          ret = dp_download_handle(dp_id,value + 4,dp_len);
+ 237   2        }
+ 238   1        
+ 239   1        return ret;
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 5   
+
+ 240   1      }
+ 241          
+ 242          /**
+ 243          * @brief handle received frame from zigbee module baseon frame cmd id
+ 244          * @param[in] {void}
+ 245          * @return  result of handle
+ 246          */
+ 247          int data_handle(unsigned short offset)
+ 248          {
+ 249   1          unsigned char cmd_type = 0;
+ 250   1          unsigned short total_len = 0, seq_num = 0;
+ 251   1          unsigned short dp_len;  
+ 252   1          unsigned char ret;
+ 253   1        unsigned short i;
+ 254   1        
+ 255   1          cmd_type  = zigbee_uart_rx_buf[offset + FRAME_TYPE];
+ 256   1      
+ 257   1          total_len  = zigbee_uart_rx_buf[offset + LENGTH_HIGH] * 0x100;
+ 258   1          total_len += zigbee_uart_rx_buf[offset + LENGTH_LOW];
+ 259   1          
+ 260   1        seq_num = zigbee_uart_rx_buf[offset + SEQ_HIGH] << 8;
+ 261   1          seq_num += zigbee_uart_rx_buf[offset + SEQ_LOW];
+ 262   1      
+ 263   1        switch(cmd_type)
+ 264   1        {
+ 265   2            case ZIGBEE_FACTORY_NEW_CMD:{
+ 266   3              zigbee_notify_factory_new_hanlde(); // response
+*** WARNING C206 IN LINE 266 OF mcu_sdk\system.c: 'zigbee_notify_factory_new_hanlde': missing function-prototype
+ 267   3          }
+ 268   2          break;
+ 269   2      
+ 270   2          case PRODUCT_INFO_CMD:{                                   
+ 271   3            product_info_update();
+ 272   3          }
+ 273   2          break;
+ 274   2           
+ 275   2          case ZIGBEE_STATE_CMD:{    
+ 276   3            unsigned char current_state = zigbee_uart_rx_buf[offset + DATA_START];                          
+ 277   3            zigbee_work_state_event(current_state);
+ 278   3          }
+ 279   2          break;
+ 280   2          
+ 281   2          case ZIGBEE_CFG_CMD:{                                   
+ 282   3            mcu_reset_zigbee_event(zigbee_uart_rx_buf[offset + DATA_START]);
+ 283   3          }
+ 284   2          break;
+ 285   2      
+ 286   2          case ZIGBEE_DATA_REQ_CMD:{                               
+ 287   3            for(i = 0;i < total_len;){
+ 288   4              dp_len = zigbee_uart_rx_buf[offset + DATA_START + i + 2] * 0x100;
+ 289   4              dp_len += zigbee_uart_rx_buf[offset + DATA_START + i + 3];
+ 290   4              ret = zigbee_data_point_handle((unsigned char *)zigbee_uart_rx_buf + offset + DATA_START + i);
+ 291   4                
+ 292   4              if(SUCCESS == ret){
+ 293   5                  
+ 294   5              }
+ 295   4              else{
+ 296   5                  
+ 297   5              }      
+ 298   4              i += (dp_len + 4);  
+ 299   4            } 
+ 300   3          }   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 6   
+
+ 301   2          break;
+ 302   2          case DATA_DATA_RES_CMD:{
+ 303   3        
+ 304   3          } 
+ 305   2          case DATA_REPORT_CMD:{
+ 306   3      
+ 307   3          } 
+ 308   2          break;  
+ 309   2      
+ 310   2          case QUERY_KEY_INFO_CMD:{
+ 311   3      
+ 312   3          }
+ 313   2          break;
+ 314   2      
+ 315   2          case CALL_SCENE_CMD:{
+ 316   3      
+ 317   3          }
+ 318   2          break;
+ 319   2      
+ 320   2          case ZIGBEE_RF_TEST_CMD:{
+ 321   3                 
+ 322   3          }
+ 323   2          break;
+ 324   2          
+ 325   2          case MCU_OTA_VERSION_CMD:{
+ 326   3      //      response_mcu_ota_version_event();       
+ 327   3          }
+ 328   2          break;
+ 329   2      #ifdef SUPPORT_MCU_OTA    
+                  case MCU_OTA_NOTIFY_CMD:{
+              //      response_mcu_ota_notify_event(offset);
+                  }
+                  break;
+                  
+                  case MCU_OTA_DATA_REQUEST_CMD:{
+              //      mcu_ota_fw_request_event(offset);
+                      }
+                  break;
+                  
+                  case MCU_OTA_RESULT_CMD:{
+              //      mcu_ota_result_event(offset);
+                  }
+                  break;
+              #endif
+ 345   2          case CHECK_MCU_TYPE_CMD:
+ 346   2          {
+ 347   3      #ifdef CHECK_MCU_TYPE
+                    response_mcu_type();
+              #endif
+ 350   3          }
+ 351   2          break;
+ 352   2      
+ 353   2          case TIME_GET_CMD:{
+ 354   3      #ifdef SUPPORT_MCU_RTC_CHECK
+                    mcu_write_rtctime((unsigned char *)(zigbee_uart_rx_buf + offset + DATA_START));
+              #endif
+ 357   3          }
+ 358   2          break;
+ 359   2          
+ 360   2      #ifdef  BEACON_TEST
+                  case SEND_BEACON_NOTIFY_CMD:{
+                    mcu_received_beacon_test_handle();
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 7   
+
+                  }
+                  break;
+              #endif
+ 366   2      
+ 367   2          case READ_MCU_DP_DATA_CMD:{ // gw read DP
+ 368   3            all_data_update();
+ 369   3          }
+ 370   2          break;
+ 371   2      
+ 372   2          default:
+ 373   2            return 0;
+ 374   2        }
+ 375   1        return 1;
+ 376   1      }
+ 377          
+ 378          /**
+ 379          * @brief mcu send a cmd which used to making zigbee module reset
+ 380          * @param[in] {void}
+ 381          * @return  void
+ 382          */
+ 383          void mcu_exit_zigbee(void)
+ 384          {
+ 385   1        unsigned short length = 0;
+ 386   1        length = set_zigbee_uart_byte(length,0x00);
+ 387   1        zigbee_uart_write_frame(ZIGBEE_CFG_CMD, length);
+ 388   1      }
+ 389          
+ 390          /**
+ 391          * @brief mcu send this commond starting zigbee module join network
+ 392          * this commond must be call after reveived checking proudect info, or after get zigbee network info
+ 393          * @param[in] {void}
+ 394          * @return  void
+ 395          */
+ 396          void mcu_join_zigbee(void)
+ 397          {
+ 398   1        unsigned short length = 0;
+ 399   1        length = set_zigbee_uart_byte(length,0x01);
+ 400   1          zigbee_uart_write_frame(ZIGBEE_CFG_CMD, length);
+ 401   1      }
+ 402          
+ 403          /**
+ 404          * @brief mcu send a cmd which used to getting zigbee network state 
+ 405          * @param[in] {void}
+ 406          * @return  void
+ 407          */
+ 408          void mcu_get_zigbee_state(void)
+ 409          {
+ 410   1        zigbee_uart_write_frame(ZIGBEE_STATE_CMD, 0);
+ 411   1      }
+ 412          
+ 413          
+ 414          #ifdef CHECK_MCU_TYPE
+              /**
+              * @brief response zigbee check mcu type cmd 
+              * @param[in] {void}
+              * @return  void
+              */
+              static void response_mcu_type(void)
+              {
+                unsigned short length = 0;
+                length = set_zigbee_uart_byte(length,mcu_type);
+                zigbee_uart_write_frame(CHECK_MCU_TYPE_CMD, length);
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 8   
+
+              }   
+              #endif
+ 427          
+ 428          
+ 429          
+ 430          #ifdef SUPPORT_MCU_RTC_CHECK
+              /**
+              * @brief mcu send a cmd which used to getting timestamp
+              * @param[in] {void}
+              * @return void
+              */
+              void mcu_get_system_time(void)
+              {
+                zigbee_uart_write_frame(TIME_GET_CMD,0);
+              }
+              
+              /**
+              * @brief is a leap year
+              * @param[in] {pyear}
+              * @return  leap year return 1 
+              */
+              static unsigned char Is_Leap_Year(unsigned int pyear)
+              {
+                if(0 == (pyear%4)) {
+                  if(0 == (pyear%100)){
+                    if(0 == (pyear%400))   
+                      return 1;
+                    else    
+                      return 0;
+                  }
+                  else
+                    return 1; 
+                }
+                else
+                  return 0;
+              }
+              
+              /**
+              * @brief get calendar time from timestamp
+              * @param[in]  {secCount} input timestamp 
+              * @param[out] {calendar} output calendar 
+              * @return  result of changing
+              */
+              static unsigned char RTC_Get(unsigned int secCount,_calendar_obj *calendar)
+              {
+                static unsigned int dayCount=0;
+                unsigned int tmp=0; 
+                unsigned int tmp1=0;  
+              
+                tmp=secCount/86400;
+              
+                if(dayCount!=tmp){
+                  dayCount=tmp;
+                  tmp1=1970;
+                
+                  while(tmp>=365){
+                    if(Is_Leap_Year(tmp1)){
+                      if(tmp>=366)    
+                        tmp-=366;
+                      else{
+                        break;
+                      }
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 9   
+
+                    }
+                    else
+                      tmp-=365;
+                    tmp1++; 
+                  }
+                  calendar->w_year=tmp1;
+                  tmp1=0;
+                  
+                  while(tmp>=28){
+                    if(Is_Leap_Year(calendar->w_year)&&tmp1==1){
+                      if(tmp>=29) 
+                        tmp-=29;  
+                      else
+                        break;
+                    }
+                    else{
+                      if(tmp>=mon_table[tmp1])
+                        tmp-=mon_table[tmp1]; 
+                      else
+                        break;
+                    }
+                    tmp1++;
+                  }
+                  calendar->w_month=tmp1+1; 
+                  calendar->w_date=tmp+1;
+                }
+              
+                tmp=secCount%86400;
+                calendar->hour=tmp/3600;
+                calendar->min=(tmp%3600)/60;
+                calendar->sec=(tmp%3600)%60;
+              
+                return 0;
+              }
+              
+              /**
+              * @brief calculta time from frame 
+              * @param[in] {void}
+              * @return  void
+              */
+              void zigbee_timestamp_to_time(void) 
+              {
+                unsigned int time_stamp = byte_to_int(timestamp);
+                RTC_Get(time_stamp,&_time); 
+              }
+              #endif
+ 533          
+ 534          #ifdef BROADCAST_DATA_SEND
+              /**
+              * @brief mcu can send a broadcast data in zigbee network
+              * @param[in] {buf} array of buf which to be sended
+              * @param[in] {buf_len} send buf length
+              * @return void
+              */
+               void mcu_send_broadcast_data(unsigned char buf[], unsigned char buf_len)
+              {
+                 unsigned short length = 0;
+                   length = set_zigbee_uart_buffer(length,(unsigned char *)buf, buf_len);
+                   zigbee_uart_write_frame(SEND_BROADCAST_DATA_CMD,length);
+              }
+              #endif
+ 548          
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 10  
+
+ 549          #ifdef SET_ZIGBEE_NWK_PARAMETER
+              /**
+              * @brief mcu can set zigbee nwk parameter
+              * @param[in] {parameter_t *} 
+              * @param
+              * @return void
+              */
+               void mcu_set_zigbee_nwk_parameter(nwk_parameter_t *Pparameter)
+              {
+                unsigned short length = 0;
+                #error "please set network parameter in here, when zigbee received this message, it will start reboot"
+                 //Pparameter->app_trigger_rejoin  = 0x00;
+                   //Pparameter->fast_poll_period = 0x00;
+              
+                   length = set_zigbee_uart_byte(length,(Pparameter->heart_period >>8)); 
+                 length = set_zigbee_uart_byte(length,(Pparameter->heart_period)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->join_nwk_time >>8)); 
+                 length = set_zigbee_uart_byte(length,(Pparameter->join_nwk_time)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->rejion_period >>8)); 
+                   length = set_zigbee_uart_byte(length,(Pparameter->rejion_period)); 
+              
+                   length = set_zigbee_uart_byte(length,(Pparameter->poll_period >>8)); 
+                 length = set_zigbee_uart_byte(length,(Pparameter->poll_period));
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->fast_poll_period >>8)); 
+                 length = set_zigbee_uart_byte(length,(Pparameter->fast_poll_period)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->poll_failure_times)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->app_trigger_rejoin)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->rejoin_try_times)); 
+              
+                 length = set_zigbee_uart_byte(length,(Pparameter->rf_send_power)); 
+                   zigbee_uart_write_frame(SET_ZIGBEE_NEK_PARAMETER_CMD,length);
+              }
+              #endif
+ 588          
+ 589          /**
+ 590          * @brief mcu version string to char
+ 591          * @param[in] {void}
+ 592          * @return  result of version
+ 593          */
+ 594          unsigned char get_current_mcu_fw_ver(void)
+ 595          {
+ 596   1        unsigned char *fw_ver = (unsigned char*) MCU_VER; //Current version
+ 597   1        unsigned char current_mcu_fw_ver = 0;
+ 598   1        if(assic_to_hex(fw_ver[5]) == -1){ // 3 number
+ 599   2          current_mcu_fw_ver = (assic_to_hex(fw_ver[0]) & 0x03) << 6; //high ver
+ 600   2          current_mcu_fw_ver |= (assic_to_hex(fw_ver[2]) & 0x03) << 4;  //mid ver
+ 601   2          current_mcu_fw_ver |= (assic_to_hex(fw_ver[4]) & 0x0F); //low ver
+ 602   2        }
+ 603   1        else{ // 4 number
+ 604   2          current_mcu_fw_ver = (assic_to_hex(fw_ver[0]) & 0x03) << 6; //high ver
+ 605   2          current_mcu_fw_ver |= (assic_to_hex(fw_ver[2]) & 0x03) << 4;  //mid ver
+ 606   2          current_mcu_fw_ver |= ((assic_to_hex(fw_ver[4])*10 + assic_to_hex(fw_ver[5])) & 0x0F);  //low ver
+ 607   2        }
+ 608   1        return current_mcu_fw_ver;
+ 609   1      }
+ 610          
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 11  
+
+ 611          #ifdef SUPPORT_MCU_OTA
+              /**
+              * @brief get mcu pid data saved in current_mcu_pid
+              * @param[in] {void}
+              * @return  result of handle
+              */
+              void current_mcu_fw_pid(void)
+              {
+                unsigned char i = 0;
+                unsigned char *fw_pid = (unsigned char*) PRODUCT_KEY;
+                
+                while(i < 8){
+                  current_mcu_pid[i] = fw_pid[i];
+                  i++;
+                }
+              }
+              
+              /**
+              * @brief mcu ota offset requset 
+              * @param[in] {packet_offset}  packet offset 
+              * @return  viod
+              */
+              //when call this function, should set timeout event, if not received zigbee send response should res
+              void mcu_ota_fw_request(void)
+              {
+                unsigned char i = 0;
+                unsigned short length = 0;
+              
+                if(ota_fw_info.mcu_current_offset >= ota_fw_info.mcu_ota_fw_size)   //outside
+                  return;
+                while(i < 8){
+                  length = set_zigbee_uart_byte(length,ota_fw_info.mcu_ota_pid[i]); //ota fw pid
+                  i++;
+                }
+                length = set_zigbee_uart_byte(length,ota_fw_info.mcu_ota_ver);    //ota fw version
+                i = 0;
+                while(i < 4){
+                  length = set_zigbee_uart_byte(length , ota_fw_info.mcu_current_offset >> (24 - i * 8)); //pakage offset 
+             -request
+                  i++;
+                }
+                length = set_zigbee_uart_byte(length ,FW_SINGLE_PACKET_SIZE); // packet size request
+                
+                zigbee_uart_write_frame(MCU_OTA_DATA_REQUEST_CMD,length);
+              }
+              
+              /**
+              * @brief mcu ota result report 
+              * @param[in] {status} result of mcu ota
+              * @return  void
+              */
+              void mcu_ota_result_report(unsigned char status)
+              {
+                unsigned short length = 0;
+                unsigned char i = 0;
+                
+                length = set_zigbee_uart_byte(length,status); //upgrade result status(0x00:ota success;0x01:ota failed)
+                while(i < 8){
+                  length = set_zigbee_uart_byte(length,ota_fw_info.mcu_ota_pid[i]); //PID
+                  i++;
+                }
+                length = set_zigbee_uart_byte(length,ota_fw_info.mcu_ota_ver);  //ota fw version
+C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 12  
+
+                
+                zigbee_uart_write_frame(MCU_OTA_RESULT_CMD,length); //response 
+              }
+              
+              #endif
+ 677          
+ 678          /**
+ 679          * @brief compare str1 and str2
+ 680          * @param[in] {str1} str1 
+ 681          * @param[in] {str2} str2
+ 682          * @param[in] {len}  len
+ 683          * @return  equal return 0 else return -1
+ 684          */
+ 685          int strcmp_barry(unsigned char *str1,unsigned char *str2,unsigned char len)
+ 686          {
+ 687   1        unsigned char i = 0;
+ 688   1         for(i = 0; i < len; i++){
+ 689   2          if(str1[i] < str2[i]){
+ 690   3            return -1; //str1 < str2
+ 691   3          }
+ 692   2          else if(str1[i] > str2[i]){ 
+ 693   3            return 1; //str1 > str2
+ 694   3          }
+ 695   2        }
+ 696   1        return 0; //str1 == str2
+ 697   1      }
+ 698          
+ 699          /**
+ 700          * @brief translate assic to hex
+ 701          * @param[in] {assic_num} assic number
+ 702          * @return hex data
+ 703          */
+ 704          char assic_to_hex(unsigned char assic_num)
+ 705          {
+ 706   1        if(assic_num<0x30 || assic_num > 0x39)  //0~9
+ 707   1          return -1;
+ 708   1        else
+ 709   1          return assic_num % 0x30;
+ 710   1      }
+ 711          
+ 712          
+ 713          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1702    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =    555      53
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

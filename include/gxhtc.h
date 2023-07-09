@@ -32,4 +32,5 @@ void GXHTC3_SDA_in(void);
 void al_float_buffer_sort(float *buf, uint8_t length);
 void get_gxth30(void);
 
+extern float GXHTC3_temp,GXHTC3_humi,GXHTC3_Temperature,GXHTC3_Humidity;
 #endif

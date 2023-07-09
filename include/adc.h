@@ -40,4 +40,8 @@ enum
 	ADC_CH7  	= 8,
 	ADC_VDD  	= 9,
 };
+
+void ADC_init(void);
+
+
 #endif

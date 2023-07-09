@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   BUZZER                                                            06/24/2023 14:59:06 PAGE 1   
+C51 COMPILER V9.60.0.0   BUZZER                                                            07/09/2023 08:22:20 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BUZZER
@@ -62,10 +62,11 @@ line level    source
   49   1        
   50   1      }
   51          
-C51 COMPILER V9.60.0.0   BUZZER                                                            06/24/2023 14:59:06 PAGE 2   
+C51 COMPILER V9.60.0.0   BUZZER                                                            07/09/2023 08:22:20 PAGE 2   
 
   52          
   53          #endif
+*** WARNING C316 IN LINE 53 OF source\buzzer.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
@@ -83,4 +84,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

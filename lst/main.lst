@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/24/2023 16:47:36 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/09/2023 08:23:47 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -22,176 +22,218 @@ line level    source
   11          #include "include/uart.h"
   12          #include "include/lcd_led.h"
   13          #include "include/delay.h"
-  14          #include "include/lcd.h"
-*** WARNING C318 IN LINE 14 OF source\main.c: can't open file 'include/lcd.h'
+  14          //#include "include/lcd.h"
   15          #include "include/key.h"
   16          #include "include/gpio.h"
   17          #include "include/gxhtc.h"
   18          #include "include/rtc.h"
   19          #include <intrins.h>
   20          #include "include/pwm.h"
-  21          
-  22          
-  23          /*********************************************************************************************************
+  21          #include "include/adc.h"
+  22          #include "mcu_sdk/zigbee.h"
+  23          #include "include/disp.h"
+  24          /*********************************************************************************************************
              -************      
-  24            本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
-  25            
-  26            重要提示：
-  27            在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象
+  25            本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
+  26            
+  27            重要提示：
+  28            在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象
              -。
-  28          **********************************************************************************************************
+  29          **********************************************************************************************************
              -***********/      
-  29          
-  30          void main(void)
-  31          {
-  32   1      extern float GXHTC3_temp,GXHTC3_humi;
-  33   1      extern bit HalfSecFlag;
-  34   1      extern bit AlarmEvFlag;
-  35   1      extern bit millisecondFlag;
-  36   1      extern uint8_t times10Flag;
-  37   1        unsigned char i;
-  38   1        uint8_t ab = 0;
-  39   1        uint16_t a,b,c,d,e,f,g=0;
-  40   1      #ifdef LVD_RST_ENABLE
-  41   1        LVDCON = 0xE1;          //设置LVD复位电压为2V
-  42   1      #endif  
-  43   1        
-  44   1      #if (SYSCLK_SRC == PLL)
+  30          extern uint8_t key_value;
+  31          
+  32          void main(void)
+  33          {
+  34   1      extern float GXHTC3_temp,GXHTC3_humi;
+  35   1      extern bit HalfSecFlag;
+  36   1      extern bit AlarmEvFlag;
+  37   1      extern bit millisecondFlag;
+  38   1      extern uint8_t times10Flag;
+  39   1        unsigned char i;
+  40   1        uint8_t ab = 0;
+  41   1        uint16_t a,b,c,d,e,f,g=0;
+  42   1        extern double VDD_Voltage;
+  43   1        extern  uint8_t                 lcd_ram[34];    
+  44   1        
+  45   1      #ifdef LVD_RST_ENABLE
+  46   1        LVDCON = 0xE1;          //设置LVD复位电压为2V
+  47   1      #endif  
+  48   1        
+  49   1      #if (SYSCLK_SRC == PLL)
                 Sys_Clk_Set_PLL(PLL_Multiple);  //设置系统时钟为PLL，PLL_Multiple为倍频倍数
-              #endif
-  47   1        
-  48   1      #ifdef UART0_EN
-                Uart0_Initial(UART0_BAUTRATE);  //初始化UART0
-C51 COMPILER V9.60.0.0   MAIN                                                              06/24/2023 16:47:36 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/09/2023 08:23:47 PAGE 2   
 
               #endif
-  51   1        
-  52   1      #ifdef UART1_EN
-  53   1        Uart1_Initial(UART1_BAUTRATE);  //初始化UART1
-  54   1      #endif
-  55   1      
-  56   1      #ifdef UART2_EN
+  52   1        
+  53   1      #ifdef UART0_EN
+                Zigbee_GPIO_init();   
+                Uart0_Initial(UART0_BAUTRATE);  //初始化UART0
+              #endif
+  57   1        
+  58   1      #ifdef UART1_EN
+  59   1        Uart1_Initial(UART1_BAUTRATE);  //初始化UART1
+  60   1      #endif
+  61   1      
+  62   1      #ifdef UART2_EN
                 Uart2_Initial(UART2_BAUTRATE);  //初始化UART2
               #endif
-  59   1      
-  60   1        EA = 1;                         //开全局中断
-  61   1      
-  62   1      #ifdef PRINT_EN
-  63   1        uart_printf("LCD Power Saving Mode Demo Code\n");
-  64   1      #endif
   65   1      
-  66   1        
-  67   1      //  P72F = P72_XOSCL_IN_SETTING;      //设置P72为晶振引脚
-  68   1      //  P71F = P71_XOSCL_OUT_SETTING;     //设置P71为晶振引脚
-  69   1      //  CKCON |= XLCKE;             //使能XSOCL
-  70   1      //  while(!(CKCON & XLSTA));        //等待XSOCL稳定
-  71   1      //  
-  72   1      ////  CKCON |= ILCKE;             //使能IRCL
-  73   1      
-  74   1      //  LXDIVH = 0;       //设置LCD时钟分频，目标帧频率为64HZ
-  75   1      //  LXDIVL = 0; 
-  76   1      //  LXCAD = 0;
-  77   1      //  LXCFG =  DMOD(DMOD_5ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);      //设置LCD驱动电流、偏压(bias)、辉度
-  78   1      //  LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);             //设置LCD时钟源为XOSCL，选择LCD模式
-  79   1      ////  LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);              //设置LCD时钟源为IRCL，选择LCD模式
-  80   1      //  
-  81   1      //  //设置LCD全显
-  82   1      //  for(i = 0; i < 9; i++)
-  83   1      //  {
-  84   1      //    INDEX = i;
-  85   1      //    LXDAT = 0xFF;
-  86   1      //  }
-  87   1      
-  88   1      ////  LCD_Off();
-  89   1      //  
-  90   1      //  I2CCON = 0;           //关闭I2C，否则系统时钟无法关闭
-  91   1      //  CKCON = XLCKE;          //关闭除LCD时钟外的其他时钟
-  92   1      ////  CKCON = ILCKE;  
-  93   1      //  PWCON &= ~0x08;         //LDO进入低功率模式
-  94   1      //  
-  95   1      //  PCON = (PCON&0x84) | 0x02;      //进入STOP模式
-  96   1      //  _nop_();
-  97   1      //  _nop_();
-  98   1      //  _nop_();
-  99   1      GXHTC3_INIT();  
- 100   1      PWM6_init();
- 101   1      GPIO_init();
- 102   1      KEY_init();
- 103   1      INT2_Init();
- 104   1      INT3_Init();
- 105   1      INT4_Init();
- 106   1      INT5_Init();
- 107   1      RTC_init();
- 108   1      
- 109   1      RTC_Set(2023,6,17,14,37,0);
- 110   1      
- 111   1        while(1)
-C51 COMPILER V9.60.0.0   MAIN                                                              06/24/2023 16:47:36 PAGE 3   
+  66   1        EA = 1;                         //开全局中断
+  67   1      
+  68   1      #ifdef PRINT_EN
+  69   1        uart_printf("LCD Power Saving Mode Demo Code\n");
+  70   1      #endif
+  71   1      
+  72   1        
+  73   1      //  P72F = P72_XOSCL_IN_SETTING;      //设置P72为晶振引脚
+  74   1      //  P71F = P71_XOSCL_OUT_SETTING;     //设置P71为晶振引脚
+  75   1      //  CKCON |= XLCKE;             //使能XSOCL
+  76   1      //  while(!(CKCON & XLSTA));        //等待XSOCL稳定
+  77   1      //  
+  78   1      ////  CKCON |= ILCKE;             //使能IRCL
+  79   1      
+  80   1      //  LXDIVH = 0;       //设置LCD时钟分频，目标帧频率为64HZ
+  81   1      //  LXDIVL = 0; 
+  82   1      //  LXCAD = 0;
+  83   1      //  LXCFG =  DMOD(DMOD_5ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);      //设置LCD驱动电流、偏压(bias)、辉度
+  84   1      //  LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);             //设置LCD时钟源为XOSCL，选择LCD模式
+  85   1      ////  LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);              //设置LCD时钟源为IRCL，选择LCD模式
+  86   1      //  
+  87   1      //  //设置LCD全显
+  88   1      //  for(i = 0; i < 9; i++)
+  89   1      //  {
+  90   1      //    INDEX = i;
+  91   1      //    LXDAT = 0xFF;
+  92   1      //  }
+  93   1      
+  94   1      ////  LCD_Off();
+  95   1      //  
+  96   1      //  I2CCON = 0;           //关闭I2C，否则系统时钟无法关闭
+  97   1      //  CKCON = XLCKE;          //关闭除LCD时钟外的其他时钟
+  98   1      ////  CKCON = ILCKE;  
+  99   1      //  PWCON &= ~0x08;         //LDO进入低功率模式
+ 100   1      //  
+ 101   1      //  PCON = (PCON&0x84) | 0x02;      //进入STOP模式
+ 102   1      //  _nop_();
+ 103   1      //  _nop_();
+ 104   1      //  _nop_();
+ 105   1      GXHTC3_INIT();  
+ 106   1      PWM6_init();
+ 107   1      GPIO_init();
+ 108   1      KEY_init();
+ 109   1      INT2_Init();
+ 110   1      INT3_Init();
+ 111   1      INT4_Init();
+ 112   1      INT5_Init();
+C51 COMPILER V9.60.0.0   MAIN                                                              07/09/2023 08:23:47 PAGE 3   
 
- 112   1        {
- 113   2      //      get_gxth30(); 
- 114   2      //    PWMEN  = (1<<PWM_CH6);    //PWM6使能    
- 115   2      //    Delay_ms(10);
- 116   2      //    PWMEN  = ~(1<<PWM_CH6);   //PWM6禁用  
- 117   2      //    Delay_ms(1000); 
- 118   2          if(times10Flag ==1)
- 119   2          {
- 120   3            times10Flag = 0;
- 121   3            Key_Scanf();
- 122   3          }
- 123   2          if(ab == 0)
- 124   2            {
- 125   3              P32F = OUTPUT;          //P32设置为推挽输出模式 
- 126   3              P32 = 1;
- 127   3              ab = 1;
- 128   3            }
- 129   2            else
- 130   2            {
- 131   3              ab = 0;
- 132   3              P32F = OUTPUT;          //P32设置为推挽输出模式 
- 133   3              P32 = 0;
- 134   3            }
- 135   2      
- 136   2          if(HalfSecFlag) //半秒打印当前时间
+ 113   1      RTC_init();
+ 114   1      ADC_init();
+ 115   1      RTC_Set(2023,6,19,12,04,41);
+ 116   1      Lcd_init();
+ 117   1      
+ 118   1      //zigbee_protocol_init();
+ 119   1      
+ 120   1      //mcu_exit_zigbee();
+ 121   1        while(1)
+ 122   1        {
+ 123   2      //    zigbee_uart_service();
+ 124   2      //    PWMEN  = (1<<PWM_CH6);    //PWM6使能    
+ 125   2      //    Delay_ms(10);
+ 126   2      //    PWMEN  = ~(1<<PWM_CH6);   //PWM6禁用  
+ 127   2      //    Delay_ms(1000); 
+ 128   2      //      Uart0_PutChar(0x55);
+ 129   2      //      Uart0_PutChar(0xaa);
+ 130   2      //      Uart0_PutChar(0x00);
+ 131   2      //      Uart0_PutChar(0x04);  
+ 132   2      //      Uart0_PutChar(0x00);
+ 133   2      //      Uart0_PutChar(0x00);  
+ 134   2      //      Uart0_PutChar(0x03);      
+ 135   2      //      mcu_network_start();
+ 136   2          if(times10Flag ==1)
  137   2          {
- 138   3            HalfSecFlag = 0;
- 139   3        #ifdef PRINT_EN
- 140   3            RTC_Get();
- 141   3      //      uart_printf("%d-%d-%d %d:%d:%d ( %d )\n",calendar.w_year,calendar.w_month,calendar.w_date,calendar.ho
+ 138   3            times10Flag = 0;
+ 139   3            Key_Scanf();
+ 140   3          }
+ 141   2      //    if(ab == 0)
+ 142   2      //      {
+ 143   2      //        P32F = OUTPUT;          //P32设置为推挽输出模式 
+ 144   2      //        P32 = 1;
+ 145   2      //        ab = 1;
+ 146   2      //      }
+ 147   2      //      else
+ 148   2      //      {
+ 149   2      //        ab = 0;
+ 150   2      //        P32F = OUTPUT;          //P32设置为推挽输出模式 
+ 151   2      //        P32 = 0;
+ 152   2      //      }
+ 153   2        for(i = 0; i < 34; i++)
+ 154   2        {
+ 155   3          INDEX = i;
+ 156   3          LXDAT = lcd_ram[i];
+ 157   3        }
+ 158   2          if(HalfSecFlag) //半秒打印当前时间
+ 159   2          {
+ 160   3            HalfSecFlag = 0;
+ 161   3        #ifdef PRINT_EN
+ 162   3            RTC_Get();    get_gxth30();
+ 163   3      //      uart_printf("%d-%d-%d %d:%d:%d ( %d )\n",calendar.w_year,calendar.w_month,calendar.w_date,calendar.ho
              -ur,calendar.min,calendar.sec,calendar.week);  
- 142   3            a=calendar.w_year;
- 143   3            b=calendar.w_month;   
- 144   3            c=calendar.w_date;    
- 145   3              d=calendar.week;
- 146   3            e=calendar.hour;
- 147   3            f=calendar.min;
- 148   3            g=calendar.sec;
- 149   3            uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g); 
- 150   3              
- 151   3        #endif    
- 152   3          }
- 153   2      /*    
- 154   2          if(AlarmEvFlag) //闹钟中断产生时打印
- 155   2          {
- 156   2            AlarmEvFlag = 0;
- 157   2        #ifdef PRINT_EN
- 158   2            uart_printf("Alarm event happen!\n"); 
- 159   2        #endif    
- 160   2          }
- 161   2      */    
- 162   2        }
- 163   1      }
-*** WARNING C280 IN LINE 37 OF source\main.c: 'i': unreferenced local variable
- 164          #endif
+ 164   3            a=calendar.w_year;
+ 165   3            b=calendar.w_month;   
+ 166   3            c=calendar.w_date;    
+ 167   3              d=calendar.week;
+ 168   3            e=calendar.hour;
+ 169   3            f=calendar.min;
+ 170   3            UpdateNixieTubeRAMA(e/10,1);
+ 171   3            UpdateNixieTubeRAMA(e%10,3);
+ 172   3            
+ 173   3            UpdateNixieTubeRAMA(f/10,5);
+C51 COMPILER V9.60.0.0   MAIN                                                              07/09/2023 08:23:47 PAGE 4   
+
+ 174   3            UpdateNixieTubeRAMA(f%10,7);
+ 175   3            a=a-2000;
+ 176   3            UpdateNixieTubeRAMA(a/10,9);
+ 177   3            UpdateNixieTubeRAMA(a%10,11); 
+ 178   3      
+ 179   3            lcd_ram[10] |=0x01;
+ 180   3            Lcd_Colon(0);
+ 181   3              
+ 182   3            UpdateNixieTubeRAMA(b%10,13); 
+ 183   3            
+ 184   3            UpdateNixieTubeRAMA(c/10,15); 
+ 185   3            UpdateNixieTubeRAMA(c%10,16); 
+ 186   3            Lcd_Humiture();
+ 187   3      //      g=calendar.sec;
+ 188   3      //      uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g); 
+ 189   3      //      mcu_join_zigbee();
+ 190   3      //      Uart0_PutChar(0x31);
+ 191   3      //      uart_printf("Current Voltage %f\n",VDD_Voltage);          
+ 192   3      //  #endif    
+ 193   3            
+ 194   3            
+ 195   3          }
+ 196   2      /*    
+ 197   2          if(AlarmEvFlag) //闹钟中断产生时打印
+ 198   2          {
+ 199   2            AlarmEvFlag = 0;
+ 200   2        #ifdef PRINT_EN
+ 201   2            uart_printf("Alarm event happen!\n"); 
+ 202   2        #endif    
+ 203   2          }
+ 204   2      */    
+ 205   2        }
+ 206   1      }
+ 207          #endif
+*** WARNING C316 IN LINE 207 OF source\main.c: unterminated conditionals
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    343    ----
-   CONSTANT SIZE    =     58    ----
-   XDATA SIZE       =   ----      16
+   CODE SIZE        =    438    ----
+   CONSTANT SIZE    =     33    ----
+   XDATA SIZE       =   ----      15
    PDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.0.0   MAIN                                                              06/24/2023 16:47:36 PAGE 4   
-
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
@@ -202,4 +244,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

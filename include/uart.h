@@ -1,3 +1,6 @@
+#ifndef __UART_H_
+#define __UART_H_
+
 
 #define UART0_TX_BUF_SIZE		20
 #define UART0_RX_BUF_SIZE		100

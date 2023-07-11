@@ -218,8 +218,8 @@ void Lcd_WeekDisplay(uint8_t num)
 		lcd_ram[18] = Sunday;
 	if(num == 4)
 		lcd_ram[17] |= thursday;
-	if(num == 5)
-		lcd_ram[8] |= friday;
+//	if(num == 5)
+//		lcd_ram[8] |= friday;
 	if(num == 6)
 		lcd_ram[27] |= Saturday;
 }

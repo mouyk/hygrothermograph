@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 13:37:24 PAGE 1   
+C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 22:10:33 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE GPIO
@@ -62,7 +62,7 @@ line level    source
   48   1        P46F = INPUT|PU_EN;       //P46设置为输入模式并使能上拉电阻 
   49   1        P46C |= 0x20;         //上拉电阻选择为强上拉
   50   1      //  P46C &= ~0x20;          //上拉电阻选择为弱上拉  
-C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 13:37:24 PAGE 2   
+C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 22:10:33 PAGE 2   
 
   51   1        P47F = INPUT|PU_EN;       //P47设置为输入模式并使能上拉电阻 
   52   1      //  P47C |= 0x20;         //上拉电阻选择为强上拉
@@ -126,7 +126,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 13:37:24 PAGE 3   
+C51 COMPILER V9.60.0.0   GPIO                                                              07/09/2023 22:10:33 PAGE 3   
 
    BIT SIZE         =   ----    ----
    EDATA SIZE       =   ----    ----

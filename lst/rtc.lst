@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 1   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE RTC
@@ -62,7 +62,7 @@ line level    source
   50   1      }
   51          /***********************************************************************************/
   52          
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 2   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 2   
 
   53          /***********************************************************************************
   54          函数名：    RTC_WriteHour
@@ -126,7 +126,7 @@ line level    source
  110   1        {
  111   2          RTCIF = RTC_MF; 
  112   2          millisecondFlag = 1;
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 3   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 3   
 
  113   2          times10++;
  114   2          if(times10 >= 10)
@@ -190,7 +190,7 @@ line level    source
  170   2      #endif    
  171   2        }
  172   1        if(AlarmEvFlag) //闹钟中断产生时打印
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 4   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 4   
 
  173   1        {
  174   2          AlarmEvFlag = 0;
@@ -254,7 +254,7 @@ line level    source
  232   1          sdaycount += ( uint16_t )(sday - 1) * 1;        //把前面天数相加
  233   1      //    sdaycount += ( uint16_t )(sday) * 1;        //把前面天数相加  
  234   1        #ifdef PRINT_EN 
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 5   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 5   
 
  235   1        uart_printf("all day  %d\n",sdaycount); 
  236   1        #endif
@@ -318,7 +318,7 @@ line level    source
  293   1        RTAM  = min;
  294   1        RTAS  = min;
  295   1      
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 6   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 6   
 
  296   1          return 0;
  297   1      }
@@ -382,7 +382,7 @@ line level    source
  351   4                  }
  352   3                  temp1++;
  353   3              }
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 7   
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 7   
 
  354   2              calendar.w_month = temp1 + 1;         //月
  355   2              calendar.w_date = temp + 1;           //日
@@ -391,7 +391,10 @@ line level    source
  358   1          calendar.hour = RTCH&0x1F;
  359   1          calendar.min =  RTCM;
  360   1          calendar.sec =  RTCS;
- 361   1          calendar.week = RTCH>>5;//RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );
+ 361   1          calendar.week = RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );//RTC_Get_Week( cal
+             -endar.w_year, calendar.w_month, calendar.w_date );   RTCH>>5
+*** WARNING C206 IN LINE 361 OF source\rtc.c: 'RTC_Get_Week': missing function-prototype
+*** ERROR C267 IN LINE 361 OF source\rtc.c: 'RTC_Get_Week': requires ANSI-style prototype
  362   1          return 0;
  363   1      }
  364          //获得现在是星期几
@@ -412,7 +415,7 @@ line level    source
  379   1          if( yearL % 4 == 0 && month < 3 )
  380   1              tem--;
  381   1        tem = tem % 7;
- 382   1        RTC_WriteWeek(tem);
+ 382   1      //  RTC_WriteWeek(tem);
  383   1        #ifdef PRINT_EN 
  384   1        uart_printf("week day  %d\n",tem);  
  385   1        #endif  
@@ -443,27 +446,11 @@ line level    source
  410          
  411          
  412          
+C51 COMPILER V9.60.0.0   RTC                                                               07/11/2023 21:18:27 PAGE 8   
+
  413          /*********************************************************************************************************
              -************/
  414          #endif
-C51 COMPILER V9.60.0.0   RTC                                                               07/09/2023 13:36:46 PAGE 8   
-
 *** WARNING C316 IN LINE 414 OF source\rtc.c: unterminated conditionals
 
-
-MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1480    ----
-   CONSTANT SIZE    =     83    ----
-   XDATA SIZE       =     36      28
-   PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
-   IDATA SIZE       =   ----    ----
-   BIT SIZE         =      3    ----
-   EDATA SIZE       =   ----    ----
-   HDATA SIZE       =   ----    ----
-   XDATA CONST SIZE =   ----    ----
-   FAR CONST SIZE   =   ----    ----
-END OF MODULE INFORMATION.
-
-
-C51 COMPILATION COMPLETE.  5 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  6 WARNING(S),  1 ERROR(S)

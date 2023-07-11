@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   LCD                                                               07/09/2023 21:11:25 PAGE 1   
+C51 COMPILER V9.60.0.0   LCD                                                               07/11/2023 21:14:52 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LCD
@@ -62,7 +62,7 @@ line level    source
   47   1             
   48   1        P57F = OUTPUT;
   49   1        P34F = OUTPUT; 
-C51 COMPILER V9.60.0.0   LCD                                                               07/09/2023 21:11:25 PAGE 2   
+C51 COMPILER V9.60.0.0   LCD                                                               07/11/2023 21:14:52 PAGE 2   
 
   50   1        P35F = OUTPUT;  
   51   1        P56F = OUTPUT; 
@@ -126,7 +126,7 @@ line level    source
  109   1        P21F = P21_SEG30_SETTING; 
  110   1        P20F = P20_SEG31_SETTING; 
  111   1        
-C51 COMPILER V9.60.0.0   LCD                                                               07/09/2023 21:11:25 PAGE 3   
+C51 COMPILER V9.60.0.0   LCD                                                               07/11/2023 21:14:52 PAGE 3   
 
  112   1        P07F = P07_LCD_SEG32_SETTING; 
  113   1        P06F = P06_LCD_SEG33_SETTING;
@@ -190,7 +190,7 @@ line level    source
  171   1        else
  172   1        {
  173   2          lcd_ram[30] =F_Tmp;
-C51 COMPILER V9.60.0.0   LCD                                                               07/09/2023 21:11:25 PAGE 4   
+C51 COMPILER V9.60.0.0   LCD                                                               07/11/2023 21:14:52 PAGE 4   
 
  174   2        }
  175   1        lcd_ram[25] |= 0x01;     //.
@@ -239,8 +239,8 @@ line level    source
  218   1          lcd_ram[18] = Sunday;
  219   1        if(num == 4)
  220   1          lcd_ram[17] |= thursday;
- 221   1        if(num == 5)
- 222   1          lcd_ram[8] |= friday;
+ 221   1      //  if(num == 5)
+ 222   1      //    lcd_ram[8] |= friday;
  223   1        if(num == 6)
  224   1          lcd_ram[27] |= Saturday;
  225   1      }
@@ -254,7 +254,7 @@ line level    source
  233   1          lcd_ram[14] |= month1;  
  234   1        if((day>=10)&&(day<20))
  235   1          lcd_ram[15] = 0x0C;
-C51 COMPILER V9.60.0.0   LCD                                                               07/09/2023 21:11:25 PAGE 5   
+C51 COMPILER V9.60.0.0   LCD                                                               07/11/2023 21:14:52 PAGE 5   
 
  236   1        else if((day>=20)&&(day<30))
  237   1          lcd_ram[15] = 0x07;
@@ -270,7 +270,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1087    ----
+   CODE SIZE        =   1075    ----
    CONSTANT SIZE    =     33    ----
    XDATA SIZE       =      1       9
    PDATA SIZE       =   ----    ----

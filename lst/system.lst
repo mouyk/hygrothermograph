@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 1   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SYSTEM
@@ -62,7 +62,7 @@ line level    source
                 nwk_paremeter.rejion_period = 0xfffe;
                 nwk_paremeter.poll_period = 0xfffe;
                 nwk_paremeter.fast_poll_period = 0xfffe;
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 2   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 2   
 
                 nwk_paremeter.poll_failure_times = 0xfe;
                 nwk_paremeter.rejoin_try_times = 0xfe;
@@ -126,7 +126,7 @@ line level    source
  114          */
  115          void zigbee_uart_write_data(unsigned char *in, unsigned short len)
  116          {
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 3   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 3   
 
  117   1        if((NULL == in) || (0 == len)){
  118   2          return;
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          
  178          /**
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 4   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 4   
 
  179          * @brief send product info and mcu version 
  180          * @param[in] {void} 
@@ -254,7 +254,7 @@ line level    source
  237   2        }
  238   1        
  239   1        return ret;
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 5   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 5   
 
  240   1      }
  241          
@@ -318,7 +318,7 @@ line level    source
  298   4              i += (dp_len + 4);  
  299   4            } 
  300   3          }   
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 6   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 6   
 
  301   2          break;
  302   2          case DATA_DATA_RES_CMD:{
@@ -382,7 +382,7 @@ line level    source
  360   2      #ifdef  BEACON_TEST
                   case SEND_BEACON_NOTIFY_CMD:{
                     mcu_received_beacon_test_handle();
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 7   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 7   
 
                   }
                   break;
@@ -446,7 +446,7 @@ line level    source
                 unsigned short length = 0;
                 length = set_zigbee_uart_byte(length,mcu_type);
                 zigbee_uart_write_frame(CHECK_MCU_TYPE_CMD, length);
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 8   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 8   
 
               }   
               #endif
@@ -510,7 +510,7 @@ line level    source
                       else{
                         break;
                       }
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 9   
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 9   
 
                     }
                     else
@@ -574,7 +574,7 @@ line level    source
               }
               #endif
  548          
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 10  
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 10  
 
  549          #ifdef SET_ZIGBEE_NWK_PARAMETER
               /**
@@ -638,7 +638,7 @@ line level    source
  608   1        return current_mcu_fw_ver;
  609   1      }
  610          
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 11  
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 11  
 
  611          #ifdef SUPPORT_MCU_OTA
               /**
@@ -702,7 +702,7 @@ line level    source
                   i++;
                 }
                 length = set_zigbee_uart_byte(length,ota_fw_info.mcu_ota_ver);  //ota fw version
-C51 COMPILER V9.60.0.0   SYSTEM                                                            06/26/2023 23:06:28 PAGE 12  
+C51 COMPILER V9.60.0.0   SYSTEM                                                            07/09/2023 22:10:34 PAGE 12  
 
                 
                 zigbee_uart_write_frame(MCU_OTA_RESULT_CMD,length); //response 

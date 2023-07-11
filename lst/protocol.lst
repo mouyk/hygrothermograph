@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 1   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PROTOCOL
@@ -62,7 +62,7 @@ line level    source
              -�耗版本尤其需要注意不要
   48          在第一次确认波特率的时候提前唤醒或者发送串口给zigbee模组，有概率导致zigbee�
              -��组波特率存储失败。
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 2   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 2   
 
   49          
   50          7：上电之后，mcu何时上报数据给网关合适，在收到网络状态为已配网，或者接收
@@ -126,7 +126,7 @@ line level    source
  104          1:APP下发数据处理
  105          2:数据上报处理
  106          ******************************************************************************/
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 3   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 3   
 
  107          
  108          /******************************************************************************
@@ -190,7 +190,7 @@ line level    source
                */
                 my_memcpy((void *)timestamp,(const char *)time,4);  //get timestamp
                 zigbee_timestamp_to_time(); 
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 4   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 4   
 
               /*
                 year = _time.w_year;  //year
@@ -254,7 +254,7 @@ line level    source
  226   1      }
 *** WARNING C280 IN LINE 215 OF mcu_sdk\protocol.c: 'value': unreferenced local variable
 *** WARNING C280 IN LINE 215 OF mcu_sdk\protocol.c: 'length': unreferenced local variable
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 5   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 5   
 
  227          
  228          /**
@@ -318,7 +318,7 @@ line level    source
  286          { 
  287   1        switch(state){
  288   2          case RESET_ZIGBEE_OK:
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 6   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 6   
 
  289   2          
  290   2            break;
@@ -382,7 +382,7 @@ line level    source
                   length = set_zigbee_uart_byte(length,0x01); //error
                 }
                   ota_fw_info.mcu_current_offset = 0;
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 7   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 7   
 
                 zigbee_uart_write_frame(MCU_OTA_NOTIFY_CMD,length);
               }
@@ -446,7 +446,7 @@ line level    source
                   else {
                     i = 0;
                     last_package_len = ota_fw_info.mcu_ota_fw_size - fw_offset;
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 8   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 8   
 
                     while(i < last_package_len){
                       fw_data[i] = zigbee_uart_rx_buf[offset + DATA_START + 14 + i];
@@ -510,7 +510,7 @@ line level    source
                 #error "请在该函数处理固件包数据,并删除该行"
               }
               #endif
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 9   
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 9   
 
  474          
  475          
@@ -574,7 +574,7 @@ line level    source
  532          
  533          
  534          
-C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 13:37:25 PAGE 10  
+C51 COMPILER V9.60.0.0   PROTOCOL                                                          07/09/2023 22:10:34 PAGE 10  
 
 *** WARNING C316 IN LINE 534 OF mcu_sdk\protocol.c: unterminated conditionals
 

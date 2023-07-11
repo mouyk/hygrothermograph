@@ -358,7 +358,7 @@ uint8_t RTC_Get( void )
     calendar.hour = RTCH&0x1F;
     calendar.min = 	RTCM;
     calendar.sec = 	RTCS;
-    calendar.week = RTCH>>5;//RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );
+    calendar.week = RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );//RTC_Get_Week( calendar.w_year, calendar.w_month, calendar.w_date );   RTCH>>5
     return 0;
 }
 //获得现在是星期几
@@ -379,7 +379,7 @@ uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day )
     if( yearL % 4 == 0 && month < 3 )
         tem--;
 	tem = tem % 7;
-	RTC_WriteWeek(tem);
+//	RTC_WriteWeek(tem);
 	#ifdef PRINT_EN	
 	uart_printf("week day  %d\n",tem);	
 	#endif	

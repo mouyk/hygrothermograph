@@ -291,7 +291,7 @@ void get_gxth30(void)
 		temp+=GXHTC3_temp;
 		humi+=GXHTC3_humi;
 	}
-	
+
 	GXHTC3_temp = temp / 5;
 	GXHTC3_humi = humi / 5;
 //	uart_printf("Temp=%0.2f ||| Humi=%0.2f \n",GXHTC3_temp,GXHTC3_humi);

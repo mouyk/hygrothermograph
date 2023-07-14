@@ -156,7 +156,16 @@ void Lcd_Humiture(void)
 {
 	extern uint8_t lcd_ram[34];
 	uint16_t lcdtemp=0,lcdhumi=0;
-	
+	if((GXHTC3_temp>=-10)&&(GXHTC3_temp<=50))    //ÎÂ¶ÈÐ¦Á³
+		lcd_ram[29] |=smile_Temp;
+	if(FahrenFlag == 0)
+	{
+		GXHTC3_temp = GXHTC3_temp;
+	}
+	else
+	{
+		GXHTC3_temp = (9.0/5.0)*(GXHTC3_temp)+32;
+	}
 	lcdtemp=GXHTC3_temp*10;
 	lcdhumi=GXHTC3_humi;
 	UpdateNixieTubeRAMB(lcdtemp/100,27);
@@ -177,8 +186,6 @@ void Lcd_Humiture(void)
 	lcd_ram[22] |= 0x01;     //%
 	if((GXHTC3_humi>=40)&&(GXHTC3_humi<=70))    //Êª¶ÈÐ¦Á³
 		lcd_ram[20] |=smile_Humi;
-	if((GXHTC3_temp>=-10)&&(GXHTC3_temp<=50))    //ÎÂ¶ÈÐ¦Á³
-		lcd_ram[29] |=smile_Temp;
 	if(GXHTC3_temp<0)
 		lcd_ram[29] |=negative;                    //¸ººÅ
 }
@@ -218,8 +225,8 @@ void Lcd_WeekDisplay(uint8_t num)
 		lcd_ram[18] = Sunday;
 	if(num == 4)
 		lcd_ram[17] |= thursday;
-//	if(num == 5)
-//		lcd_ram[8] |= friday;
+	if(num == 5)
+		lcd_ram[8] |= friday;
 	if(num == 6)
 		lcd_ram[27] |= Saturday;
 }

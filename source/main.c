@@ -139,6 +139,7 @@ Lcd_init();
 			Key_Scanf();
 			Key_HandleFunction();
 		}
+		Lcd_HourTurn(calendar.hour);
 //		if(ab == 0)
 //			{
 //				P32F = OUTPUT;					//P32设置为推挽输出模式	

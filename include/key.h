@@ -16,4 +16,5 @@ void INT5_Init(void);
 void Key_Scanf(void);
 void Key_HandleFunction(void);
 extern uint8_t FahrenFlag;
+extern uint8_t HourFlag;
 #endif

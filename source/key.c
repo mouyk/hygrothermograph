@@ -13,7 +13,7 @@
 uint8_t key_value1,key_value2,key_value3,key_value4=0;
 uint8_t FahrenFlag = 0;        //华氏度标志
 uint8_t Interface = 0;         //界面
-uint8_t HourFlag = 0;          //小时制标志 0：12hour    1：24hour
+uint8_t HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 //EPCON寄存器定义
 #define EPPL(N)	(N<<7)
 /*****************************************************************************
@@ -129,13 +129,11 @@ uint16_t times4 = 0,times3 = 0,times2 = 0,times1 = 0;
 void Key_Scanf(void)
 {
 	static uint8_t Key1Flag = 0,Key2Flag = 0,Key3Flag = 0,Key4Flag = 0;
-//	static uint8_t S4 = 0,S3 = 0,S2 = 0,S1 = 0;
 		if(40==key_value4)																						//key4   S4     减号
 		{
 			if(P40 == 0)
 			{
 				times4++;
-//				Key4Flag = 0;
 				if(times4>=Maxnum)
 				{
 					times4 =Maxnum;
@@ -149,22 +147,17 @@ void Key_Scanf(void)
 			else
 			{
 				key_value4=0;
-//				S4 = 0;
-//				if(times4<Maxnum)
-//				Key4Flag = 1;
 				if((times4 <= Shortnum)&&(Key4Flag == 0))
 				{
 					ShortKey4 = 1;
 					times4 = 0;
 					Key4Flag = 0;
-//					uart_printf("%Key4 ShortKey4=%d\n",0);
 				}
 				else if((times4 >Shortnum)&&(Key4Flag == 0))
 				{
 					LongKey4 = 1;
 					times4 = 0;
 					Key4Flag = 0;
-//					uart_printf("%Key4 LongKey4=%d\n",0);
 				}
 				else if(times4 == Maxnum)
 				{
@@ -177,7 +170,6 @@ void Key_Scanf(void)
 			if(P41 == 0)
 			{
 				times3++;
-//				Key3Flag = 0;
 				if(times3>=Maxnum)
 				{
 					times3 =Maxnum;
@@ -196,14 +188,12 @@ void Key_Scanf(void)
 					ShortKey3 = 1;
 					times3 = 0;
 					Key3Flag = 0;
-//					uart_printf("%Key3 ShortKey3=%d\n",0);
 				}
 				else if((times3 >Shortnum)&&(Key3Flag == 0))
 				{
 					LongKey3 = 1;
 					times3 = 0;
 					Key3Flag = 0;
-//					uart_printf("%Key3 LongKey3=%d\n",0);
 				}
 				else if(times3 == Maxnum)
 				{
@@ -211,16 +201,11 @@ void Key_Scanf(void)
 				}
 			}
 		}
-//		if((times3 == Maxnum)&&(Key3Flag == 2))
-//		{
-//			Hold_down1 = 1;
-//		}
 		if(42==key_value2)																						//key2   S2        加号
 		{
 			if(P42 == 0)
 			{
 				times2++;
-//				Key2Flag = 0;
 				if(times2>=Maxnum)
 				{
 					times2 =Maxnum;
@@ -239,14 +224,12 @@ void Key_Scanf(void)
 					ShortKey2 = 1;
 					times2 = 0;
 					Key2Flag = 0;
-//					uart_printf("%Key2 ShortKey2=%d\n",0);
 				}
 				else if((times2 >Shortnum)&&(Key2Flag == 0))
 				{
 					LongKey2 = 1;
 					times2 = 0;
 					Key2Flag = 0;
-//					uart_printf("%Key2 LongKey2=%d\n",0);
 				}
 				else if(times2 == Maxnum)
 				{
@@ -254,16 +237,11 @@ void Key_Scanf(void)
 				}
 			}
 		}
-//		if((times2 == Maxnum)&&(Key2Flag == 2))
-//		{
-//			Hold_down2 = 1;
-//		}	
 		if(43==key_value1)																						//key1   S1          贪睡/背光
 		{
 			if(P43 == 0)
 			{
 				times1++;
-//				Key1Flag = 0;
 				if(times1>=Maxnum)
 				{
 					times1 =Maxnum;
@@ -282,14 +260,12 @@ void Key_Scanf(void)
 					ShortKey1 = 1;
 					times1 = 0;
 					Key1Flag = 0;
-//					uart_printf("%Key1 ShortKey1=%d\n",0);
 				}
 				else if((times1 >Shortnum)&&(Key1Flag == 0))
 				{
 					LongKey1 = 1;
 					times1 = 0;
 					Key1Flag = 0;
-//					uart_printf("%Key1 LongKey1=%d\n",0);
 				}
 				else if(times1 == Maxnum)
 				{

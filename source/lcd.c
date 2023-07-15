@@ -249,4 +249,26 @@ void Lcd_DateFunction(uint16_t year, uint8_t month,uint8_t day)
 	week = RTC_Set_Week(year,month,day);
 	Lcd_WeekDisplay(week);
 }
+void Lcd_HourTurn(uint8_t hour)
+{
+	if(HourFlag == 0)
+	{
+		lcd_ram[0] = 0;
+	}
+	else
+	{
+		if((hour>=0)&&(hour<12))
+		{
+			lcd_ram[0] = 0x04;
+		}
+		else
+		{
+			lcd_ram[0] = 0x08;
+		}
+	}
+}	
+void Lcd_TimeHanlde()
+{
+	
+}
 #endif

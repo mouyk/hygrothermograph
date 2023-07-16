@@ -666,4 +666,17 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
 		}
 	}
 }
+void Lcd_Backlight(void)
+{
+	static time_num =0;
+	if(P32 == 1)
+	{
+		time_num++;
+		if(time_num > 8)
+		{
+			P32 = 0;
+			time_num = 0;
+		}
+	}
+}
 #endif

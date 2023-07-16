@@ -83,4 +83,5 @@ void Lcd_HourHanlde(uint8_t hour, uint8_t flag);
 void Lcd_MinHanlde(uint8_t min, uint8_t flag);
 void Lcd_ZigbeeIcon(uint8_t zigbee);
 void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min);
+void Lcd_Backlight(void);
 #endif

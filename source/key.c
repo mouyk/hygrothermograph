@@ -120,7 +120,8 @@ void INT5_ISR (void) interrupt 10
 	if(EPIF & 0x08)
 	{
 		EPIF = 0x08;	
-	key_value1 = 43;	
+	key_value1 = 43;
+	P32	 = 1;													//¿ªÆô±³¹â
 	}
 }
 /***********************************************************************************
@@ -375,7 +376,7 @@ void Key_HandleFunction(void)
 void Key_timedate(uint8_t flag)
 {
 	uint8_t Days =0;
-		if((ShortKey4 == 1)&&(Interface == 2))
+	if((ShortKey4 == 1)&&(Interface == 2))
 	{
 		ShortKey4 = 0;
 		if(RTC_num == 0)

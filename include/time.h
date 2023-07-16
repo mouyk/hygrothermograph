@@ -26,7 +26,7 @@
 #define	TL_VAL				(unsigned char)(0x10000 - (INT_TIME*(FOSC/1000))/1000)
 /*********************************************************************************************************************/
 
-extern uint8_t times250Flag;
+extern uint8_t times250Flag,times1000Flag;
 extern uint8_t Timer_Array[2];
 extern uint8_t Timer_num;
 

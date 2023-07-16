@@ -153,6 +153,11 @@ Lcd_init();
 					LXDAT = lcd_ram[i];
 				}
 		}
+		if(times1000Flag == 1)
+		{
+			Lcd_Backlight();
+			times1000Flag = 0;
+		}
 			
 //	for(i = 0; i < 34; i++)
 //	{

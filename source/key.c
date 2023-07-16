@@ -7,6 +7,7 @@
 #include "include/gpiodef_f2.h"
 #include "include/system_clock.h"
 #include "include/key.h"
+#include "include/time.h"
 #include "include/rtc.h"
 #include "include/uart.h"
 #include <intrins.h>
@@ -290,6 +291,7 @@ void Key_Scanf(void)
 uint8_t ZigbeeFlag = 0,DelAlarmFlag = 0;
 void Key_HandleFunction(void)
 {
+	uint8_t i = 0;
 	if((ShortKey2 == 1)&&(Interface == 0))         //°Ê”Î®H«–ªª
 	{
 		ShortKey2 = 0;
@@ -319,6 +321,10 @@ void Key_HandleFunction(void)
 		RTC_num = 0;
 		RTC_Array[5] = calendar.sec;
 		RTC_Set(RTC_Array[0],RTC_Array[1],RTC_Array[2],RTC_Array[3],RTC_Array[4],RTC_Array[5]);
+		for(i = 0;i <= 5;i++)
+		{
+			RTC_Array[i] = 0;
+		}
 	}
 	
 	if(((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum))||((LongKey2 ==1)&&(times3 > Shortnum)))       //zigbee◊ÈÕ¯
@@ -338,13 +344,24 @@ void Key_HandleFunction(void)
 		DelAlarmFlag = 1;
 	}
 
-	if((ShortKey3 == 1)&&(Interface == 2))
+	if((ShortKey3 == 1))
 	{
 		ShortKey3 = 0;
-		RTC_num++;
-		if(RTC_num > 5)
+		if(Interface == 2)
 		{
-			RTC_num = 0;
+			RTC_num++;
+			if(RTC_num > 5)
+			{
+				RTC_num = 0;
+			}
+		}
+		else if(Interface == 1)
+		{
+			Timer_num++;
+			if(Timer_num > 2)
+			{
+				Timer_num = 0;
+			}
 		}
 	}
 	Key_timedate(RTC_num);

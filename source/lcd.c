@@ -14,6 +14,7 @@
 #include "include/gxhtc.h"
 #include "include/disp.h"
 #include "include/key.h"
+#include "include/time.h"
 #include "include/rtc.h"
 #include <intrins.h>
 /*********************************************************************************************************************			
@@ -179,14 +180,6 @@ void Lcd_Humiture(void)
 	UpdateNixieTubeRAMB(lcdtemp%100%10,23);	
 	UpdateNixieTubeRAMA(lcdhumi/10,19);
 	UpdateNixieTubeRAMA(lcdhumi%10,21);	
-	if(FahrenFlag == 0)
-	{
-		lcd_ram[30] = C_Tmp;
-	}
-	else
-	{
-		lcd_ram[30] =F_Tmp;
-	}
 	lcd_ram[25] |= 0x01;     //.
 	lcd_ram[23] |= 0x01;      //温湿度标
 	lcd_ram[22] |= 0x01;     //%
@@ -232,9 +225,18 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 {
 	static i = 0;
 	lcd_ram[32] = SOC3;
+	if(FahrenFlag == 0)
+	{
+		lcd_ram[30] = C_Tmp;
+	}
+	else
+	{
+		lcd_ram[30] =F_Tmp;
+	}
 	if(menu == 1)
 	{
-		
+		Lcd_Countdown(menu,flag,Timer_Array[0],Timer_Array[1]);
+		Lcd_Colon(0);
 	}
 	else if(menu == 2)
 	{
@@ -251,7 +253,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 		Lcd_TimeHanlde(flag,RTC_Array[3],RTC_Array[4]);
 		Lcd_DateFunction(flag,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
 		Lcd_Colon(0);
-		uart_printf("Interface =%d\n",Interface);
+		Lcd_ZigbeeIcon(ZigbeeFlag);
 	}
 	else
 	{
@@ -259,6 +261,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 		Lcd_TimeHanlde(2,calendar.hour,calendar.min);
 		Lcd_DateFunction(flag,calendar.w_year,calendar.w_month,calendar.w_date);
 		Lcd_Colon(1);
+		Lcd_ZigbeeIcon(ZigbeeFlag);
 	}
 }
 /***********************************************************************************
@@ -446,44 +449,34 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 				if(a == 0)
 				{
 					a = 1;
-					UpdateNixieTubeRAMA(hour1/10,1);
-					UpdateNixieTubeRAMA(hour1%10,3);
+					Lcd_HourHanlde(hour1,1);
 				}
 				else
 				{
 					a = 0;
-					lcd_ram[1] = 0;
-					lcd_ram[2] = 0;
-					lcd_ram[3] = 0;
-					lcd_ram[4] = 0;
+					Lcd_HourHanlde(hour1,0);
 				}
 			}
 			else
 			{
-				UpdateNixieTubeRAMA(hour1/10,1);
-				UpdateNixieTubeRAMA(hour1%10,3);
+				Lcd_HourHanlde(hour1,1);
 			}
 			if(flag == 1)
 			{
 				if(a == 0)
 				{
 					a = 1;
-					UpdateNixieTubeRAMA(min/10,5);
-					UpdateNixieTubeRAMA(min%10,7);
+					Lcd_MinHanlde(min,1);
 				}
 				else
 				{
 					a = 0;
-					lcd_ram[5] = 0;
-					lcd_ram[6] = 0;
-					lcd_ram[7] = 0;
-					lcd_ram[8] = 0;
+					Lcd_MinHanlde(min,0);
 				}
 			}
 			else
 			{
-				UpdateNixieTubeRAMA(min/10,5);
-				UpdateNixieTubeRAMA(min%10,7);
+				Lcd_MinHanlde(min,1);
 			}
 		}
 		else
@@ -493,44 +486,34 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 				if(a == 0)
 				{
 					a = 1;
-					UpdateNixieTubeRAMA(hour/10,1);
-					UpdateNixieTubeRAMA(hour%10,3);
+					Lcd_HourHanlde(hour,1);
 				}
 				else
 				{
 					a = 0;
-					lcd_ram[1] = 0;
-					lcd_ram[2] = 0;
-					lcd_ram[3] = 0;
-					lcd_ram[4] = 0;
+					Lcd_HourHanlde(hour,0);
 				}
 			}
 			else
 			{
-				UpdateNixieTubeRAMA(hour/10,1);
-				UpdateNixieTubeRAMA(hour%10,3);
+				Lcd_HourHanlde(hour,1);
 			}
 			if(flag == 1)
 			{
 				if(a == 0)
 				{
 					a = 1;
-					UpdateNixieTubeRAMA(min/10,5);
-					UpdateNixieTubeRAMA(min%10,7);
+					Lcd_MinHanlde(min,1);
 				}
 				else
 				{
 					a = 0;
-					lcd_ram[5] = 0;
-					lcd_ram[6] = 0;
-					lcd_ram[7] = 0;
-					lcd_ram[8] = 0;
+					Lcd_MinHanlde(min,0);
 				}
 			}
 			else
 			{
-				UpdateNixieTubeRAMA(min/10,5);
-				UpdateNixieTubeRAMA(min%10,7);
+				Lcd_MinHanlde(min,1);
 			}
 		}
 	}
@@ -541,46 +524,146 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 			if(a == 0)
 			{
 				a = 1;
-				UpdateNixieTubeRAMA(hour/10,1);
-				UpdateNixieTubeRAMA(hour%10,3);
+				Lcd_HourHanlde(hour,1);
 			}
 			else
 			{
 				a = 0;
-				lcd_ram[1] = 0;
-				lcd_ram[2] = 0;
-				lcd_ram[3] = 0;
-				lcd_ram[4] = 0;
+				Lcd_HourHanlde(hour,0);
 			}
 		}
 		else
 		{
-			UpdateNixieTubeRAMA(hour/10,1);
-			UpdateNixieTubeRAMA(hour%10,3);
+			Lcd_HourHanlde(hour,1);
 		}
 		if(flag == 1)
 		{
 			if(a == 0)
 			{
 				a = 1;
-				UpdateNixieTubeRAMA(min/10,5);
-				UpdateNixieTubeRAMA(min%10,7);
+				Lcd_MinHanlde(min,1);
 			}
 			else
 			{
 				a = 0;
-				lcd_ram[5] = 0;
-				lcd_ram[6] = 0;
-				lcd_ram[7] = 0;
-				lcd_ram[8] = 0;
+				Lcd_MinHanlde(min,0);
 			}
 		}
 		else
 		{
-			UpdateNixieTubeRAMA(min/10,5);
-			UpdateNixieTubeRAMA(min%10,7);
+			Lcd_MinHanlde(min,1);
 		}
 	}
-	Lcd_HourTurn(hour);
+	Lcd_HourTurn(hour);													//上下午表示处理
+}
+void Lcd_HourHanlde(uint8_t hour, uint8_t flag)
+{
+	if(flag == 1)
+	{
+		UpdateNixieTubeRAMA(hour/10,1);
+		UpdateNixieTubeRAMA(hour%10,3);
+	}
+	else
+	{
+		lcd_ram[1] = 0;
+		lcd_ram[2] = 0;
+		lcd_ram[3] = 0;
+		lcd_ram[4] = 0;
+	}
+}
+void Lcd_MinHanlde(uint8_t min, uint8_t flag)
+{
+	if(flag == 1)
+	{
+		UpdateNixieTubeRAMA(min/10,5);
+		UpdateNixieTubeRAMA(min%10,7);
+	}
+	else
+	{
+		lcd_ram[5] = 0;
+		lcd_ram[6] = 0;
+		lcd_ram[7] = 0;
+		lcd_ram[8] = 0;
+	}
+}
+void Lcd_ZigbeeIcon(uint8_t zigbee)
+{
+	static uint8_t a = 0,b = 0;
+
+	if(zigbee == 1)
+	{
+		b++;
+		if(a == 0)
+		{
+			a = 1;
+			lcd_ram[2] |= LoGo_Zigbee;												//Zigbee显示
+		}
+		else
+		{
+			a = 0;
+		}
+	}
+	if(b >= 8)
+	{
+		b = 0;
+		ZigbeeFlag = 0;
+	}
+}
+void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
+{
+	static a = 0;
+	if(menu == 1)
+	{
+		if(flag == 0)
+		{
+			if(a == 0)
+			{
+				a = 1;
+				lcd_ram[30] |= LoGo_timer;
+			}
+			else
+			{
+				a = 0;
+			}
+		}
+		else
+		{
+			lcd_ram[30] |= LoGo_timer;
+		}
+		if(flag == 1)
+		{
+			if(a == 0)
+			{
+				a = 1;
+				Lcd_HourHanlde(hour,1);
+			}
+			else
+			{
+				a = 0;
+				Lcd_HourHanlde(hour,0);
+			}
+		}
+		else
+		{
+			Lcd_HourHanlde(hour,1);
+		}
+		if(flag == 2)
+		{
+			if(a == 0)
+			{
+				a = 1;
+				Lcd_MinHanlde(min,1);
+			}
+			else
+			{
+				a = 0;
+				Lcd_MinHanlde(min,0);
+			}
+		}
+		else
+		{
+			Lcd_MinHanlde(min,1);
+		}
+	}
 }
 #endif

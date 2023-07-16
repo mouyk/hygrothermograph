@@ -9,6 +9,9 @@
 #include "include/system_clock.h"
 
 #include "include/time.h"
+
+uint8_t Timer_Array[2]={0};
+uint8_t Timer_num = 0;									//0：计时标识    1：时     2：分
 void TIME2_init(void)
 {
 	P12F = P12_T2CP_SETTING;	 

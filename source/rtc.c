@@ -17,7 +17,7 @@
 _calendar_obj calendar;
 
 int16_t RTC_Array[6] = {0};
-uint8_t RTC_num = 0;
+uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
 
 /***********************************************************************************
 函数名：		RTC_WriteSecond

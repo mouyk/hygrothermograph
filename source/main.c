@@ -143,7 +143,10 @@ Lcd_init();
 		if(times250Flag == 1)
 		{
 			times250Flag = 0;
-			Lcd_IconFunction(Interface,RTC_num);
+			if(Interface == 1)
+				Lcd_IconFunction(Interface,Timer_num);
+			else
+				Lcd_IconFunction(Interface,RTC_num);
 				for(i = 0; i < 34; i++)
 				{
 					INDEX = i;
@@ -159,7 +162,6 @@ Lcd_init();
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
-//	#ifdef PRINT_EN
 			RTC_Get();	
 			get_gxth30();
 
@@ -168,8 +170,7 @@ Lcd_init();
 //			Uart0_PutChar(0x31);
 //			uart_printf("Current Voltage %f\n",VDD_Voltage);					
 //	#endif		
-			
-			
+
 		}	
 		if(AlarmEvFlag)	//闹钟中断产生时打印
 		{

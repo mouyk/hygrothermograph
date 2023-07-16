@@ -16,7 +16,8 @@
 
 _calendar_obj calendar;
 
-
+int16_t RTC_Array[6] = {0};
+uint8_t RTC_num = 0;
 
 /***********************************************************************************
 函数名：		RTC_WriteSecond
@@ -151,8 +152,8 @@ void RTC_init(void)
 	RTC_WriteSecond(0);			
 
 	//设置闹钟时间为12:01:00
-	RTAH	=	12;			
-	RTAM	=	1;
+	RTAH	=	0;			
+	RTAM	=	0;
 	RTAS	=	0;
 	
 	RTMSS = 0;			//设置毫秒中断时间间隔
@@ -166,21 +167,34 @@ void RTC_init(void)
 	{
 		HalfSecFlag = 0;
 #ifdef PRINT_EN
-		uart_printf("Hour = %d,Minute = %d,Second = %d\n",(unsigned int)(RTCH&0x1F),(unsigned int)RTCM,(unsigned int)RTCS);	
+//		uart_printf("Hour = %d,Minute = %d,Second = %d\n",(unsigned int)(RTCH&0x1F),(unsigned int)RTCM,(unsigned int)RTCS);	
 #endif		
 	}
 	if(AlarmEvFlag)	//闹钟中断产生时打印
 	{
 		AlarmEvFlag = 0;
 #ifdef PRINT_EN
-		uart_printf("Alarm event happen!\n");	
+//		uart_printf("Alarm event happen!\n");	
 #endif		
 	}
 
 }
 
-
-
+void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec)
+{
+	if(flag == 1)
+	{
+		RTAH	=	hour;			
+		RTAM	=	min;
+		RTAS	=	sec;
+    RTCON = RTCE(1) | MSE(1) | HSE(1) | SCE(1) | MCE(1) | HCE(1);
+	}
+	else
+	{
+		RTCON =  RTCE(1) | MSE(1) | HSE(1) | SCE(0) | MCE(0) | HCE(0);
+	}
+	
+}
 
 //判断是否是闰年函数
 //输入:年份
@@ -232,7 +246,7 @@ uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8
     sdaycount += ( uint16_t )(sday - 1) * 1;				//把前面天数相加
 //    sdaycount += ( uint16_t )(sday) * 1;				//把前面天数相加	
 	#ifdef PRINT_EN	
-	uart_printf("all day  %d\n",sdaycount);	
+//	uart_printf("all day  %d\n",sdaycount);	
 	#endif
 	RTC_WriteDay(sdaycount);								//设置当前时间→1970年的天数写到天数寄存器里面
    //设置当前时间 天 时分秒

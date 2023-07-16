@@ -75,7 +75,8 @@ void LCD_Off(void);
 void Lcd_init(void);
 void Lcd_Humiture(void);
 void Lcd_Colon(uint8_t flag);
-void Lcd_DateFunction(uint16_t year, uint8_t month,uint8_t day);
-void Lcd_IconFunction(void);
+void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day);
+void Lcd_IconFunction(uint8_t menu,uint8_t flag);
 void Lcd_HourTurn(uint8_t hour);
+void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min);
 #endif

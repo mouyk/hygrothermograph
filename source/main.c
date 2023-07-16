@@ -16,6 +16,7 @@
 #include "include/gpio.h"
 #include "include/gxhtc.h"
 #include "include/rtc.h"
+#include "include/time.h"
 #include <intrins.h>
 #include "include/pwm.h"
 #include "include/adc.h"
@@ -35,10 +36,9 @@ extern float GXHTC3_temp,GXHTC3_humi;
 extern bit HalfSecFlag;
 extern bit AlarmEvFlag;
 extern bit millisecondFlag;
-extern uint8_t times10Flag;
 	unsigned char i;
 	uint8_t ab = 0;
-	uint16_t a,b,c,d,e,f,g=0;
+//	uint16_t a,b,c,d,e,f,g=0;
 	extern double VDD_Voltage;
 	extern  uint8_t            			lcd_ram[34];		
 	
@@ -112,7 +112,8 @@ INT4_Init();
 INT5_Init();
 RTC_init();
 ADC_init();
-RTC_Set(2023,7,11,12,04,41);
+TIME2_init();
+RTC_Set(2023,10,11,23,59,41);
 Lcd_init();
 
 //zigbee_protocol_init();
@@ -139,56 +140,37 @@ Lcd_init();
 			Key_Scanf();
 			Key_HandleFunction();
 		}
-		Lcd_HourTurn(calendar.hour);
-//		if(ab == 0)
-//			{
-//				P32F = OUTPUT;					//P32设置为推挽输出模式	
-//				P32 = 1;
-//				ab = 1;
-//			}
-//			else
-//			{
-//				ab = 0;
-//				P32F = OUTPUT;					//P32设置为推挽输出模式	
-//				P32 = 0;
-//			}
-	for(i = 0; i < 34; i++)
-	{
-		INDEX = i;
-		LXDAT = lcd_ram[i];
-	}
+		if(times250Flag == 1)
+		{
+			times250Flag = 0;
+			Lcd_IconFunction(Interface,RTC_num);
+				for(i = 0; i < 34; i++)
+				{
+					INDEX = i;
+					LXDAT = lcd_ram[i];
+				}
+		}
+			
+//	for(i = 0; i < 34; i++)
+//	{
+//		INDEX = i;
+//		LXDAT = lcd_ram[i];
+//	}
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
-	#ifdef PRINT_EN
-			RTC_Get();		get_gxth30();
-//			uart_printf("%d-%d-%d %d:%d:%d ( %d )\n",calendar.w_year,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec,calendar.week);	
-			a=calendar.w_year;
-			b=calendar.w_month;		
-			c=calendar.w_date;		
-		    d=calendar.week;
-			e=calendar.hour;
-			f=calendar.min;
-			UpdateNixieTubeRAMA(e/10,1);
-			UpdateNixieTubeRAMA(e%10,3);
-			
-			UpdateNixieTubeRAMA(f/10,5);
-			UpdateNixieTubeRAMA(f%10,7);
+//	#ifdef PRINT_EN
+			RTC_Get();	
+			get_gxth30();
 
-			Lcd_Colon(1);
-			Lcd_IconFunction();
 			Lcd_Humiture();
-			Lcd_DateFunction(calendar.w_year,calendar.w_month,calendar.w_date);
-			g=calendar.sec;
-//			uart_printf("%d/%d/%d-[%d]  %d:%d:%d\n",a,b,c,d,e,f,g);	
 //			mcu_join_zigbee();
 //			Uart0_PutChar(0x31);
 //			uart_printf("Current Voltage %f\n",VDD_Voltage);					
 //	#endif		
 			
 			
-		}
-/*		
+		}	
 		if(AlarmEvFlag)	//闹钟中断产生时打印
 		{
 			AlarmEvFlag = 0;
@@ -196,7 +178,7 @@ Lcd_init();
 			uart_printf("Alarm event happen!\n");	
 	#endif		
 		}
-*/		
+		
 	}
 }
 #endif

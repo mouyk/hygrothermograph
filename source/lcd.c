@@ -194,60 +194,182 @@ void Lcd_Colon(uint8_t flag)
 	static uint8_t a = 0;
 	if(flag == 1)
 	{
-		if(a == 0)
+		a++;
+		if((a <= 2))
 		{
 			lcd_ram[4] |= 0x01;
-			a = 1;
 		}
-		else
+		else if(a >= 4)
 		{
 			a = 0;
 		}
+
 	}
 	else
 	{
 		lcd_ram[4] |= 0x01;
 	}
 }
-void Lcd_IconFunction(void)
+void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 {
+	static i = 0;
 	lcd_ram[32] = SOC3;
+	if(menu == 1)
+	{
+		
+	}
+	else if(menu == 2)
+	{
+		if(i == 0)
+		{
+			i =1;
+			RTC_Array[0] = calendar.w_year;
+			RTC_Array[1] = calendar.w_month;
+			RTC_Array[2] = calendar.w_date;
+			RTC_Array[3] = calendar.hour;
+			RTC_Array[4] = calendar.min;
+			RTC_Array[5] = calendar.sec;
+		}
+		Lcd_TimeHanlde(flag,RTC_Array[3],RTC_Array[4]);
+		Lcd_DateFunction(flag,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
+		Lcd_Colon(0);
+		uart_printf("Interface =%d\n",Interface);
+	}
+	else
+	{
+		i = 0;
+		Lcd_TimeHanlde(2,calendar.hour,calendar.min);
+		Lcd_DateFunction(flag,calendar.w_year,calendar.w_month,calendar.w_date);
+		Lcd_Colon(1);
+	}
 }
 void Lcd_WeekDisplay(uint8_t num)
 {
 	if(num == 1)
-		lcd_ram[18] = Monday;
+		lcd_ram[18] = Monday;													//星期一
 	else if(num == 2)
-		lcd_ram[18] = Tuesday;
+		lcd_ram[18] = Tuesday;													//星期二
 	else if(num == 3)
-		lcd_ram[18] = wednesday;
+		lcd_ram[18] = wednesday;													//星期三
 	else if(num == 0)
-		lcd_ram[18] = Sunday;
+		lcd_ram[18] = Sunday;													//星期天
+	else
+		lcd_ram[18] = 0;
 	if(num == 4)
-		lcd_ram[17] |= thursday;
+		lcd_ram[17] |= thursday;													//星期四
+	else
+	{
+		lcd_ram[17] = lcd_ram[17]>>1;
+		lcd_ram[17] = lcd_ram[17]<<1;
+	}
 	if(num == 5)
-		lcd_ram[8] |= friday;
+		lcd_ram[8] |= friday;													//星期五
+	else
+	{
+		lcd_ram[8] = lcd_ram[8]>>1;
+		lcd_ram[8] = lcd_ram[8]<<1;
+	}
 	if(num == 6)
-		lcd_ram[27] |= Saturday;
+		lcd_ram[27] |= Saturday;													//星期六
+	else
+	{
+		lcd_ram[27] = lcd_ram[27]>>1;
+		lcd_ram[27] = lcd_ram[27]<<1;
+	}
 }
-void Lcd_DateFunction(uint16_t year, uint8_t month,uint8_t day)
+void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day)
 {
 	uint8_t week = 0;
-	UpdateNixieTubeRAMA((year-2000)/10,9);
-	UpdateNixieTubeRAMA((year-2000)%10,11);
-	UpdateNixieTubeRAMA(month%10,13);	
-	if(month>=10)	
-		lcd_ram[14] |= month1;	
-	if((day>=10)&&(day<20))
-		lcd_ram[15] = 0x0C;
-	else if((day>=20)&&(day<30))
-		lcd_ram[15] = 0x07;
-	else if(day>=30)
-		lcd_ram[15] = 0X0E;
-	UpdateNixieTubeRAMA(day%10,16);		
-	lcd_ram[10] |=0x01;
-	week = RTC_Set_Week(year,month,day);
-	Lcd_WeekDisplay(week);
+	static a = 0;
+	if(flag == 2)
+	{
+		if(a == 0)
+		{
+			a = 1;
+			UpdateNixieTubeRAMA((year-2000)/10,9);
+			UpdateNixieTubeRAMA((year-2000)%10,11);
+		}
+		else
+		{
+			a = 0;
+			lcd_ram[9] = 0;
+			lcd_ram[10] = 0;
+			lcd_ram[11] = 0;
+			lcd_ram[12] = 0;
+		}
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}
+	else
+	{
+		UpdateNixieTubeRAMA((year-2000)/10,9);
+		UpdateNixieTubeRAMA((year-2000)%10,11);
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}
+	if(flag == 3)
+	{
+		if(a == 0)
+		{
+			a = 1;
+			UpdateNixieTubeRAMA(month%10,13);	
+			if(month>=10)	
+				lcd_ram[14] |= month1;
+		}
+		else
+		{
+			a = 0;
+			lcd_ram[13] = 0;
+			lcd_ram[14] = 0;
+		}
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}
+	else
+	{
+		UpdateNixieTubeRAMA(month%10,13);	
+			if(month>=10)	
+				lcd_ram[14] |= month1;
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}
+	if(flag == 4)
+	{
+		if(a == 0)
+		{
+			a = 1;
+			if((day>=10)&&(day<20))
+				lcd_ram[15] = 0x0C;
+			else if((day>=20)&&(day<30))
+				lcd_ram[15] = 0x07;
+			else if(day>=30)
+				lcd_ram[15] = 0X0E;
+			UpdateNixieTubeRAMA(day%10,16);
+		}
+		else
+		{
+			a = 0;
+			lcd_ram[15] = 0;
+			lcd_ram[16] = 0;
+			lcd_ram[17] = 0;
+		}
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}
+	else
+	{
+		if((day>=10)&&(day<20))
+			lcd_ram[15] = 0x0C;
+		else if((day>=20)&&(day<30))
+			lcd_ram[15] = 0x07;
+		else if(day>=30)
+			lcd_ram[15] = 0X0E;
+		UpdateNixieTubeRAMA(day%10,16);
+		week = RTC_Set_Week(year,month,day);
+		Lcd_WeekDisplay(week);
+	}		
+	lcd_ram[10] |=0x01;                              //显示20xx年
+	
 }
 void Lcd_HourTurn(uint8_t hour)
 {
@@ -267,8 +389,156 @@ void Lcd_HourTurn(uint8_t hour)
 		}
 	}
 }	
-void Lcd_TimeHanlde()
+void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 {
-	
+	static uint8_t a = 0;
+	uint8_t i =0;
+	uint16_t hour1 = 0;
+	if(HourFlag != 0)
+	{
+		if(hour>=12)
+		{
+			hour1 = hour -12;
+			if(flag == 0)
+			{
+				if(a == 0)
+				{
+					a = 1;
+					UpdateNixieTubeRAMA(hour1/10,1);
+					UpdateNixieTubeRAMA(hour1%10,3);
+				}
+				else
+				{
+					a = 0;
+					lcd_ram[1] = 0;
+					lcd_ram[2] = 0;
+					lcd_ram[3] = 0;
+					lcd_ram[4] = 0;
+				}
+			}
+			else
+			{
+				UpdateNixieTubeRAMA(hour1/10,1);
+				UpdateNixieTubeRAMA(hour1%10,3);
+			}
+			if(flag == 1)
+			{
+				if(a == 0)
+				{
+					a = 1;
+					UpdateNixieTubeRAMA(min/10,5);
+					UpdateNixieTubeRAMA(min%10,7);
+				}
+				else
+				{
+					a = 0;
+					lcd_ram[5] = 0;
+					lcd_ram[6] = 0;
+					lcd_ram[7] = 0;
+					lcd_ram[8] = 0;
+				}
+			}
+			else
+			{
+				UpdateNixieTubeRAMA(min/10,5);
+				UpdateNixieTubeRAMA(min%10,7);
+			}
+		}
+		else
+		{
+			if(flag == 0)
+			{
+				if(a == 0)
+				{
+					a = 1;
+					UpdateNixieTubeRAMA(hour/10,1);
+					UpdateNixieTubeRAMA(hour%10,3);
+				}
+				else
+				{
+					a = 0;
+					lcd_ram[1] = 0;
+					lcd_ram[2] = 0;
+					lcd_ram[3] = 0;
+					lcd_ram[4] = 0;
+				}
+			}
+			else
+			{
+				UpdateNixieTubeRAMA(hour/10,1);
+				UpdateNixieTubeRAMA(hour%10,3);
+			}
+			if(flag == 1)
+			{
+				if(a == 0)
+				{
+					a = 1;
+					UpdateNixieTubeRAMA(min/10,5);
+					UpdateNixieTubeRAMA(min%10,7);
+				}
+				else
+				{
+					a = 0;
+					lcd_ram[5] = 0;
+					lcd_ram[6] = 0;
+					lcd_ram[7] = 0;
+					lcd_ram[8] = 0;
+				}
+			}
+			else
+			{
+				UpdateNixieTubeRAMA(min/10,5);
+				UpdateNixieTubeRAMA(min%10,7);
+			}
+		}
+	}
+	else
+	{
+		if(flag == 0)
+		{
+			if(a == 0)
+			{
+				a = 1;
+				UpdateNixieTubeRAMA(hour/10,1);
+				UpdateNixieTubeRAMA(hour%10,3);
+			}
+			else
+			{
+				a = 0;
+				lcd_ram[1] = 0;
+				lcd_ram[2] = 0;
+				lcd_ram[3] = 0;
+				lcd_ram[4] = 0;
+			}
+		}
+		else
+		{
+			UpdateNixieTubeRAMA(hour/10,1);
+			UpdateNixieTubeRAMA(hour%10,3);
+		}
+		if(flag == 1)
+		{
+			if(a == 0)
+			{
+				a = 1;
+				UpdateNixieTubeRAMA(min/10,5);
+				UpdateNixieTubeRAMA(min%10,7);
+			}
+			else
+			{
+				a = 0;
+				lcd_ram[5] = 0;
+				lcd_ram[6] = 0;
+				lcd_ram[7] = 0;
+				lcd_ram[8] = 0;
+			}
+		}
+		else
+		{
+			UpdateNixieTubeRAMA(min/10,5);
+			UpdateNixieTubeRAMA(min%10,7);
+		}
+	}
+	Lcd_HourTurn(hour);
 }
 #endif

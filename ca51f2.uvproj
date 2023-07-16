@@ -436,6 +436,11 @@
               <FileType>1</FileType>
               <FilePath>.\source\key.c</FilePath>
             </File>
+            <File>
+              <FileName>time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\source\time.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -471,20 +476,5 @@
       </Groups>
     </Target>
   </Targets>
-
-  <LayerInfo>
-    <Layers>
-      <Layer>
-        <LayName>&lt;Project Info&gt;</LayName>
-        <LayDesc></LayDesc>
-        <LayUrl></LayUrl>
-        <LayKeys></LayKeys>
-        <LayCat></LayCat>
-        <LayLic></LayLic>
-        <LayTarg>0</LayTarg>
-        <LayPrjMark>1</LayPrjMark>
-      </Layer>
-    </Layers>
-  </LayerInfo>
 
 </Project>

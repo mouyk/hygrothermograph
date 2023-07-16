@@ -30,12 +30,16 @@ typedef struct
 } _calendar_obj;
 
 extern 	_calendar_obj calendar;
+extern uint8_t times10Flag;
+extern uint16_t RTC_Array[6];
+extern uint8_t RTC_num;
 
 void RTC_WriteSecond(unsigned char second);
 void RTC_WriteMinute(unsigned char minute);
 void RTC_WriteHour(unsigned char hour);
 void RTC_WriteWeek(unsigned char week);
 void RTC_init(void);
+void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec);
 uint8_t RTC_Daysmonth(uint16_t year, uint8_t month);
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );

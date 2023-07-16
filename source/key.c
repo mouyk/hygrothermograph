@@ -7,6 +7,7 @@
 #include "include/gpiodef_f2.h"
 #include "include/system_clock.h"
 #include "include/key.h"
+#include "include/rtc.h"
 #include "include/uart.h"
 #include <intrins.h>
 
@@ -198,6 +199,7 @@ void Key_Scanf(void)
 				else if(times3 == Maxnum)
 				{
 					times3 = 0;
+					Key3Flag = 0;
 				}
 			}
 		}
@@ -274,6 +276,7 @@ void Key_Scanf(void)
 			}
 		}	
 }
+uint8_t ZigbeeFlag = 0,DelAlarmFlag = 0;
 void Key_HandleFunction(void)
 {
 	if((ShortKey2 == 1)&&(Interface == 0))         //¡æÓë¨HÇÐ»»
@@ -283,18 +286,144 @@ void Key_HandleFunction(void)
 	}
 	else if((ShortKey4 == 1)&&(Interface == 0))     //12hourÓë24hourÇÐ»»
 	{
-		ShortKey2 = 0;
+		ShortKey4 = 0;
 		HourFlag = ~HourFlag;
+		RTC_Alarm_init(1,0,0,0);
 	}
-	if(ShortKey4 == 1)
+	if((ShortKey3 == 1)&&(Interface == 0))
+	{
+		ShortKey3 = 0;
+		Interface = 1;
+	}
+	else if((LongKey3 == 1)&&(Interface == 0)&&(times2 == 0))
+	{
+		LongKey3 = 0;
+		Interface = 2;
+	}
+	else if((LongKey3 ==1)&&(Interface == 2))
+	{
+		LongKey3 = 0;
+		times3 = 0;
+		Interface = 0;
+		RTC_num = 0;
+		RTC_Array[5] = calendar.sec;
+		RTC_Set(RTC_Array[0],RTC_Array[1],RTC_Array[2],RTC_Array[3],RTC_Array[4],RTC_Array[5]);
+	}
+	
+	if(((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum))||((LongKey2 ==1)&&(times3 > Shortnum)))       //zigbee×éÍø
+	{
+		LongKey3 = 0;
+		LongKey2 = 0;
+		times2 = 0;
+		times3 = 0;
+		ZigbeeFlag = 1;
+	}
+	else if((((LongKey3 ==1)&&(LongKey4 == 1))||((LongKey3 ==1)&&(times4 > Shortnum))||((LongKey4 ==1)&&(times3 > Shortnum)))&&(Interface == 2)) //
+	{
+		LongKey3 = 0;
+		LongKey4 = 0;
+		times4 = 0;
+		times3 = 0;
+		DelAlarmFlag = 1;
+	}
+
+	if((ShortKey3 == 1)&&(Interface == 2))
+	{
+		ShortKey3 = 0;
+		RTC_num++;
+		if(RTC_num > 5)
+		{
+			RTC_num = 0;
+		}
+	}
+	Key_timedate(RTC_num);
+}
+void Key_timedate(uint8_t flag)
+{
+	uint8_t Days =0;
+		if((ShortKey4 == 1)&&(Interface == 2))
 	{
 		ShortKey4 = 0;
-		uart_printf("%Key1 ShortKey4 is OK");
+		if(RTC_num == 0)
+		{
+			RTC_Array[3]--;
+			if(RTC_Array[3] == -1)
+			{
+				RTC_Array[3]=23;
+			}
+		}
+		else if(RTC_num == 1)
+		{
+			RTC_Array[4]--;
+			if(RTC_Array[4] == -1)
+				RTC_Array[4] = 59;
+		}
+		else if(RTC_num == 2)
+		{
+			RTC_Array[0]--;
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			if(RTC_Array[2]> Days)
+				RTC_Array[2] = Days;
+			if(RTC_Array[0] <= 1999)
+				RTC_Array[0] = 2099;
+		}
+		else if(RTC_num == 3)
+		{
+			RTC_Array[1]--;
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			if(RTC_Array[2]> Days)
+				RTC_Array[2] = Days;
+			if(RTC_Array[1] == 0)
+				RTC_Array[1] = 12;
+		}
+		else if(RTC_num == 4)
+		{
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			RTC_Array[2]--;
+			if(RTC_Array[2] == 0)
+				RTC_Array[2] = Days;
+		}
 	}
-	if(LongKey4 == 1)
+	if((ShortKey2 == 1)&&(Interface == 2))
 	{
-		LongKey4 = 0;
-		uart_printf("%Key1 LongKey4 is OK");
+		ShortKey2 = 0;
+		if(RTC_num == 0)
+		{
+			RTC_Array[3]++;
+			if(RTC_Array[3]>23)
+				RTC_Array[3] = 0;
+		}
+		else if(RTC_num == 1)
+		{
+			RTC_Array[4]++;
+			if(RTC_Array[4]>59)
+				RTC_Array[4] = 0;
+		}
+		else if(RTC_num == 2)
+		{
+			RTC_Array[0]++;
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			if(RTC_Array[2]> Days)
+				RTC_Array[2] = Days;
+			if(RTC_Array[0] >= 2100)
+				RTC_Array[0] = 2000;
+		}
+		else if(RTC_num == 3)
+		{
+			RTC_Array[1]++;
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			if(RTC_Array[2]> Days)
+				RTC_Array[2] = Days;
+			if(RTC_Array[1] > 12)
+				RTC_Array[1] = 1;
+		}
+		else if(RTC_num == 4)
+		{
+			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
+			RTC_Array[2]++;
+			if(RTC_Array[2] > Days)
+				RTC_Array[2] = 1;
+		}
 	}
 }
 #endif

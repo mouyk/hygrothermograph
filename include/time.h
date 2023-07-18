@@ -27,8 +27,10 @@
 /*********************************************************************************************************************/
 
 extern uint8_t times250Flag,times1000Flag;
-extern uint8_t Timer_Array[2];
+extern int8_t Timer_Array[2];
 extern uint8_t Timer_num;
+extern uint8_t Time_start;
 
 void TIME2_init(void);
+uint8_t Counting_Function(uint8_t flag);
 #endif

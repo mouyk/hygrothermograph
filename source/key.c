@@ -293,6 +293,7 @@ uint8_t ZigbeeFlag = 0,DelAlarmFlag = 0;
 void Key_HandleFunction(void)
 {
 	uint8_t i = 0;
+	uint16_t shorttime = 0;
 	if((ShortKey2 == 1)&&(Interface == 0))         //¡æÓë¨HÇÐ»»
 	{
 		ShortKey2 = 0;
@@ -359,13 +360,22 @@ void Key_HandleFunction(void)
 		else if(Interface == 1)
 		{
 			Timer_num++;
-			if(Timer_num > 2)
+			shorttime = Timer_Array[0]*60 + Timer_Array[1];
+			if((Timer_num > 2)&&(shorttime != 0))
 			{
 				Timer_num = 0;
+				Time_start = 1;
+			}
+			else if((Timer_num > 2)&&(shorttime == 0))
+			{
+				Timer_num = 0;
+				Time_start = 0;
+				Interface = 0;
 			}
 		}
 	}
 	Key_timedate(RTC_num);
+	Key_Countdown(Timer_num);
 }
 /***********************************************************************************
 º¯ÊýÃû£º		Key_timedate
@@ -379,7 +389,7 @@ void Key_timedate(uint8_t flag)
 	if((ShortKey4 == 1)&&(Interface == 2))
 	{
 		ShortKey4 = 0;
-		if(RTC_num == 0)
+		if(flag == 0)
 		{
 			RTC_Array[3]--;
 			if(RTC_Array[3] == -1)
@@ -387,13 +397,13 @@ void Key_timedate(uint8_t flag)
 				RTC_Array[3]=23;
 			}
 		}
-		else if(RTC_num == 1)
+		else if(flag == 1)
 		{
 			RTC_Array[4]--;
 			if(RTC_Array[4] == -1)
 				RTC_Array[4] = 59;
 		}
-		else if(RTC_num == 2)
+		else if(flag == 2)
 		{
 			RTC_Array[0]--;
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
@@ -402,7 +412,7 @@ void Key_timedate(uint8_t flag)
 			if(RTC_Array[0] <= 1999)
 				RTC_Array[0] = 2099;
 		}
-		else if(RTC_num == 3)
+		else if(flag == 3)
 		{
 			RTC_Array[1]--;
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
@@ -411,7 +421,7 @@ void Key_timedate(uint8_t flag)
 			if(RTC_Array[1] == 0)
 				RTC_Array[1] = 12;
 		}
-		else if(RTC_num == 4)
+		else if(flag == 4)
 		{
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
 			RTC_Array[2]--;
@@ -422,19 +432,19 @@ void Key_timedate(uint8_t flag)
 	if((ShortKey2 == 1)&&(Interface == 2))
 	{
 		ShortKey2 = 0;
-		if(RTC_num == 0)
+		if(flag == 0)
 		{
 			RTC_Array[3]++;
 			if(RTC_Array[3]>23)
 				RTC_Array[3] = 0;
 		}
-		else if(RTC_num == 1)
+		else if(flag == 1)
 		{
 			RTC_Array[4]++;
 			if(RTC_Array[4]>59)
 				RTC_Array[4] = 0;
 		}
-		else if(RTC_num == 2)
+		else if(flag == 2)
 		{
 			RTC_Array[0]++;
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
@@ -443,7 +453,7 @@ void Key_timedate(uint8_t flag)
 			if(RTC_Array[0] >= 2100)
 				RTC_Array[0] = 2000;
 		}
-		else if(RTC_num == 3)
+		else if(flag == 3)
 		{
 			RTC_Array[1]++;
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
@@ -452,12 +462,64 @@ void Key_timedate(uint8_t flag)
 			if(RTC_Array[1] > 12)
 				RTC_Array[1] = 1;
 		}
-		else if(RTC_num == 4)
+		else if(flag == 4)
 		{
 			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
 			RTC_Array[2]++;
 			if(RTC_Array[2] > Days)
 				RTC_Array[2] = 1;
+		}
+	}
+}
+void Key_Countdown(uint8_t flag)
+{
+	if((ShortKey4 == 1)&&(Interface == 1))
+	{
+		ShortKey4 = 0;
+		if(flag == 1)
+		{
+			Timer_Array[0]--;
+			if(Timer_Array[0] == -1)
+			{
+				Timer_Array[0] = 60;
+			}		
+			
+		}
+		else if(flag == 2)
+		{
+			Timer_Array[1]--;
+			if((Timer_Array[1] == -1)&&(Timer_Array[0] < 60))
+			{
+				Timer_Array[1] = 59;
+			}
+			else if((Timer_Array[1] == -1)&&(Timer_Array[0] == 60))
+			{
+				Timer_Array[1] = 0;
+			}
+		}
+	}
+	if((ShortKey2 == 1)&&(Interface == 1))
+	{
+		ShortKey2 = 0;
+		if(flag == 1)
+		{
+			Timer_Array[0]++;
+			if(Timer_Array[0] > 60)
+			{
+				Timer_Array[0] = 0;
+			}			
+		}
+		else if(flag == 2)
+		{
+			Timer_Array[1]++;
+			if((Timer_Array[0] == 60)&&(Timer_Array[1] >= 1))
+			{
+				Timer_Array[1] = 0;
+			}
+			else if((Timer_Array[0] < 60)&&(Timer_Array[1] >= 60))
+			{
+				Timer_Array[1] = 0;
+			}
 		}
 	}
 }

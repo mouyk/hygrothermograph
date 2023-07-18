@@ -614,7 +614,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
 	static a = 0;
 	if(menu == 1)
 	{
-		if(flag == 0)
+		if((flag == 0)&&(Time_start == 0))
 		{
 			if(a == 0)
 			{
@@ -665,6 +665,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
 			Lcd_MinHanlde(min,1);
 		}
 	}
+	lcd_ram[0] = 0;															//强制将小时制显示清除
 }
 void Lcd_Backlight(void)
 {

@@ -8,10 +8,13 @@
 #include "include/gpiodef_f2.h"
 #include "include/system_clock.h"
 
+#include "include/uart.h"
 #include "include/time.h"
+#include "include/key.h"
 
-uint8_t Timer_Array[2]={0};
+int8_t Timer_Array[2]={0};
 uint8_t Timer_num = 0;									//0：计时标识    1：时     2：分
+uint8_t Time_start = 0;
 void TIME2_init(void)
 {
 	P12F = P12_T2CP_SETTING;	 
@@ -56,6 +59,34 @@ void TIMER2_ISR (void) interrupt 5
 		
 	}
 }
-
+uint8_t Counting_Function(uint8_t flag)
+{
+	static time_num = 3;
+	if(flag == 1)
+	{
+		if(time_num != 0)
+		{
+			time_num--;
+			uart_printf("A");
+		}
+		if(time_num == 0)
+		{
+			Timer_Array[1]--;
+			if((Timer_Array[1] == -1)&&(Timer_Array[0]*60 != 0))
+			{
+				Timer_Array[1] = 59;
+				Timer_Array[0]--;
+			}
+			if(Timer_Array[0]*60 + Timer_Array[1] == -1)
+			{
+				flag = 0;
+				Interface = 0;
+				time_num = 3;
+				uart_printf("B");
+			}
+		}
+	}
+	return flag;
+}
 
 #endif

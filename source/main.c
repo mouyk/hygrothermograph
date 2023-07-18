@@ -157,6 +157,8 @@ Lcd_init();
 		{
 			Lcd_Backlight();
 			times1000Flag = 0;
+			Time_start = Counting_Function(Time_start);
+//			uart_printf("C");
 		}
 			
 //	for(i = 0; i < 34; i++)

@@ -11,6 +11,7 @@
 #include "include/uart.h"
 #include "include/time.h"
 #include "include/key.h"
+#include "include/buzzer.h"
 
 int8_t Timer_Array[2]={0};
 uint8_t Timer_num = 0;									//0：计时标识    1：时     2：分
@@ -61,13 +62,14 @@ void TIMER2_ISR (void) interrupt 5
 }
 uint8_t Counting_Function(uint8_t flag)
 {
-	static time_num = 3;
+	static time_num = 4;
 	if(flag == 1)
 	{
 		if(time_num != 0)
 		{
 			time_num--;
-			uart_printf("A");
+			if(time_num == 1)
+				BeepStart = 1;
 		}
 		if(time_num == 0)
 		{
@@ -77,13 +79,15 @@ uint8_t Counting_Function(uint8_t flag)
 				Timer_Array[1] = 59;
 				Timer_Array[0]--;
 			}
-			if(Timer_Array[0]*60 + Timer_Array[1] == -1)
+			if(Timer_Array[0]*60 + Timer_Array[1] == 0)
 			{
 				flag = 0;
+				Timer_Array[1] = 0;
 				Interface = 0;
 				time_num = 3;
-				uart_printf("B");
+				BeepStart = 2;
 			}
+			
 		}
 	}
 	return flag;

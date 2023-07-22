@@ -77,7 +77,7 @@ static uint8_t            DispLcdTableNumTemp[]        = {
 
 
 /*温度特殊数码管*/
-const uint8_t            DispLcdTableNumTemp[10]        = {
+const uint8_t            DispLcdTableNumTemp[12]        = {
   0xfa,		   //0 
   0x0a,        //1
   0xbc,        //2
@@ -88,6 +88,8 @@ const uint8_t            DispLcdTableNumTemp[10]        = {
   0x8a,        //7
   0xfe,        //8
   0xde,        //9
+	0x70,				 //L
+	0x6e,				 //H
 };
 
 

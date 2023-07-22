@@ -346,7 +346,7 @@ void Key_HandleFunction(void)
 		DelAlarmFlag = 1;
 	}
 
-	if((ShortKey3 == 1))
+	if((ShortKey3 == 1)&&(RTC_num != 5))
 	{
 		ShortKey3 = 0;
 		if(Interface == 2)
@@ -354,8 +354,10 @@ void Key_HandleFunction(void)
 			RTC_num++;
 			if(RTC_num > 5)
 			{
-				RTC_num = 0;
+				RTC_num = 5;
 			}
+			if(RTC_num == 5)
+			uart_printf("RTC_num = %d\n",RTC_num);
 		}
 		else if(Interface == 1)
 		{
@@ -375,6 +377,7 @@ void Key_HandleFunction(void)
 		}
 	}
 	Key_timedate(RTC_num);
+	Key_Alarm(RTC_num);
 	Key_Countdown(Timer_num);
 }
 /***********************************************************************************
@@ -386,7 +389,7 @@ void Key_HandleFunction(void)
 void Key_timedate(uint8_t flag)
 {
 	uint8_t Days =0;
-	if((ShortKey4 == 1)&&(Interface == 2))
+	if((ShortKey4 == 1)&&(Interface == 2)&&(flag != 5))
 	{
 		ShortKey4 = 0;
 		if(flag == 0)
@@ -429,7 +432,7 @@ void Key_timedate(uint8_t flag)
 				RTC_Array[2] = Days;
 		}
 	}
-	if((ShortKey2 == 1)&&(Interface == 2))
+	if((ShortKey2 == 1)&&(Interface == 2)&&(flag != 5))
 	{
 		ShortKey2 = 0;
 		if(flag == 0)
@@ -523,4 +526,158 @@ void Key_Countdown(uint8_t flag)
 		}
 	}
 }
+void Key_Alarm(uint8_t flag)
+{
+	if(flag == 5)
+	{
+		if(ShortKey3 == 1)
+		{
+			ShortKey3 = 0;
+			Alarm_flag++;
+			if(Alarm_flag > 2)
+			{
+				Alarm_flag = 0;
+				if(Alarm_num == 0)
+					Alarm1 =1;
+				else if(Alarm_num == 1)
+					Alarm2 =1;
+				else if(Alarm_num == 2)
+					Alarm3 =1;
+			}
+		}
+		if(ShortKey4 == 1)
+		{
+			ShortKey4 = 0;
+			if(Alarm_flag == 0)
+			{
+				Alarm_num--;
+				if(Alarm_num <= -1)
+				{
+					Alarm_num = 0;
+				}
+			}
+			else if(Alarm_flag == 1)
+			{
+				if(Alarm_num == 0)
+				{
+					Alarm_Array[0]--;
+					if(Alarm_Array[0] <= -1)
+					{
+						Alarm_Array[0] = 23;
+					}
+				}
+				else if(Alarm_num == 1)
+				{
+					Alarm_Array[2]--;
+					if(Alarm_Array[2] <= -1)
+					{
+						Alarm_Array[2] = 23;
+					}
+				}
+				else if(Alarm_num == 2)
+				{
+					Alarm_Array[4]--;
+					if(Alarm_Array[4] <= -1)
+					{
+						Alarm_Array[4] = 23;
+					}
+				}
+			}
+			else if(Alarm_flag == 2)
+			{
+				if(Alarm_num == 0)
+				{
+					Alarm_Array[1]--;
+					if(Alarm_Array[1] <= -1)
+					{
+						Alarm_Array[1] = 59;
+					}
+				}
+				else if(Alarm_num == 1)
+				{
+					Alarm_Array[3]--;
+					if(Alarm_Array[3] <= -1)
+					{
+						Alarm_Array[3] = 59;
+					}
+				}
+				else if(Alarm_num == 2)
+				{
+					Alarm_Array[5]--;
+					if(Alarm_Array[5] <= -1)
+					{
+						Alarm_Array[5] = 59;
+					}
+				}
+			}
+		}
+		if(ShortKey2 == 1)
+		{
+			ShortKey2 = 0;
+			if(Alarm_flag == 0)
+			{
+				Alarm_num++;
+				if(Alarm_num >= 3)
+				{
+					Alarm_num = 2;
+				}
+			}
+			else if(Alarm_flag == 1)
+			{
+				if(Alarm_num == 0)
+				{
+					Alarm_Array[0]++;
+					if(Alarm_Array[0] >= 24)
+					{
+						Alarm_Array[0] = 0;
+					}
+				}
+				else if(Alarm_num == 1)
+				{
+					Alarm_Array[2]++;
+					if(Alarm_Array[2] >= 24)
+					{
+						Alarm_Array[2] = 0;
+					}
+				}
+				else if(Alarm_num == 2)
+				{
+					Alarm_Array[4]++;
+					if(Alarm_Array[4] >= 24)
+					{
+						Alarm_Array[4] = 0;
+					}
+				}
+			}
+			else if(Alarm_flag == 2)
+			{
+				if(Alarm_num == 0)
+				{
+					Alarm_Array[1]++;
+					if(Alarm_Array[1] >= 60)
+					{
+						Alarm_Array[1] = 0;
+					}
+				}
+				else if(Alarm_num == 1)
+				{
+					Alarm_Array[3]++;
+					if(Alarm_Array[3] >= 60)
+					{
+						Alarm_Array[3] = 0;
+					}
+				}
+				else if(Alarm_num == 2)
+				{
+					Alarm_Array[5]++;
+					if(Alarm_Array[5] >= 60)
+					{
+						Alarm_Array[5] = 0;
+					}
+				}
+			}
+		}
+	}
+}
+
 #endif

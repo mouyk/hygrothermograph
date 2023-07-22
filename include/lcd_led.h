@@ -79,6 +79,7 @@ void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day);
 void Lcd_IconFunction(uint8_t menu,uint8_t flag);
 void Lcd_HourTurn(uint8_t hour);
 void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min);
+void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t hour, uint8_t min);
 void Lcd_HourHanlde(uint8_t hour, uint8_t flag);
 void Lcd_MinHanlde(uint8_t min, uint8_t flag);
 void Lcd_ZigbeeIcon(uint8_t zigbee);

@@ -1,6 +1,6 @@
 
-#ifndef _GPIO_C_
-#define _GPIO_C_
+#ifndef _BUZZER_C_
+#define _BUZZER_C_
 /*********************************************************************************************************************/
 #include "include/ca51f_config.h"		
 #include "include/ca51f2sfr.h"
@@ -13,7 +13,11 @@
 #include "include/delay.h"
 #include "include/gpio.h"
 #include "include/pwm.h"
+#include "include/buzzer.h"
 #include <intrins.h>
+
+
+uint8_t BeepStart = 0;
 /*********************************************************************************************************************			
 
 
@@ -49,5 +53,53 @@ void PWM6_init(void)
 	
 }
 
-
+void Buzzer_Control(uint8_t flag)
+{
+	if(flag == 1)
+	{
+		Buzzer_Sounds1();
+	}
+	else if(flag == 2)
+	{
+		Buzzer_Sounds2();
+	}
+}
+void Buzzer_Sounds1(void)
+{
+	static i = 0;
+	i++;
+	if(i == 1)
+	{
+		PWMEN  = (1<<PWM_CH6);		//PWM6使能
+	}
+	else if(i >= Buzzernum1)
+	{
+		PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
+		BeepStart = 0;
+		 i = 0;
+	}
+}
+void Buzzer_Sounds2(void)
+{
+	static uint8_t BuzNum = 0,BuzNum1 = 0;
+	if(BuzNum1 < 3)
+	{
+		BuzNum++;
+		if((BuzNum <= Buzzernum2))
+		{
+			PWMEN  = (1<<PWM_CH6);		//PWM6使能
+		}
+		else if(BuzNum >= Buzzernum2*2)
+		{
+			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
+			BuzNum = 0;
+			BuzNum1++;
+		}
+	}
+	else
+	{
+		BuzNum1 = 0;
+		BeepStart = 0;
+	}
+}
 #endif

@@ -21,6 +21,7 @@
 #include "include/pwm.h"
 #include "include/adc.h"
 #include "mcu_sdk/zigbee.h"
+#include "include/buzzer.h"
 #include "include/disp.h"
 /*********************************************************************************************************************			
 	本例程实现4com*9seg、1/3bias LCD显示功能，LCD时钟设置为XOSCL或IRCL，实现LCD最小电流模式。
@@ -139,6 +140,7 @@ Lcd_init();
 			times10Flag = 0;
 			Key_Scanf();
 			Key_HandleFunction();
+			Buzzer_Control(BeepStart);
 		}
 		if(times250Flag == 1)
 		{

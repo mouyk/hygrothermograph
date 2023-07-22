@@ -18,7 +18,10 @@ _calendar_obj calendar;
 
 int16_t RTC_Array[6] = {0};
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
-
+uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1
+int8_t Alarm_num = 0;														//0：闹钟1   1：闹钟2    2：闹钟3
+uint8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
+int8_t Alarm_Array[6] = {0};
 /***********************************************************************************
 函数名：		RTC_WriteSecond
 功能说明： 		RTC写入秒值

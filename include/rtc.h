@@ -47,7 +47,11 @@ void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec);
 uint8_t RTC_Daysmonth(uint16_t year, uint8_t month);
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
-uint8_t RTC_Get( void );
+uint8_t RTC_Get(void);
 uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day );
+void RTC_AlarmHandle(uint8_t num);
+void RTC_AlarmTimes(uint8_t num);
+void RTC_AlarmCompare(uint8_t num);
+void sort(uint16_t *a,uint8_t len);
 
 #endif

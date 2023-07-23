@@ -33,4 +33,5 @@ extern uint8_t Time_start;
 
 void TIME2_init(void);
 uint8_t Counting_Function(uint8_t flag);
+void sort(uint16_t *a,uint8_t len);
 #endif

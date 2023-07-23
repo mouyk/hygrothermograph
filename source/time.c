@@ -84,7 +84,7 @@ uint8_t Counting_Function(uint8_t flag)
 				flag = 0;
 				Timer_Array[1] = 0;
 				Interface = 0;
-				time_num = 3;
+				time_num = 4;
 				BeepStart = 2;
 			}
 			
@@ -92,5 +92,4 @@ uint8_t Counting_Function(uint8_t flag)
 	}
 	return flag;
 }
-
 #endif

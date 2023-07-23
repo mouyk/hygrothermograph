@@ -293,6 +293,7 @@ uint8_t ZigbeeFlag = 0,DelAlarmFlag = 0;
 void Key_HandleFunction(void)
 {
 	uint8_t i = 0;
+	uint8_t ALarmnum = 0;
 	uint16_t shorttime = 0;
 	if((ShortKey2 == 1)&&(Interface == 0))         //¡æÓë¨HÇÐ»»
 	{
@@ -320,16 +321,26 @@ void Key_HandleFunction(void)
 		LongKey3 = 0;
 		times3 = 0;
 		Interface = 0;
-		RTC_num = 0;
-		RTC_Array[5] = calendar.sec;
-		RTC_Set(RTC_Array[0],RTC_Array[1],RTC_Array[2],RTC_Array[3],RTC_Array[4],RTC_Array[5]);
-		for(i = 0;i <= 5;i++)
+		if(RTC_num <= 4)
 		{
-			RTC_Array[i] = 0;
+			RTC_num = 0;
+			RTC_Array[5] = calendar.sec;
+			RTC_Set(RTC_Array[0],RTC_Array[1],RTC_Array[2],RTC_Array[3],RTC_Array[4],RTC_Array[5]);
+			for(i = 0;i <= 5;i++)
+			{
+				RTC_Array[i] = 0;
+			}
+		}
+		else
+		{
+			ALarmnum = Alarm1 + Alarm2 + Alarm3;
+			RTC_num = 0;
+			RTC_AlarmHandle(ALarmnum);
+			RTC_AlarmCompare(ALarmnum);
 		}
 	}
 	
-	if(((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum))||((LongKey2 ==1)&&(times3 > Shortnum)))       //zigbee×éÍø
+	if((((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum))||((LongKey2 ==1)&&(times3 > Shortnum)))&&(Interface == 0))       //zigbee×éÍø
 	{
 		LongKey3 = 0;
 		LongKey2 = 0;

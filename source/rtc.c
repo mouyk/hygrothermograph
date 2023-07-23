@@ -19,6 +19,7 @@ _calendar_obj calendar;
 int16_t RTC_Array[6] = {0};
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
 uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1
+uint16_t AlarmTime[3] = {0};
 int8_t Alarm_num = 0;														//0：闹钟1   1：闹钟2    2：闹钟3
 uint8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
 int8_t Alarm_Array[6] = {0};
@@ -199,6 +200,9 @@ void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec)
 	}
 	else
 	{
+		RTAH	=	hour;			
+		RTAM	=	min;
+		RTAS	=	sec;
 		RTCON =  RTCE(1) | MSE(1) | HSE(1) | SCE(0) | MCE(0) | HCE(0);
 	}
 	
@@ -436,7 +440,113 @@ uint8_t RTC_Daysmonth(uint16_t year, uint8_t month)
 	return days;
 }
 
-
-
+void RTC_AlarmHandle(uint8_t num)
+{
+	if(num == 0)
+	{
+		RTC_Alarm_init(0,0,0,0);
+	}
+	else if(num == 1)
+	{
+		if(Alarm1 == 1)
+			RTC_Alarm_init(1,Alarm_Array[0],Alarm_Array[1],0);
+		else if(Alarm2 == 1)
+			RTC_Alarm_init(1,Alarm_Array[2],Alarm_Array[3],0);
+		else if(Alarm3 == 1)
+			RTC_Alarm_init(1,Alarm_Array[4],Alarm_Array[5],0);
+	}
+	else
+	{
+		RTC_AlarmTimes(num);
+	}
+}
+void RTC_AlarmTimes(uint8_t num)
+{
+	if(num == 2)
+	{
+		if(Alarm1 == 0)
+		{
+			AlarmTime[0] = Alarm_Array[2]*60 + Alarm_Array[3];
+			AlarmTime[1] = Alarm_Array[4]*60 + Alarm_Array[5];
+		}
+		else if(Alarm2 == 0)
+		{
+			AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
+			AlarmTime[1] = Alarm_Array[4]*60 + Alarm_Array[5];
+		}
+		else if(Alarm3 == 0)
+		{
+			AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
+			AlarmTime[1] = Alarm_Array[2]*60 + Alarm_Array[3];
+		}
+		sort(AlarmTime,num);
+	}
+	else
+	{
+		AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
+		AlarmTime[1] = Alarm_Array[2]*60 + Alarm_Array[3];
+		AlarmTime[2] = Alarm_Array[4]*60 + Alarm_Array[5];
+		sort(AlarmTime,num);
+	}
+}
+void RTC_AlarmCompare(uint8_t num)
+{
+	if(num == 2)
+	{
+		if(AlarmTime[0] > calendar.hour*60+calendar.min)
+		{
+			RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+		}
+		else
+		{
+			if(AlarmTime[1] > calendar.hour*60+calendar.min)
+			{
+				RTC_Alarm_init(1,AlarmTime[1]/60,AlarmTime[1]%60,0);
+			}
+			else
+			{
+				RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+			}
+		}
+	}
+	else if(num == 3)
+	{
+		if(AlarmTime[0] > calendar.hour*60+calendar.min)
+		{
+			RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+		}
+		else
+		{
+			if(AlarmTime[1] > calendar.hour*60+calendar.min)
+			{
+				RTC_Alarm_init(1,AlarmTime[1]/60,AlarmTime[1]%60,0);
+			}
+			else
+			{
+				if(AlarmTime[2] > calendar.hour*60+calendar.min)
+					RTC_Alarm_init(1,AlarmTime[2]/60,AlarmTime[2]%60,0);
+				else
+					RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+			}
+		}
+	}
+}
+void sort(uint16_t *a,uint8_t len)
+{
+	uint8_t i=0,j = 0;
+	uint16_t t;
+	for(i=0;i<len-1;i++)
+	{
+		for(j=0;j<len-i-1;j++)
+		{
+			if(a[j]>a[j+1])
+			{
+				t=a[j];
+				a[j]=a[j+1];
+				a[j+1]=t;
+			}
+		}
+	}
+}
 /*********************************************************************************************************************/
 #endif

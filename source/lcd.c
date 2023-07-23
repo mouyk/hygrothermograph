@@ -605,6 +605,7 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t hour, uin
 				else if(num == 1)
 					lcd_ram[31] = alarm_timer2;
 				else
+					
 					lcd_ram[31] = alarm_timer3;
 				lcd_ram[33] = alarm_timer;
 			}

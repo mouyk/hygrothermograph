@@ -184,6 +184,7 @@ Lcd_init();
 		if(AlarmEvFlag)	//闹钟中断产生时打印
 		{
 			AlarmEvFlag = 0;
+			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
 	#ifdef PRINT_EN
 			uart_printf("Alarm event happen!\n");	
 	#endif		

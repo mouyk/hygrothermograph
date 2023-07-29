@@ -464,51 +464,29 @@ void Lcd_HourTurn(uint8_t hour)
 ***********************************************************************************/
 void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
-	static uint8_t TimeNum = 0;
 	uint16_t hour1 = 0;
 	if(HourFlag != 0)
 	{
 		if(hour>=12)
 		{
 			hour1 = hour -12;
-			if((flag == 0)&&(lock == 0))
-			{
-				if(TimeNum == 0)
-				{
-					TimeNum = 1;
-					Lcd_HourHanlde(hour1,1);
-				}
-				else
-				{
-					TimeNum = 0;
-					Lcd_HourHanlde(hour1,0);
-				}
-			}
-			else
-			{
-				Lcd_HourHanlde(hour1,1);
-			}
-			if((flag == 1)&&(lock == 0))
-			{
-				if(TimeNum == 0)
-				{
-					TimeNum = 1;
-					Lcd_MinHanlde(min,1);
-				}
-				else
-				{
-					TimeNum = 0;
-					Lcd_MinHanlde(min,0);
-				}
-			}
-			else
-			{
-				Lcd_MinHanlde(min,1);
-			}
+			Lcd_TimeFunction(flag,lock,hour1,min);
 		}
 		else
 		{
-			if((flag == 0)&&(lock == 0))
+			Lcd_TimeFunction(flag,lock,hour,min);
+		}
+	}
+	else
+	{
+		Lcd_TimeFunction(flag,lock,hour,min);
+	}
+	Lcd_HourTurn(hour);													//上下午表示处理
+}
+void Lcd_TimeFunction(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
+{
+	static uint8_t TimeNum = 0;
+	if((flag == 0)&&(lock == 0))
 			{
 				if(TimeNum == 0)
 				{
@@ -542,46 +520,6 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 			{
 				Lcd_MinHanlde(min,1);
 			}
-		}
-	}
-	else
-	{
-		if((flag == 0)&&(lock == 0))
-		{
-			if(TimeNum == 0)
-			{
-				TimeNum = 1;
-				Lcd_HourHanlde(hour,1);
-			}
-			else
-			{
-				TimeNum = 0;
-				Lcd_HourHanlde(hour,0);
-			}
-		}
-		else
-		{
-			Lcd_HourHanlde(hour,1);
-		}
-		if((flag == 1)&&(lock == 0))
-		{
-			if(TimeNum == 0)
-			{
-				TimeNum = 1;
-				Lcd_MinHanlde(min,1);
-			}
-			else
-			{
-				TimeNum = 0;
-				Lcd_MinHanlde(min,0);
-			}
-		}
-		else
-		{
-			Lcd_MinHanlde(min,1);
-		}
-	}
-	Lcd_HourTurn(hour);													//上下午表示处理
 }
 /***********************************************************************************
 函数名：		Lcd_AlarmHanlde

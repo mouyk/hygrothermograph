@@ -162,13 +162,11 @@ void Key_Scanf(void)
 				{
 					ShortKey4 = 1;
 					times4 = 0;
-					Key4Flag = 0;
 				}
 				else if((times4 >Shortnum)&&(Key4Flag == 0))
 				{
 					LongKey4 = 1;
 					times4 = 0;
-					Key4Flag = 0;
 				}
 				else if(times4 == Maxnum)
 				{
@@ -198,13 +196,11 @@ void Key_Scanf(void)
 				{
 					ShortKey3 = 1;
 					times3 = 0;
-					Key3Flag = 0;
 				}
 				else if((times3 >Shortnum)&&(Key3Flag == 0))
 				{
 					LongKey3 = 1;
 					times3 = 0;
-					Key3Flag = 0;
 				}
 				else if(times3 == Maxnum)
 				{
@@ -237,13 +233,11 @@ void Key_Scanf(void)
 				{
 					ShortKey2 = 1;
 					times2 = 0;
-					Key2Flag = 0;
 				}
 				else if((times2 >Shortnum)&&(Key2Flag == 0))
 				{
 					LongKey2 = 1;
 					times2 = 0;
-					Key2Flag = 0;
 				}
 				else if(times2 == Maxnum)
 				{
@@ -273,13 +267,11 @@ void Key_Scanf(void)
 				{
 					ShortKey1 = 1;
 					times1 = 0;
-					Key1Flag = 0;
 				}
 				else if((times1 >Shortnum)&&(Key1Flag == 0))
 				{
 					LongKey1 = 1;
 					times1 = 0;
-					Key1Flag = 0;
 				}
 				else if(times1 == Maxnum)
 				{
@@ -309,7 +301,6 @@ void Key_HandleFunction(void)
 	{
 		ShortKey4 = 0;
 		HourFlag = ~HourFlag;
-		RTC_Alarm_init(1,0,0,0);
 	}
 	if((ShortKey3 == 1)&&(Interface == 0))
 	{

@@ -73,6 +73,7 @@ RTC_init();
 ADC_init();
 TIME2_init();
 RTC_Set(2023,10,11,23,59,41);
+RTC_Alarm_init(0,0,0,0);
 Lcd_init();
 
 //zigbee_protocol_init();
@@ -108,7 +109,6 @@ Lcd_init();
 				Hold_down = 0;
 				Key4Flag = 0;
 				Key2Flag = 0;
-//				uart_printf("C");
 			}
 			for(i = 0; i < 34; i++)
 			{

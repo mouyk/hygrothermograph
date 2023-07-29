@@ -421,7 +421,7 @@ uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day )
 uint8_t RTC_Daysmonth(uint16_t year, uint8_t month)
 {
 	uint8_t days =0;
-	if((year%4 ==0)&&(year%100 != 0)||year%400 == 0)
+	if(IS_Leap_Year(year))
 	{
 		if(month == 2)
 			days =29;

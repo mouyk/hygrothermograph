@@ -237,9 +237,9 @@ void Lcd_Colon(uint8_t flag)
 输入参数： 		menu：0：表示时间界面，1：表示计时界面，2：时钟调整界面；flag ：0~5表示不同闪烁位置的数字加减及范围控制
 返回值：		无
 ***********************************************************************************/
-void Lcd_IconFunction(uint8_t menu,uint8_t flag)
+void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 {
-	static first = 0;
+	static bit first = 0;
 	lcd_ram[32] = SOC3;
 	if(FahrenFlag == 0)
 	{
@@ -251,7 +251,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 	}
 	if(menu == 1)
 	{
-		Lcd_Countdown(menu,flag,Timer_Array[0],Timer_Array[1]);
+		Lcd_Countdown(menu,flag,lock,Timer_Array[0],Timer_Array[1]);
 		Lcd_Colon(0);
 	}
 	else if(menu == 2)
@@ -266,19 +266,19 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 			RTC_Array[4] = calendar.min;
 			RTC_Array[5] = calendar.sec;
 		}
-		Lcd_TimeHanlde(flag,RTC_Array[3],RTC_Array[4]);
-		Lcd_DateFunction(flag,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
+		Lcd_TimeHanlde(flag,lock,RTC_Array[3],RTC_Array[4]);
+		Lcd_DateFunction(flag,lock,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
 		if(Alarm_num == 0)
 		{
-			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,Alarm_Array[0],Alarm_Array[1]);
+			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[0],Alarm_Array[1]);
 		}
 		else if(Alarm_num == 1)
 		{
-			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,Alarm_Array[2],Alarm_Array[3]);
+			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[2],Alarm_Array[3]);
 		}
 		else
 		{
-			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,Alarm_Array[4],Alarm_Array[5]);
+			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[4],Alarm_Array[5]);
 		}
 		Lcd_Colon(0);
 		Lcd_ZigbeeIcon(ZigbeeFlag);
@@ -286,8 +286,8 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag)
 	else
 	{
 		first = 0;
-		Lcd_TimeHanlde(2,calendar.hour,calendar.min);
-		Lcd_DateFunction(flag,calendar.w_year,calendar.w_month,calendar.w_date);
+		Lcd_TimeHanlde(2,lock,calendar.hour,calendar.min);
+		Lcd_DateFunction(flag,lock,calendar.w_year,calendar.w_month,calendar.w_date);
 		Lcd_Colon(1);
 		Lcd_ZigbeeIcon(ZigbeeFlag);
 	}
@@ -338,11 +338,11 @@ void Lcd_WeekDisplay(uint8_t num)
 输入参数： 		flag：2~4：表示年月日闪烁位置，year：年份，month：月份，day：日
 返回值：		无
 ***********************************************************************************/
-void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day)
+void Lcd_DateFunction(uint8_t flag, uint8_t lock, uint16_t year, uint8_t month,uint8_t day)
 {
 	uint8_t week = 0;
 	static date = 0;
-	if(flag == 2)
+	if((flag == 2)&&(lock == 0))
 	{
 		if(date == 0)
 		{
@@ -368,7 +368,7 @@ void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day)
 		week = RTC_Set_Week(year,month,day);
 		Lcd_WeekDisplay(week);
 	}
-	if(flag == 3)
+	if((flag == 3)&&(lock == 0))
 	{
 		if(date == 0)
 		{
@@ -394,7 +394,7 @@ void Lcd_DateFunction(uint8_t flag, uint16_t year, uint8_t month,uint8_t day)
 		week = RTC_Set_Week(year,month,day);
 		Lcd_WeekDisplay(week);
 	}
-	if(flag == 4)
+	if((flag == 4)&&(lock == 0))
 	{
 		if(date == 0)
 		{
@@ -462,7 +462,7 @@ void Lcd_HourTurn(uint8_t hour)
 输入参数： 	flag：0~1表示时分闪烁位置	hour：表示小时，min：表示分
 返回值：		无
 ***********************************************************************************/
-void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
+void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
 	static uint8_t TimeNum = 0;
 	uint16_t hour1 = 0;
@@ -471,7 +471,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 		if(hour>=12)
 		{
 			hour1 = hour -12;
-			if(flag == 0)
+			if((flag == 0)&&(lock == 0))
 			{
 				if(TimeNum == 0)
 				{
@@ -488,7 +488,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 			{
 				Lcd_HourHanlde(hour1,1);
 			}
-			if(flag == 1)
+			if((flag == 1)&&(lock == 0))
 			{
 				if(TimeNum == 0)
 				{
@@ -508,7 +508,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 		}
 		else
 		{
-			if(flag == 0)
+			if((flag == 0)&&(lock == 0))
 			{
 				if(TimeNum == 0)
 				{
@@ -525,7 +525,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 			{
 				Lcd_HourHanlde(hour,1);
 			}
-			if(flag == 1)
+			if((flag == 1)&&(lock == 0))
 			{
 				if(TimeNum == 0)
 				{
@@ -546,7 +546,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 	}
 	else
 	{
-		if(flag == 0)
+		if((flag == 0)&&(lock == 0))
 		{
 			if(TimeNum == 0)
 			{
@@ -563,7 +563,7 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 		{
 			Lcd_HourHanlde(hour,1);
 		}
-		if(flag == 1)
+		if((flag == 1)&&(lock == 0))
 		{
 			if(TimeNum == 0)
 			{
@@ -589,13 +589,13 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t hour, uint8_t min)
 输入参数： 	flag：0~1表示时分闪烁位置	hour：表示小时，min：表示分
 返回值：		无
 ***********************************************************************************/
-void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t hour, uint8_t min)
+void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uint8_t hour, uint8_t min)
 {
 	static uint8_t AlarmNum = 0;
 	uint16_t hour1 = 0;
 	if(flag == 5)
 	{
-		if(flag1 == 0)
+		if((flag1 == 0)&&(lock == 0))
 		{
 			if(AlarmNum == 0)
 			{
@@ -625,7 +625,7 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t hour, uin
 				lcd_ram[31] = alarm_timer2;
 			lcd_ram[33] = alarm_timer;
 		}
-		if(flag1 == 1)
+		if((flag1 == 1)&&(lock == 0))
 		{
 			if(HourFlag != 0)
 			{
@@ -690,7 +690,7 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t hour, uin
 					Lcd_HourHanlde(hour,1);
 			}
 		}
-		if(flag1 == 2)
+		if((flag1 == 2)&&(lock == 0))
 		{
 			if(AlarmNum == 0)
 			{
@@ -763,7 +763,7 @@ void Lcd_ZigbeeIcon(uint8_t zigbee)
 		ZigbeeFlag = 0;
 	}
 }
-void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
+void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
 	static CouNum = 0;
 	if(menu == 1)
@@ -784,7 +784,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
 		{
 			lcd_ram[30] |= LoGo_timer;
 		}
-		if(flag == 1)
+		if((flag == 1)&&(lock == 0))
 		{
 			if(CouNum == 0)
 			{
@@ -801,7 +801,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t hour, uint8_t min)
 		{
 			Lcd_HourHanlde(hour,1);
 		}
-		if(flag == 2)
+		if((flag == 2)&&(lock == 0))
 		{
 			if(CouNum == 0)
 			{

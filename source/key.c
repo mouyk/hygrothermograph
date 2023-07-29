@@ -133,11 +133,11 @@ void INT5_ISR (void) interrupt 10
 ***********************************************************************************/
 uint8_t ShortKey1 = 0,ShortKey2 = 0,ShortKey3 = 0,ShortKey4 = 0;
 uint8_t LongKey1 = 0,LongKey2 = 0,LongKey3 = 0,LongKey4 = 0;
-uint8_t Hold_down1 = 0,Hold_down2 = 0;
+uint8_t Hold_down = 0;
 uint16_t times4 = 0,times3 = 0,times2 = 0,times1 = 0;
+uint8_t Key1Flag = 0,Key2Flag = 0,Key3Flag = 0,Key4Flag = 0;
 void Key_Scanf(void)
 {
-	static uint8_t Key1Flag = 0,Key2Flag = 0,Key3Flag = 0,Key4Flag = 0;
 		if(40==key_value4)																						//key4   S4     ¼õºÅ
 		{
 			if(P40 == 0)
@@ -150,6 +150,8 @@ void Key_Scanf(void)
 					{
 						Key4Flag = 1;
 						LongKey4 = 1;
+						if(Interface != 0)
+							Hold_down = 1;
 					}
 				}
 			}
@@ -223,6 +225,8 @@ void Key_Scanf(void)
 					{
 						Key2Flag = 1;
 						LongKey2 = 1;
+						if(Interface != 0)
+							Hold_down = 1;
 					}
 				}
 			}
@@ -401,9 +405,10 @@ void Key_HandleFunction(void)
 void Key_timedate(uint8_t flag)
 {
 	uint8_t Days =0;
-	if((ShortKey4 == 1)&&(Interface == 2)&&(flag != 5))
+	if((LongKey4 == 1||ShortKey4 == 1)&&(Interface == 2)&&(flag != 5))
 	{
 		ShortKey4 = 0;
+		LongKey4 = 0;
 		if(flag == 0)
 		{
 			RTC_Array[3]--;
@@ -444,9 +449,10 @@ void Key_timedate(uint8_t flag)
 				RTC_Array[2] = Days;
 		}
 	}
-	if((ShortKey2 == 1)&&(Interface == 2)&&(flag != 5))
+	if((LongKey2== 1||ShortKey2 == 1)&&(Interface == 2)&&(flag != 5))
 	{
 		ShortKey2 = 0;
+		LongKey2 = 0;
 		if(flag == 0)
 		{
 			RTC_Array[3]++;
@@ -488,9 +494,10 @@ void Key_timedate(uint8_t flag)
 }
 void Key_Countdown(uint8_t flag)
 {
-	if((ShortKey4 == 1)&&(Interface == 1))
+	if((LongKey4 == 1||ShortKey4 == 1)&&(Interface == 1))
 	{
 		ShortKey4 = 0;
+		LongKey4 = 0;
 		if(flag == 1)
 		{
 			Timer_Array[0]--;
@@ -513,9 +520,10 @@ void Key_Countdown(uint8_t flag)
 			}
 		}
 	}
-	if((ShortKey2 == 1)&&(Interface == 1))
+	if((LongKey2 == 1||ShortKey2 == 1)&&(Interface == 1))
 	{
 		ShortKey2 = 0;
+		LongKey2 = 0;
 		if(flag == 1)
 		{
 			Timer_Array[0]++;

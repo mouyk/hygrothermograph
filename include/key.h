@@ -21,5 +21,7 @@ void Key_Alarm(uint8_t flag);
 extern bit FahrenFlag;
 extern bit HourFlag;
 extern uint8_t Interface;
+extern uint8_t Hold_down;
 extern uint8_t ZigbeeFlag,DelAlarmFlag;
+extern uint8_t Key1Flag,Key2Flag,Key3Flag,Key4Flag;
 #endif

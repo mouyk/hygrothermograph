@@ -99,6 +99,17 @@ Lcd_init();
 		if(times100Flag)
 		{
 			times100Flag = 0; 
+			if((Hold_down == 1))
+			{
+				if(Interface == 1)
+					Lcd_IconFunction(Interface,Timer_num,Hold_down);
+				else
+					Lcd_IconFunction(Interface,RTC_num,Hold_down);
+				Hold_down = 0;
+				Key4Flag = 0;
+				Key2Flag = 0;
+//				uart_printf("C");
+			}
 			for(i = 0; i < 34; i++)
 			{
 				INDEX = i;
@@ -108,10 +119,13 @@ Lcd_init();
 		if(times250Flag == 1)
 		{
 			times250Flag = 0;
-			if(Interface == 1)
-				Lcd_IconFunction(Interface,Timer_num);
-			else
-				Lcd_IconFunction(Interface,RTC_num);
+			if((Hold_down == 0))
+			{
+				if(Interface == 1)
+					Lcd_IconFunction(Interface,Timer_num,Hold_down);
+				else
+					Lcd_IconFunction(Interface,RTC_num,Hold_down);
+			}
 				
 		}
 		if(times1000Flag == 1)

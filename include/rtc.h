@@ -30,7 +30,10 @@ typedef struct
 } _calendar_obj;
 
 extern 	_calendar_obj calendar;
-extern uint8_t times10Flag;
+extern bit times10Flag;
+extern bit HalfSecFlag;
+extern bit AlarmEvFlag;
+extern bit millisecondFlag;
 extern uint16_t RTC_Array[6];
 extern uint8_t RTC_num;
 extern uint8_t Alarm1,Alarm2,Alarm3;					//各个闹钟设置成功至1
@@ -46,7 +49,7 @@ void RTC_init(void);
 void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec);
 uint8_t RTC_Daysmonth(uint16_t year, uint8_t month);
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
-uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
+//uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 uint8_t RTC_Get(void);
 uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day );
 void RTC_AlarmHandle(uint8_t num);

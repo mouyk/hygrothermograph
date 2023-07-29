@@ -4,7 +4,6 @@
 #include "stdio.h"
 #include "string.h"
 #include "include/ca51f_config.h"	
-extern float GXHTC3_temp;
 
 //如果移植程序时只要改一下三个地方就行了
 /* 定时使用的IO口 */

@@ -18,8 +18,8 @@ void Key_HandleFunction(void);
 void Key_timedate(uint8_t flag);
 void Key_Countdown(uint8_t flag);
 void Key_Alarm(uint8_t flag);
-extern uint8_t FahrenFlag;
-extern uint8_t HourFlag;
+extern bit FahrenFlag;
+extern bit HourFlag;
 extern uint8_t Interface;
 extern uint8_t ZigbeeFlag,DelAlarmFlag;
 #endif

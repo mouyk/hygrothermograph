@@ -9,7 +9,6 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-//#include "include/lcd.h"
 #include "include/gpio.h"
 #include "include/gxhtc.h"
 #include <intrins.h>
@@ -284,7 +283,6 @@ void get_gxth30(void)
 
 	float temp=0,humi=0;
 	uint8_t i = 0;
-//	extern  uint8_t            			lcd_ram[34];	
 	for(i = 0;i < 5;i++)
 	{	
 		GXHTC3_read_result(0x70);

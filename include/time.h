@@ -26,12 +26,11 @@
 #define	TL_VAL				(unsigned char)(0x10000 - (INT_TIME*(FOSC/1000))/1000)
 /*********************************************************************************************************************/
 
-extern uint8_t times250Flag,times1000Flag;
+extern bit times100Flag,times250Flag,times1000Flag;
 extern int8_t Timer_Array[2];
 extern uint8_t Timer_num;
-extern uint8_t Time_start;
+extern bit Time_start;
 
 void TIME2_init(void);
-uint8_t Counting_Function(uint8_t flag);
-void sort(uint16_t *a,uint8_t len);
+bit Counting_Function(bit flag);
 #endif

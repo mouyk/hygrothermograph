@@ -41,6 +41,8 @@ enum
 	ADC_VDD  	= 9,
 };
 
+extern double VDD_Voltage;
+
 void ADC_init(void);
 
 

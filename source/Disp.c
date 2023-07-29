@@ -104,25 +104,16 @@ const uint8_t            DispLcdTableNumTemp[12]        = {
  ** \param   [in] none       
  ** \return   none
 *****************************************************************************/
-void UpdateNixieTubeRAMA(char dataRAM,char addr){
-//extern	 uint8_t            			lcd_ram[34];
+void UpdateNixieTubeRAMA(char dataRAM,char addr)
+{
       lcd_ram[addr]                                 =0x0f&DispLcdTableNum[dataRAM];
       lcd_ram[addr+1]                               =0x0f&DispLcdTableNum[dataRAM]>>4;
-//	  printf("addr %#x\n",d[addr]);
-//	  printf("addr++ %#x\n",d[addr+1]);	
 }
-void UpdateNixieTubeRAMB(char dataRAM,char addr){
-//extern	 uint8_t            			lcd_ram[34];	
+void UpdateNixieTubeRAMB(char dataRAM,char addr)
+{	
       lcd_ram[addr]                                 =0x0f&DispLcdTableNumTemp[dataRAM];
       lcd_ram[addr+1]                               =0x0f&DispLcdTableNumTemp[dataRAM]>>4;
-//	  printf("addr %#x\n",d[addr]);
-//	  printf("addr++ %#x\n",d[addr+1]);	
 }
-
-
-//void DispLcdUpdate(uint8_t *mBufL1){
-
-//}
 
 
 #endif

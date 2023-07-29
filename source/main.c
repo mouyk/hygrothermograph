@@ -1,4 +1,3 @@
-
 #ifndef _MAIN_C_
 #define _MAIN_C_
 /*********************************************************************************************************************/
@@ -11,7 +10,7 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-//#include "include/lcd.h"
+
 #include "include/key.h"
 #include "include/gpio.h"
 #include "include/gxhtc.h"
@@ -29,20 +28,12 @@
 	重要提示：
 	在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象。
 *********************************************************************************************************************/			
-extern uint8_t key_value;
 
 void main(void)
 {
-extern float GXHTC3_temp,GXHTC3_humi;
-extern bit HalfSecFlag;
-extern bit AlarmEvFlag;
-extern bit millisecondFlag;
-	unsigned char i;
-	uint8_t ab = 0;
-//	uint16_t a,b,c,d,e,f,g=0;
-	extern double VDD_Voltage;
-	extern  uint8_t            			lcd_ram[34];		
-	
+uint8_t i;
+extern uint8_t lcd_ram[34];
+
 #ifdef LVD_RST_ENABLE
 	LVDCON = 0xE1;					//设置LVD复位电压为2V
 #endif	
@@ -70,39 +61,6 @@ extern bit millisecondFlag;
 	uart_printf("LCD Power Saving Mode Demo Code\n");
 #endif
 
-	
-//	P72F = P72_XOSCL_IN_SETTING;			//设置P72为晶振引脚
-//	P71F = P71_XOSCL_OUT_SETTING;			//设置P71为晶振引脚
-//	CKCON |= XLCKE;							//使能XSOCL
-//	while(!(CKCON & XLSTA));				//等待XSOCL稳定
-//	
-//// 	CKCON |= ILCKE;							//使能IRCL
-
-//	LXDIVH = 0;				//设置LCD时钟分频，目标帧频率为64HZ
-//	LXDIVL = 0;	
-//	LXCAD = 0;
-//	LXCFG =	 DMOD(DMOD_5ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);			//设置LCD驱动电流、偏压(bias)、辉度
-//	LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为XOSCL，选择LCD模式
-//// 	LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为IRCL，选择LCD模式
-//	
-//	//设置LCD全显
-//	for(i = 0; i < 9; i++)
-//	{
-//		INDEX = i;
-//		LXDAT = 0xFF;
-//	}
-
-////	LCD_Off();
-//	
-//	I2CCON = 0;						//关闭I2C，否则系统时钟无法关闭
-//	CKCON = XLCKE;					//关闭除LCD时钟外的其他时钟
-//// 	CKCON = ILCKE;	
-//	PWCON &= ~0x08;					//LDO进入低功率模式
-//	
-//	PCON = (PCON&0x84) | 0x02;      //进入STOP模式
-//	_nop_();
-//	_nop_();
-//	_nop_();
 GXHTC3_INIT();	
 PWM6_init();
 GPIO_init();
@@ -122,11 +80,7 @@ Lcd_init();
 //mcu_exit_zigbee();
 	while(1)
 	{
-//		zigbee_uart_service();
-//		PWMEN  = (1<<PWM_CH6);		//PWM6使能		
-//		Delay_ms(10);
-//		PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用	
-//		Delay_ms(1000);	
+//		zigbee_uart_service();	
 //			Uart0_PutChar(0x55);
 //			Uart0_PutChar(0xaa);
 //			Uart0_PutChar(0x00);
@@ -142,6 +96,15 @@ Lcd_init();
 			Key_HandleFunction();
 			Buzzer_Control(BeepStart);
 		}
+		if(times100Flag)
+		{
+			times100Flag = 0; 
+			for(i = 0; i < 34; i++)
+			{
+				INDEX = i;
+				LXDAT = lcd_ram[i];
+			}
+		}
 		if(times250Flag == 1)
 		{
 			times250Flag = 0;
@@ -149,11 +112,7 @@ Lcd_init();
 				Lcd_IconFunction(Interface,Timer_num);
 			else
 				Lcd_IconFunction(Interface,RTC_num);
-				for(i = 0; i < 34; i++)
-				{
-					INDEX = i;
-					LXDAT = lcd_ram[i];
-				}
+				
 		}
 		if(times1000Flag == 1)
 		{
@@ -163,17 +122,11 @@ Lcd_init();
 //			uart_printf("C");
 		}
 			
-//	for(i = 0; i < 34; i++)
-//	{
-//		INDEX = i;
-//		LXDAT = lcd_ram[i];
-//	}
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
 			RTC_Get();	
 			get_gxth30();
-
 			Lcd_Humiture();
 //			mcu_join_zigbee();
 //			Uart0_PutChar(0x31);

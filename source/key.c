@@ -13,9 +13,10 @@
 #include <intrins.h>
 
 uint8_t key_value1,key_value2,key_value3,key_value4=0;
-uint8_t FahrenFlag = 0;        //华氏度标志
+bit FahrenFlag = 0;        //华氏度标志
+bit HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 uint8_t Interface = 0;         //界面
-uint8_t HourFlag = 0;          //小时制标志 0：24hour    1：12hour
+
 //EPCON寄存器定义
 #define EPPL(N)	(N<<7)
 /*****************************************************************************

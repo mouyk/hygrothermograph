@@ -15,7 +15,7 @@
 
 int8_t Timer_Array[2]={0};
 uint8_t Timer_num = 0;									//0：计时标识    1：时     2：分
-uint8_t Time_start = 0;
+bit Time_start = 0;
 void TIME2_init(void)
 {
 	P12F = P12_T2CP_SETTING;	 
@@ -34,15 +34,23 @@ void TIME2_init(void)
 输入参数： 		无
 返回值：		无
 ***********************************************************************************/
-uint8_t times250Flag = 0,times1000Flag = 0;
-uint8_t times250 = 0,times1000 = 0;
+bit times100Flag = 0;
+bit times250Flag = 0;
+bit times1000Flag = 0;
+uint8_t times100 = 0,times250 = 0,times1000 = 0;
 void TIMER2_ISR (void) interrupt 5 
 {
 	if(T2MOD & TF2)		  //定时器2溢出中断,当前设置为10ms产生
 	{
 		T2MOD = (T2MOD&0x1F) | TF2;
+		times100++;
 		times250++;
 		times1000++;
+		if(times100>=10)
+		{
+			times100 = 0;
+			times100Flag = 1;
+		}
 		if(times250>=25)
 		{
 			times250 = 0;
@@ -60,9 +68,9 @@ void TIMER2_ISR (void) interrupt 5
 		
 	}
 }
-uint8_t Counting_Function(uint8_t flag)
+bit Counting_Function(bit flag)
 {
-	static time_num = 4;
+	static uint8_t time_num = 4;
 	if(flag == 1)
 	{
 		if(time_num != 0)

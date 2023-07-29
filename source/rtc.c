@@ -108,7 +108,8 @@ void RTC_WriteWeek(unsigned char week) //hour = 1~7代表星期一~星期天, 如果week =
 bit HalfSecFlag;
 bit AlarmEvFlag;
 bit millisecondFlag;
-uint8_t times10 = 0,times10Flag = 0;
+bit times10Flag = 0;
+uint8_t times10 = 0;
 void RTC_ISR (void) interrupt 13 	 
 {
 	if(RTCIF & RTC_MF)			//毫秒中断
@@ -281,46 +282,46 @@ uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8
 //1970~2099年为合法年份
 //syear,smon,sday,hour,min,sec：闹钟的年月日时分秒
 //返回值:0,成功;其他:错误代码.
-uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec )
-{
-/*
-    uint16_t t;
-    uint16_t sdaycount = 0;
-    if( syear < 1970 || syear > 2099 )
-        return 1;
-    for( t = 1970; t < syear; t++ )						                //所有年份的秒钟相加
-    {
-        if( IS_Leap_Year( t ) )
-            sdaycount += 366;								//闰年天数
-        else
-            sdaycount += 365;								//平年天数
-    }
-    smon -= 1;
-    for( t = 0; t < smon; t++ )							                //把前面月份的秒钟数相加
-    {
-        sdaycount += ( uint16_t )mon_table[t] * 1;
-        if( IS_Leap_Year( syear ) && t == 1 )				            //闰年2月份增加一天的秒钟数
-            sdaycount += 1;
-    }
-    sdaycount += ( uint16_t )( sday - 1 ) * 1;				        	//把前面天数的秒钟数相加
-    sdaycount += ( uint16_t )hour * 3600;						        //加小时秒钟数
-    sdaycount += ( uint16_t )min * 60;							        //加分钟秒钟数
-    sdaycount += sec;									                //加上最后的秒数
+//uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec )
+//{
+///*
+//    uint16_t t;
+//    uint16_t sdaycount = 0;
+//    if( syear < 1970 || syear > 2099 )
+//        return 1;
+//    for( t = 1970; t < syear; t++ )						                //所有年份的秒钟相加
+//    {
+//        if( IS_Leap_Year( t ) )
+//            sdaycount += 366;								//闰年天数
+//        else
+//            sdaycount += 365;								//平年天数
+//    }
+//    smon -= 1;
+//    for( t = 0; t < smon; t++ )							                //把前面月份的秒钟数相加
+//    {
+//        sdaycount += ( uint16_t )mon_table[t] * 1;
+//        if( IS_Leap_Year( syear ) && t == 1 )				            //闰年2月份增加一天的秒钟数
+//            sdaycount += 1;
+//    }
+//    sdaycount += ( uint16_t )( sday - 1 ) * 1;				        	//把前面天数的秒钟数相加
+//    sdaycount += ( uint16_t )hour * 3600;						        //加小时秒钟数
+//    sdaycount += ( uint16_t )min * 60;							        //加分钟秒钟数
+//    sdaycount += sec;									                //加上最后的秒数
 
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
-    PWR_BackupAccessCmd( ENABLE );
+//    RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
+//    PWR_BackupAccessCmd( ENABLE );
 
-    RTC_SetAlarm( sdaycount );
-    RTC_WaitForLastTask();
-*/
+//    RTC_SetAlarm( sdaycount );
+//    RTC_WaitForLastTask();
+//*/
 
-	//设置闹钟时间为12:01:00
-	RTAH	=	hour;			
-	RTAM	=	min;
-	RTAS	=	min;
+//	//设置闹钟时间为12:01:00
+//	RTAH	=	hour;			
+//	RTAM	=	min;
+//	RTAS	=	min;
 
-    return 0;
-}
+//    return 0;
+//}
 //得到当前的时间
 //返回值:0,成功;其他:错误代码.
 uint8_t RTC_Get( void )

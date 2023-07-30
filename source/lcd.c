@@ -1,4 +1,3 @@
-
 #ifndef _LCD_C_
 #define _LCD_C_
 /*********************************************************************************************************************/
@@ -240,6 +239,7 @@ void Lcd_Colon(uint8_t flag)
 void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 {
 	static bit first = 0;
+	uint8_t i =0;
 	lcd_ram[32] = SOC3;
 	if(FahrenFlag == 0)
 	{
@@ -265,14 +265,21 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 			RTC_Array[3] = calendar.hour;
 			RTC_Array[4] = calendar.min;
 			RTC_Array[5] = calendar.sec;
+			LastAlarm1 = Alarm1;
+			LastAlarm2 = Alarm2;
+			LastAlarm3 = Alarm3;
+			for(i = 0;i <= 5;i++)
+			{
+				LastAlarm_Array[i] = Alarm_Array[i];
+			}
 		}
 		Lcd_TimeHanlde(flag,lock,RTC_Array[3],RTC_Array[4]);
 		Lcd_DateFunction(flag,lock,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
-		if(Alarm_num == 0)
+		if(Alarm_num == 1)
 		{
 			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[0],Alarm_Array[1]);
 		}
-		else if(Alarm_num == 1)
+		else if(Alarm_num == 2)
 		{
 			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[2],Alarm_Array[3]);
 		}
@@ -281,12 +288,15 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[4],Alarm_Array[5]);
 		}
 		Lcd_Colon(0);
-		Lcd_ZigbeeIcon(ZigbeeFlag);
 	}
 	else
 	{
 		first = 0;
 		Lcd_TimeHanlde(2,lock,calendar.hour,calendar.min);
+		if(Alarm1+Alarm2+Alarm3 != 0)
+			Lcd_AlarmIcon(Alarm1+Alarm2+Alarm3,1);
+		else
+			Lcd_AlarmIcon(0,0);
 		Lcd_DateFunction(flag,lock,calendar.w_year,calendar.w_month,calendar.w_date);
 		Lcd_Colon(1);
 		Lcd_ZigbeeIcon(ZigbeeFlag);
@@ -538,30 +548,17 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uin
 			if(AlarmNum == 0)
 			{
 				AlarmNum = 1;
-				if(num == 0)
-					lcd_ram[31] = alarm_timer1;
-				else if(num == 1)
-					lcd_ram[31] = alarm_timer2;
-				else
-					lcd_ram[31] = alarm_timer3;
-				lcd_ram[33] = alarm_timer;
+				Lcd_AlarmIcon(num,1);
 			}
 			else
 			{
 				AlarmNum = 0;
-				lcd_ram[31] = 0;
-				lcd_ram[33] = 0;
+				Lcd_AlarmIcon(num,0);
 			}
 		}
 		else
 		{
-			if(num == 0)
-				lcd_ram[31] = alarm_timer1;
-			else if(num == 1)
-				lcd_ram[31] = alarm_timer2;
-			else
-				lcd_ram[31] = alarm_timer2;
-			lcd_ram[33] = alarm_timer;
+			Lcd_AlarmIcon(num,1);
 		}
 		if((flag1 == 1)&&(lock == 0))
 		{
@@ -646,6 +643,24 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uin
 			Lcd_MinHanlde(min,1);
 		}
 		Lcd_HourTurn(hour);															//上下午表示处理
+	}
+}
+void Lcd_AlarmIcon(uint8_t num,uint8_t flag)
+{
+	if(flag == 1)
+	{
+		if(num == 1)
+			lcd_ram[31] = alarm_timer1;
+		else if(num == 2)
+			lcd_ram[31] = alarm_timer2;
+		else
+			lcd_ram[31] = alarm_timer3;
+		lcd_ram[33] = alarm_timer;
+	}
+	else
+	{
+		lcd_ram[31] = 0;
+		lcd_ram[33] = 0;
 	}
 }
 void Lcd_HourHanlde(uint8_t hour, uint8_t flag)
@@ -772,4 +787,5 @@ void Lcd_Backlight(void)
 		}
 	}
 }
+#endif
 #endif

@@ -63,6 +63,7 @@ void INT2_ISR (void) interrupt 7
 		EPIF = 0x01;
 //		int2_flag = 1;
 		key_value4 =40;
+		keyclearnum = 0;
 	}
 }
 
@@ -81,7 +82,8 @@ void INT3_ISR (void) interrupt 8
 	if(EPIF & 0x02)
 	{
 		EPIF = 0x02;	
-	key_value3 = 41;	
+		key_value3 = 41;	
+		keyclearnum = 0;
 	}
 }
 /*********************************************************************************************************************/
@@ -101,7 +103,8 @@ void INT4_ISR (void) interrupt 9
 	if(EPIF & 0x04)
 	{
 		EPIF = 0x04;
-	key_value2 = 42;	
+		key_value2 = 42;	
+		keyclearnum = 0;
 	}
 }
 /*********************************************************************************************************************/
@@ -121,8 +124,9 @@ void INT5_ISR (void) interrupt 10
 	if(EPIF & 0x08)
 	{
 		EPIF = 0x08;	
-	key_value1 = 43;
-	P32	 = 1;													//开启背光
+		key_value1 = 43;
+		P32	 = 1;													//开启背光
+		keyclearnum = 0;
 	}
 }
 /***********************************************************************************
@@ -142,7 +146,8 @@ void Key_Scanf(void)
 		{
 			if(P40 == 0)
 			{
-				times4++;
+				if(DelAlarmFlag == 0)
+					times4++;
 				if(times4>=Maxnum)
 				{
 					times4 =Maxnum;
@@ -150,6 +155,7 @@ void Key_Scanf(void)
 					{
 						Key4Flag = 1;
 						LongKey4 = 1;
+						keyclearnum = 0;
 						if(Interface != 0)
 							Hold_down = 1;
 					}
@@ -158,7 +164,8 @@ void Key_Scanf(void)
 			else
 			{
 				key_value4=0;
-				if((times4 <= Shortnum)&&(Key4Flag == 0))
+				keyclearnum = 0;
+				if((times4 <= Shortnum)&&(Key4Flag == 0)&&(times4 != 0))
 				{
 					ShortKey4 = 1;
 					times4 = 0;
@@ -168,9 +175,10 @@ void Key_Scanf(void)
 					LongKey4 = 1;
 					times4 = 0;
 				}
-				else if(times4 == Maxnum)
+				else if(times4 == Maxnum);
 				{
 					times4 = 0;
+					Key4Flag = 0;
 				}
 			}
 		}
@@ -178,13 +186,15 @@ void Key_Scanf(void)
 		{
 			if(P41 == 0)
 			{
-				times3++;
+				if((ZigbeeFlag == 0)&&(DelAlarmFlag == 0))
+					times3++;
 				if(times3>=Maxnum)
 				{
 					times3 =Maxnum;
 					if(Key3Flag == 0)
 					{
 						Key3Flag = 1;
+						keyclearnum = 0;
 						LongKey3 = 1;
 					}
 				}
@@ -192,7 +202,9 @@ void Key_Scanf(void)
 			else
 			{
 				key_value3=0;
-				if((times3 <= Shortnum)&&(Key3Flag == 0))
+				keyclearnum = 0;
+				DelAlarmFlag = 0;
+				if((times3 <= Shortnum)&&(Key3Flag == 0)&&(times3 != 0))
 				{
 					ShortKey3 = 1;
 					times3 = 0;
@@ -213,7 +225,8 @@ void Key_Scanf(void)
 		{
 			if(P42 == 0)
 			{
-				times2++;
+				if(ZigbeeFlag == 0)
+					times2++;
 				if(times2>=Maxnum)
 				{
 					times2 =Maxnum;
@@ -221,6 +234,7 @@ void Key_Scanf(void)
 					{
 						Key2Flag = 1;
 						LongKey2 = 1;
+						keyclearnum = 0;
 						if(Interface != 0)
 							Hold_down = 1;
 					}
@@ -229,10 +243,12 @@ void Key_Scanf(void)
 			else
 			{
 				key_value2=0;
-				if((times2 <= Shortnum)&&(Key2Flag == 0))
+				keyclearnum = 0;
+				if((times2 <= Shortnum)&&(Key2Flag == 0)&&(times2 != 0))
 				{
 					ShortKey2 = 1;
 					times2 = 0;
+					uart_printf("B");
 				}
 				else if((times2 >Shortnum)&&(Key2Flag == 0))
 				{
@@ -242,6 +258,7 @@ void Key_Scanf(void)
 				else if(times2 == Maxnum)
 				{
 					times2 = 0;
+					Key2Flag = 0;
 				}
 			}
 		}
@@ -257,12 +274,14 @@ void Key_Scanf(void)
 					{
 						Key1Flag = 1;
 						LongKey1 = 1;
+						keyclearnum = 0;
 					}
 				}
 			}
 			else
 			{
 				key_value1=0;
+				keyclearnum = 0;
 				if((times1 <= Shortnum)&&(Key1Flag == 0))
 				{
 					ShortKey1 = 1;
@@ -276,6 +295,7 @@ void Key_Scanf(void)
 				else if(times1 == Maxnum)
 				{
 					times1 = 0;
+					Key1Flag = 0;
 				}
 			}
 		}	
@@ -312,9 +332,10 @@ void Key_HandleFunction(void)
 		LongKey3 = 0;
 		Interface = 2;
 	}
-	else if((LongKey3 ==1)&&(Interface == 2))
+	else if((LongKey3 ==1)&&(Interface == 2)&&(times4 == 0))
 	{
 		LongKey3 = 0;
+		Key3Flag = 0;
 		times3 = 0;
 		Interface = 0;
 		if(RTC_num <= 4)
@@ -331,17 +352,21 @@ void Key_HandleFunction(void)
 		{
 			ALarmnum = Alarm1 + Alarm2 + Alarm3;
 			RTC_num = 0;
+			Alarm_flag = 0;
+			Alarm_num = 1;
 			RTC_AlarmHandle(ALarmnum);
 			RTC_AlarmCompare(ALarmnum);
 		}
 	}
 	
-	if((((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum))||((LongKey2 ==1)&&(times3 > Shortnum)))&&(Interface == 0))       //zigbee组网
+	if((((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum)||((LongKey2 ==1)&&(times3 > Shortnum))))&&(Interface == 0))       //zigbee组网
 	{
 		LongKey3 = 0;
 		LongKey2 = 0;
 		times2 = 0;
 		times3 = 0;
+		Key2Flag = 0;
+		Key3Flag = 0;
 		ZigbeeFlag = 1;
 	}
 	else if((((LongKey3 ==1)&&(LongKey4 == 1))||((LongKey3 ==1)&&(times4 > Shortnum))||((LongKey4 ==1)&&(times3 > Shortnum)))&&(Interface == 2)) //
@@ -350,6 +375,8 @@ void Key_HandleFunction(void)
 		LongKey4 = 0;
 		times4 = 0;
 		times3 = 0;
+		Key4Flag = 0;
+		Key3Flag = 0;
 		DelAlarmFlag = 1;
 	}
 
@@ -363,8 +390,6 @@ void Key_HandleFunction(void)
 			{
 				RTC_num = 5;
 			}
-			if(RTC_num == 5)
-			uart_printf("RTC_num = %d\n",RTC_num);
 		}
 		else if(Interface == 1)
 		{
@@ -545,31 +570,35 @@ void Key_Alarm(uint8_t flag)
 		{
 			ShortKey3 = 0;
 			Alarm_flag++;
+			if(Alarm_flag > 0)
+			{
+				if(Alarm_num == 1)
+					Alarm1 =1;
+				else if(Alarm_num == 2)
+					Alarm2 =1;
+				else if(Alarm_num == 3)
+					Alarm3 =1;
+			}
 			if(Alarm_flag > 2)
 			{
 				Alarm_flag = 0;
-				if(Alarm_num == 0)
-					Alarm1 =1;
-				else if(Alarm_num == 1)
-					Alarm2 =1;
-				else if(Alarm_num == 2)
-					Alarm3 =1;
 			}
 		}
-		if(ShortKey4 == 1)
+		if(LongKey4 == 1||ShortKey4 == 1)
 		{
 			ShortKey4 = 0;
+			LongKey4 =0;
 			if(Alarm_flag == 0)
 			{
 				Alarm_num--;
-				if(Alarm_num <= -1)
+				if(Alarm_num <= 0)
 				{
-					Alarm_num = 0;
+					Alarm_num = 1;
 				}
 			}
 			else if(Alarm_flag == 1)
 			{
-				if(Alarm_num == 0)
+				if(Alarm_num == 1)
 				{
 					Alarm_Array[0]--;
 					if(Alarm_Array[0] <= -1)
@@ -577,7 +606,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[0] = 23;
 					}
 				}
-				else if(Alarm_num == 1)
+				else if(Alarm_num == 2)
 				{
 					Alarm_Array[2]--;
 					if(Alarm_Array[2] <= -1)
@@ -585,7 +614,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[2] = 23;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(Alarm_num == 3)
 				{
 					Alarm_Array[4]--;
 					if(Alarm_Array[4] <= -1)
@@ -596,7 +625,7 @@ void Key_Alarm(uint8_t flag)
 			}
 			else if(Alarm_flag == 2)
 			{
-				if(Alarm_num == 0)
+				if(Alarm_num == 1)
 				{
 					Alarm_Array[1]--;
 					if(Alarm_Array[1] <= -1)
@@ -604,7 +633,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[1] = 59;
 					}
 				}
-				else if(Alarm_num == 1)
+				else if(Alarm_num == 2)
 				{
 					Alarm_Array[3]--;
 					if(Alarm_Array[3] <= -1)
@@ -612,7 +641,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[3] = 59;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(Alarm_num == 3)
 				{
 					Alarm_Array[5]--;
 					if(Alarm_Array[5] <= -1)
@@ -622,20 +651,21 @@ void Key_Alarm(uint8_t flag)
 				}
 			}
 		}
-		if(ShortKey2 == 1)
+		if(LongKey2 == 1||ShortKey2 == 1)
 		{
 			ShortKey2 = 0;
+			LongKey2 = 0;
 			if(Alarm_flag == 0)
 			{
 				Alarm_num++;
-				if(Alarm_num >= 3)
+				if(Alarm_num >= 4)
 				{
-					Alarm_num = 2;
+					Alarm_num = 3;
 				}
 			}
 			else if(Alarm_flag == 1)
 			{
-				if(Alarm_num == 0)
+				if(Alarm_num == 1)
 				{
 					Alarm_Array[0]++;
 					if(Alarm_Array[0] >= 24)
@@ -643,7 +673,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[0] = 0;
 					}
 				}
-				else if(Alarm_num == 1)
+				else if(Alarm_num == 2)
 				{
 					Alarm_Array[2]++;
 					if(Alarm_Array[2] >= 24)
@@ -651,7 +681,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[2] = 0;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(Alarm_num == 3)
 				{
 					Alarm_Array[4]++;
 					if(Alarm_Array[4] >= 24)
@@ -662,7 +692,7 @@ void Key_Alarm(uint8_t flag)
 			}
 			else if(Alarm_flag == 2)
 			{
-				if(Alarm_num == 0)
+				if(Alarm_num == 1)
 				{
 					Alarm_Array[1]++;
 					if(Alarm_Array[1] >= 60)
@@ -670,7 +700,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[1] = 0;
 					}
 				}
-				else if(Alarm_num == 1)
+				else if(Alarm_num == 2)
 				{
 					Alarm_Array[3]++;
 					if(Alarm_Array[3] >= 60)
@@ -678,7 +708,7 @@ void Key_Alarm(uint8_t flag)
 						Alarm_Array[3] = 0;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(Alarm_num == 3)
 				{
 					Alarm_Array[5]++;
 					if(Alarm_Array[5] >= 60)
@@ -688,7 +718,66 @@ void Key_Alarm(uint8_t flag)
 				}
 			}
 		}
+		if(DelAlarmFlag == 1)
+		{
+			if(Alarm_num == 1)
+			{
+				Alarm1 =0;
+				Alarm_Array[0] = 0;
+				Alarm_Array[1] = 0;
+			}
+			else if(Alarm_num == 2)
+			{
+				Alarm2 =0;
+				Alarm_Array[2] = 0;
+				Alarm_Array[3] = 0;
+			}
+			else if(Alarm_num == 3)
+			{
+				Alarm3 =0;
+				Alarm_Array[4] = 0;
+				Alarm_Array[5] = 0;
+			}
+		}
 	}
 }
-
+uint8_t keyclearnum = 0;
+void Key_RockonTime(void)
+{
+	uint8_t i =0;
+	keyclearnum++;
+	if(keyclearnum>= 10)
+	{
+		keyclearnum = 0;
+		if((Interface == 1)&&(Time_start == 0))
+		{
+			Interface = 0;
+			Timer_num = 0;
+			for(i = 0;i <= 1;i++)
+			{
+				Timer_Array[i] = 0;
+			}
+		}
+		else if(Interface == 2)
+		{
+			Interface = 0;
+			if(RTC_num == 5)
+			{
+				Alarm1 = LastAlarm1;
+				Alarm2 = LastAlarm2;
+				Alarm3 = LastAlarm3;
+				for(i = 0;i <= 5;i++)
+				{
+					Alarm_Array[i] = LastAlarm_Array[i];
+				}
+			}
+			RTC_num = 0;
+			for(i = 0;i <= 5;i++)
+			{
+				RTC_Array[i] = 0;
+			}
+		}
+	}
+}
+#endif
 #endif

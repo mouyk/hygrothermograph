@@ -11,7 +11,6 @@
 #include "include/uart.h"
 #include "include/lcd_led.h"
 #include "include/delay.h"
-#include "include/lcd.h"
 #include "include/gpio.h"
 #include <intrins.h>
 /*********************************************************************************************************************			
@@ -97,6 +96,5 @@ void Zigbee_GPIO_init(void)
 	P05  = 0;					//P05 ‰≥ˆ÷√¡„
 }
 
-
-
+#endif
 #endif

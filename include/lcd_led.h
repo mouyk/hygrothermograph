@@ -81,6 +81,7 @@ void Lcd_HourTurn(uint8_t hour);
 void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min);
 void Lcd_TimeFunction(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min);
 void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uint8_t hour, uint8_t min);
+void Lcd_AlarmIcon(uint8_t num,uint8_t flag);
 void Lcd_HourHanlde(uint8_t hour, uint8_t flag);
 void Lcd_MinHanlde(uint8_t min, uint8_t flag);
 void Lcd_ZigbeeIcon(uint8_t zigbee);

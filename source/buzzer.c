@@ -64,6 +64,7 @@ void Buzzer_Control(uint8_t flag)
 		Buzzer_Sounds2();
 	}
 }
+
 void Buzzer_Sounds1(void)
 {
 	static i = 0;
@@ -79,9 +80,9 @@ void Buzzer_Sounds1(void)
 		 i = 0;
 	}
 }
+uint8_t BuzNum = 0,BuzNum1 = 0;
 void Buzzer_Sounds2(void)
 {
-	static uint8_t BuzNum = 0,BuzNum1 = 0;
 	if(BuzNum1 < 3)
 	{
 		BuzNum++;
@@ -98,8 +99,10 @@ void Buzzer_Sounds2(void)
 	}
 	else
 	{
+		BuzNum = 0;
 		BuzNum1 = 0;
 		BeepStart = 0;
 	}
 }
+#endif
 #endif

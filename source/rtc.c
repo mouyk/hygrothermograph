@@ -9,6 +9,8 @@
 
 #include "include/uart.h"
 #include "include/delay.h"
+#include "include/buzzer.h"
+#include "include/pwm.h"
 #include "include/rtc.h"
 #include <intrins.h>
 /*********************************************************************************************************************/
@@ -18,10 +20,12 @@ _calendar_obj calendar;
 
 int16_t RTC_Array[6] = {0};
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
+uint8_t LastAlarm1 = 0,LastAlarm2 = 0,LastAlarm3 = 0;					//各个闹钟设置成功至1
 uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1
 uint16_t AlarmTime[3] = {0};
-int8_t Alarm_num = 0;														//0：闹钟1   1：闹钟2    2：闹钟3
-uint8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
+int8_t Alarm_num = 1;														//1：闹钟1   2：闹钟2    3：闹钟3
+int8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
+int8_t LastAlarm_Array[6] = {0};
 int8_t Alarm_Array[6] = {0};
 /***********************************************************************************
 函数名：		RTC_WriteSecond
@@ -549,5 +553,40 @@ void sort(uint16_t *a,uint8_t len)
 		}
 	}
 }
+void RTC_BuzzerControl(void)
+{
+	static i, Buzzer= 0;
+
+	if(AlarmEvFlag == 1)
+	{
+		
+		i++;
+		if(i >= 60)
+		{
+			i = 0;
+			BuzNum = 0;
+			BuzNum1 = 0;
+			BeepStart = 0;
+			AlarmEvFlag = 0;
+			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
+			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+		}
+		if(Buzzer == 0)
+		{
+			BeepStart = 2;
+			Buzzer = 1;
+		}
+		else
+		{
+			Buzzer = 0;
+		}
+	}
+	else
+	{
+		i = 0;
+		Buzzer = 0;
+	}
+}
 /*********************************************************************************************************************/
+#endif
 #endif

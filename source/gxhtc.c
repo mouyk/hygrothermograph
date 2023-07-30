@@ -298,5 +298,5 @@ void get_gxth30(void)
 	
 }
 
-
+#endif
 #endif

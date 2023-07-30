@@ -101,3 +101,4 @@ bit Counting_Function(bit flag)
 	return flag;
 }
 #endif
+#endif

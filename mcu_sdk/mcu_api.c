@@ -393,10 +393,10 @@ unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value)
 * @param[in]  {len} Data length
 * @return  true or false
 */
-unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len)
-{
-  return(value[0]);
-}
+//unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len)
+//{
+//  return(value[0]);
+//}
 
 /**
 * @brief mcu get enum type value from zigbee translate 
@@ -404,10 +404,10 @@ unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned shor
 * @param[in]  {len} Data length
 * @return  enum data
 */
-unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len)
-{
-  return(value[0]);
-}
+//unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len)
+//{
+//  return(value[0]);
+//}
 
 /**
 * @brief mcu get value type value from zigbee translate 
@@ -415,10 +415,10 @@ unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned shor
 * @param[in]  {len} Data length
 * @return  value data
 */
-unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len)
-{
-  return(byte_to_int(value));
-}
+//unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len)
+//{
+//  return(byte_to_int(value));
+//}
 
 
 /**

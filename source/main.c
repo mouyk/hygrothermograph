@@ -58,7 +58,7 @@ extern uint8_t lcd_ram[34];
 	EA = 1;													//开全局中断
 
 #ifdef PRINT_EN
-	uart_printf("LCD Power Saving Mode Demo Code\n");
+//	uart_printf("LCD Power Saving Mode Demo Code\n");
 #endif
 
 GXHTC3_INIT();	
@@ -75,7 +75,6 @@ TIME2_init();
 RTC_Set(2023,10,11,23,59,41);
 RTC_Alarm_init(0,0,0,0);
 Lcd_init();
-
 //zigbee_protocol_init();
 
 //mcu_exit_zigbee();
@@ -132,7 +131,12 @@ Lcd_init();
 		{
 			Lcd_Backlight();
 			times1000Flag = 0;
+			if(Interface != 0)
+			{
+				Key_RockonTime();
+			}
 			Time_start = Counting_Function(Time_start);
+			RTC_BuzzerControl();
 //			uart_printf("C");
 		}
 			
@@ -148,15 +152,16 @@ Lcd_init();
 //	#endif		
 
 		}	
-		if(AlarmEvFlag)	//闹钟中断产生时打印
-		{
-			AlarmEvFlag = 0;
-			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
-	#ifdef PRINT_EN
-			uart_printf("Alarm event happen!\n");	
-	#endif		
-		}
+//		if(AlarmEvFlag)	//闹钟中断产生时打印
+//		{
+//			AlarmEvFlag = 0;
+//			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+//	#ifdef PRINT_EN
+//			uart_printf("Alarm event happen!\n");	
+//	#endif		
+//		}
 		
 	}
 }
+#endif
 #endif

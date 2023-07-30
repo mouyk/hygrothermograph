@@ -225,7 +225,7 @@ void mcu_received_beacon_test_handle(void);
 */
 void mcu_check_zigbee_nwk_state(void);
 #endif
-
+void zigbee_notify_factory_new_hanlde(void);
 #ifdef READ_DP_DATA_NOTIFY
 /**
 * @brief when gateway repower or relink clould, or zigbee module join sucess, repower, this commod will notify 

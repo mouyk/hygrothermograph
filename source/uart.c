@@ -296,7 +296,8 @@ void UART2_ISR (void) interrupt 8
 		#define Uart_PutChar	Uart1_PutChar
 	#elif defined  UART2_PRINT
 		#define Uart_PutChar	Uart2_PutChar
-	#endif
+#endif
+#endif
 void UartPutStr(char *str)
 {
 	while(*str)
@@ -307,12 +308,13 @@ void UartPutStr(char *str)
 void uart_printf(char *fmt,...) 
 {
     va_list ap;
-    char xdata string[256];
+    char xdata string[128];
     va_start(ap,fmt);
     vsprintf(string,fmt,ap);
     UartPutStr(string);
     va_end(ap);
 }
-#endif
+
 /*********************************************************************************************************************/
+#endif
 #endif

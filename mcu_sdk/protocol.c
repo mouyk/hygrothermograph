@@ -529,6 +529,6 @@ void read_dp_data_notify_hanlde(void)
 	// then start test
 }
 #endif 
-
+#endif
 
 

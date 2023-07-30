@@ -22,6 +22,7 @@ int16_t RTC_Array[6] = {0};
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
 uint8_t LastAlarm1 = 0,LastAlarm2 = 0,LastAlarm3 = 0;					//各个闹钟设置成功至1
 uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1
+uint8_t sleepnum = 0;                             //睡眠计数
 uint16_t AlarmTime[3] = {0};
 int8_t Alarm_num = 1;														//1：闹钟1   2：闹钟2    3：闹钟3
 int8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
@@ -567,6 +568,7 @@ void RTC_BuzzerControl(void)
 			BuzNum = 0;
 			BuzNum1 = 0;
 			BeepStart = 0;
+			sleepnum = 0;
 			AlarmEvFlag = 0;
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
 			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);

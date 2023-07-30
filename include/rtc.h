@@ -38,6 +38,7 @@ extern int16_t RTC_Array[6];
 extern uint8_t RTC_num;
 extern uint8_t LastAlarm1,LastAlarm2,LastAlarm3;					//各个闹钟设置成功至1
 extern uint8_t Alarm1,Alarm2,Alarm3;					//各个闹钟设置成功至1
+extern uint8_t sleepnum;
 extern int8_t Alarm_num;														//0：闹钟1   1：闹钟2    2：闹钟3
 extern int8_t Alarm_flag;														//0：闹钟标识 :1：闹钟时  2：闹钟分
 extern int8_t LastAlarm_Array[6];

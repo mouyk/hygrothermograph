@@ -9,6 +9,8 @@
 #include "include/key.h"
 #include "include/time.h"
 #include "include/rtc.h"
+#include "include/pwm.h"
+#include "include/buzzer.h"
 #include "include/uart.h"
 #include <intrins.h>
 
@@ -248,7 +250,6 @@ void Key_Scanf(void)
 				{
 					ShortKey2 = 1;
 					times2 = 0;
-					uart_printf("B");
 				}
 				else if((times2 >Shortnum)&&(Key2Flag == 0))
 				{
@@ -407,6 +408,54 @@ void Key_HandleFunction(void)
 				Interface = 0;
 			}
 		}
+	}
+	if(AlarmEvFlag == 1)
+	{
+		if(ShortKey1 == 1)
+		{
+			ShortKey1 = 0;
+			BuzNum = 0;
+			BuzNum1 = 0;
+			AlarmEvFlag = 0;
+			BeepStart = 0;
+			PWMEN  = ~(1<<PWM_CH6);		//PWM6½ûÓÃ
+			sleepnum++;
+			if(sleepnum > 3)
+			{
+				sleepnum = 0;
+				RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+			}
+			else
+			{
+				calendar.min = calendar.min +5;
+				if(calendar.min >= 60)
+				{
+					calendar.min = calendar.min -60;
+					calendar.hour = calendar.hour + 1;
+					if(calendar.hour >= 24)
+					{
+						calendar.hour = calendar.hour -24;
+					}
+				}
+				RTC_Alarm_init(1,calendar.hour,calendar.min,calendar.sec);
+			}
+		}
+		if(LongKey1 == 1)
+		{
+			sleepnum = 0;
+			LongKey1 = 0;
+			BuzNum = 0;
+			BuzNum1 = 0;
+			AlarmEvFlag = 0;
+			BeepStart = 0;
+			PWMEN  = ~(1<<PWM_CH6);		//PWM6½ûÓÃ
+			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+		}
+	}
+	else
+	{
+		ShortKey1 = 0;
+		LongKey1 = 0;
 	}
 	Key_timedate(RTC_num);
 	Key_Alarm(RTC_num);

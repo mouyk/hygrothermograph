@@ -64,7 +64,7 @@ void Lcd_init(void)
 	EA = 1;													//开全局中断
 
 #ifdef PRINT_EN
-	uart_printf("LCD Power Saving Mode Demo Code\n");
+//	uart_printf("LCD Power Saving Mode Demo Code\n");
 #endif
 
 		//初始化LCD驱动引脚

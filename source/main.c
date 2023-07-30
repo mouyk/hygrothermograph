@@ -17,7 +17,6 @@
 #include "include/rtc.h"
 #include "include/time.h"
 #include <intrins.h>
-#include "include/pwm.h"
 #include "include/adc.h"
 #include "mcu_sdk/zigbee.h"
 #include "include/buzzer.h"

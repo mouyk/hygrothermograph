@@ -39,6 +39,7 @@ void TIME2_init(void)
 输入参数： 		无
 返回值：		无
 ***********************************************************************************/
+bit times10Flag = 0;
 bit times100Flag = 0;
 bit times250Flag = 0;
 bit times1000Flag = 0;
@@ -48,6 +49,7 @@ void TIMER2_ISR (void) interrupt 5
 	if(T2MOD & TF2)		  //定时器2溢出中断,当前设置为10ms产生
 	{
 		T2MOD = (T2MOD&0x1F) | TF2;
+		times10Flag = 1;
 		times100++;
 		times250++;
 		times1000++;

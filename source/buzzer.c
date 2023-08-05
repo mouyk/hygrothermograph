@@ -90,9 +90,12 @@ void Buzzer_Sounds2(void)
 		{
 			PWMEN  = (1<<PWM_CH6);		//PWM6Ê¹ÄÜ
 		}
-		else if(BuzNum >= Buzzernum2*2)
+		else if((BuzNum > Buzzernum2)&&(BuzNum < Buzzernum2*2))
 		{
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6½ûÓÃ	
+		}
+		else if(BuzNum >= Buzzernum2*2)
+		{
 			BuzNum = 0;
 			BuzNum1++;
 		}

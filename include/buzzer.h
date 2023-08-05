@@ -1,8 +1,8 @@
 #ifndef BUZZER_H
 #define BUZZER_H
 
-#define Buzzernum1  9       /*!< 计数上限   10:长*/	
-#define Buzzernum2  4       /*!< 计数上限   10:长*/		
+#define Buzzernum1  20       /*!< 计数上限   10:长*/	
+#define Buzzernum2  10       /*!< 计数上限   10:长*/		
 
 extern uint8_t BeepStart;
 extern uint8_t BuzNum,BuzNum1;

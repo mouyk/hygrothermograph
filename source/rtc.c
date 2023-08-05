@@ -15,19 +15,27 @@
 #include <intrins.h>
 /*********************************************************************************************************************/
 
-
 _calendar_obj calendar;
 
 _calendar_obj RTC_Array;
+
+Alarm_struct AlarmTimes;
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
-uint8_t LastAlarm1 = 0,LastAlarm2 = 0,LastAlarm3 = 0;					//各个闹钟设置成功至1
-uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1
-uint8_t sleepnum = 0;                             //睡眠计数
-uint16_t AlarmTime[3] = {0};
-int8_t Alarm_num = 1;														//1：闹钟1   2：闹钟2    3：闹钟3
-int8_t Alarm_flag = 0;														//0：闹钟标识 :1：闹钟时  2：闹钟分
-int8_t LastAlarm_Array[6] = {0};
-int8_t Alarm_Array[6] = {0};
+xdata Alarm_struct AlarmTimes=/*!< 默认设备参数*/
+{
+	1,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	{0,0,0},
+	{0,0,0,0,0,0},
+	{0,0,0,0,0,0},
+};
 /***********************************************************************************
 函数名：		RTC_WriteSecond
 功能说明： 		RTC写入秒值
@@ -454,12 +462,12 @@ void RTC_AlarmHandle(uint8_t num)
 	}
 	else if(num == 1)
 	{
-		if(Alarm1 == 1)
-			RTC_Alarm_init(1,Alarm_Array[0],Alarm_Array[1],0);
-		else if(Alarm2 == 1)
-			RTC_Alarm_init(1,Alarm_Array[2],Alarm_Array[3],0);
-		else if(Alarm3 == 1)
-			RTC_Alarm_init(1,Alarm_Array[4],Alarm_Array[5],0);
+		if(AlarmTimes.Alarmnum.Alarm1 == 1)
+			RTC_Alarm_init(1,AlarmTimes.Alarm_Array[0].hour,AlarmTimes.Alarm_Array[0].min,0);
+		else if(AlarmTimes.Alarmnum.Alarm2 == 1)
+			RTC_Alarm_init(1,AlarmTimes.Alarm_Array[2].hour,AlarmTimes.Alarm_Array[1].min,0);
+		else if(AlarmTimes.Alarmnum.Alarm3 == 1)
+			RTC_Alarm_init(1,AlarmTimes.Alarm_Array[2].hour,AlarmTimes.Alarm_Array[2].min,0);
 	}
 	else
 	{
@@ -470,69 +478,69 @@ void RTC_AlarmTimes(uint8_t num)
 {
 	if(num == 2)
 	{
-		if(Alarm1 == 0)
+		if(AlarmTimes.Alarmnum.Alarm1 == 0)
 		{
-			AlarmTime[0] = Alarm_Array[2]*60 + Alarm_Array[3];
-			AlarmTime[1] = Alarm_Array[4]*60 + Alarm_Array[5];
+			AlarmTimes.AlarmTime[0] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[1].min;
+			AlarmTimes.AlarmTime[1] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[2].min;
 		}
-		else if(Alarm2 == 0)
+		else if(AlarmTimes.Alarmnum.Alarm2 == 0)
 		{
-			AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
-			AlarmTime[1] = Alarm_Array[4]*60 + Alarm_Array[5];
+			AlarmTimes.AlarmTime[0] = AlarmTimes.Alarm_Array[0].hour*60 + AlarmTimes.Alarm_Array[0].min;
+			AlarmTimes.AlarmTime[1] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[2].min;
 		}
-		else if(Alarm3 == 0)
+		else if(AlarmTimes.Alarmnum.Alarm3 == 0)
 		{
-			AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
-			AlarmTime[1] = Alarm_Array[2]*60 + Alarm_Array[3];
+			AlarmTimes.AlarmTime[0] = AlarmTimes.Alarm_Array[0].hour*60 + AlarmTimes.Alarm_Array[0].min;
+			AlarmTimes.AlarmTime[1] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[1].min;
 		}
-		sort(AlarmTime,num);
+		sort(AlarmTimes.AlarmTime,num);
 	}
 	else
 	{
-		AlarmTime[0] = Alarm_Array[0]*60 + Alarm_Array[1];
-		AlarmTime[1] = Alarm_Array[2]*60 + Alarm_Array[3];
-		AlarmTime[2] = Alarm_Array[4]*60 + Alarm_Array[5];
-		sort(AlarmTime,num);
+		AlarmTimes.AlarmTime[0] = AlarmTimes.Alarm_Array[0].hour*60 + AlarmTimes.Alarm_Array[0].min;
+		AlarmTimes.AlarmTime[1] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[1].min;
+		AlarmTimes.AlarmTime[2] = AlarmTimes.Alarm_Array[2].hour*60 + AlarmTimes.Alarm_Array[2].min;
+		sort(AlarmTimes.AlarmTime,num);
 	}
 }
 void RTC_AlarmCompare(uint8_t num)
 {
 	if(num == 2)
 	{
-		if(AlarmTime[0] > calendar.hour*60+calendar.min)
+		if(AlarmTimes.AlarmTime[0] > calendar.hour*60+calendar.min)
 		{
-			RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+			RTC_Alarm_init(1,AlarmTimes.AlarmTime[0]/60,AlarmTimes.AlarmTime[0]%60,0);
 		}
 		else
 		{
-			if(AlarmTime[1] > calendar.hour*60+calendar.min)
+			if(AlarmTimes.AlarmTime[1] > calendar.hour*60+calendar.min)
 			{
-				RTC_Alarm_init(1,AlarmTime[1]/60,AlarmTime[1]%60,0);
+				RTC_Alarm_init(1,AlarmTimes.AlarmTime[1]/60,AlarmTimes.AlarmTime[1]%60,0);
 			}
 			else
 			{
-				RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+				RTC_Alarm_init(1,AlarmTimes.AlarmTime[0]/60,AlarmTimes.AlarmTime[0]%60,0);
 			}
 		}
 	}
 	else if(num == 3)
 	{
-		if(AlarmTime[0] > calendar.hour*60+calendar.min)
+		if(AlarmTimes.AlarmTime[0] > calendar.hour*60+calendar.min)
 		{
-			RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+			RTC_Alarm_init(1,AlarmTimes.AlarmTime[0]/60,AlarmTimes.AlarmTime[0]%60,0);
 		}
 		else
 		{
-			if(AlarmTime[1] > calendar.hour*60+calendar.min)
+			if(AlarmTimes.AlarmTime[1] > calendar.hour*60+calendar.min)
 			{
-				RTC_Alarm_init(1,AlarmTime[1]/60,AlarmTime[1]%60,0);
+				RTC_Alarm_init(1,AlarmTimes.AlarmTime[1]/60,AlarmTimes.AlarmTime[1]%60,0);
 			}
 			else
 			{
-				if(AlarmTime[2] > calendar.hour*60+calendar.min)
-					RTC_Alarm_init(1,AlarmTime[2]/60,AlarmTime[2]%60,0);
+				if(AlarmTimes.AlarmTime[2] > calendar.hour*60+calendar.min)
+					RTC_Alarm_init(1,AlarmTimes.AlarmTime[2]/60,AlarmTimes.AlarmTime[2]%60,0);
 				else
-					RTC_Alarm_init(1,AlarmTime[0]/60,AlarmTime[0]%60,0);
+					RTC_Alarm_init(1,AlarmTimes.AlarmTime[0]/60,AlarmTimes.AlarmTime[0]%60,0);
 			}
 		}
 	}
@@ -568,10 +576,10 @@ void RTC_BuzzerControl(void)
 			BuzNum = 0;
 			BuzNum1 = 0;
 			BeepStart = 0;
-			sleepnum = 0;
+			AlarmTimes.sleepnum = 0;
 			AlarmEvFlag = 0;
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
-			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+			RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2+AlarmTimes.Alarmnum.Alarm3);
 		}
 		if(Buzzer == 0)
 		{

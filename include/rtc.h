@@ -35,6 +35,29 @@ typedef struct
 
 } _calendar_obj;
 
+//结构体
+typedef struct{
+    int8_t hour;
+    int8_t min;  
+}time_struct;
+
+typedef struct{      //各个闹钟设置成功至1
+    uint8_t Alarm1;
+    uint8_t Alarm2; 
+		uint8_t Alarm3;
+}Alarmnum_struct;
+
+typedef struct{
+		int8_t Alarm_num;														//1：闹钟1   2：闹钟2    3：闹钟3
+		int8_t Alarm_flag;														//0：闹钟标识 :1：闹钟时  2：闹钟分
+		uint8_t sleepnum;                             //睡眠计数
+		Alarmnum_struct LastAlarmnum;      //上次各个闹钟设置成功至1
+		Alarmnum_struct Alarmnum;      //当下各个闹钟设置成功至1
+		uint16_t AlarmTime[3];					//用于闹钟比较大小的数组
+		time_struct LastAlarm_Array[3]; 			//上次3个闹钟的数组 
+    time_struct Alarm_Array[3]; 					//当下3个闹钟的数组 
+}Alarm_struct;
+
 extern 	_calendar_obj calendar;
 extern 	_calendar_obj RTC_Array;
 extern bit times10Flag;
@@ -42,13 +65,7 @@ extern bit HalfSecFlag;
 extern bit AlarmEvFlag;
 extern bit millisecondFlag;
 extern uint8_t RTC_num;
-extern uint8_t LastAlarm1,LastAlarm2,LastAlarm3;					//各个闹钟设置成功至1
-extern uint8_t Alarm1,Alarm2,Alarm3;					//各个闹钟设置成功至1
-extern uint8_t sleepnum;
-extern int8_t Alarm_num;														//0：闹钟1   1：闹钟2    2：闹钟3
-extern int8_t Alarm_flag;														//0：闹钟标识 :1：闹钟时  2：闹钟分
-extern int8_t LastAlarm_Array[6];
-extern int8_t Alarm_Array[6];
+extern Alarm_struct AlarmTimes;
 
 void RTC_WriteSecond(unsigned char second);
 void RTC_WriteMinute(unsigned char minute);

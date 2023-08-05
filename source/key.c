@@ -14,7 +14,6 @@
 #include "include/uart.h"
 #include <intrins.h>
 
-//uint8_t key_value1,key_value2,key_value3,key_value4=0;
 bit FahrenFlag = 0;        //华氏度标志
 bit HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 uint8_t Interface = 0;         //界面
@@ -381,10 +380,10 @@ void Key_HandleFunction(void)
 		}
 		else
 		{
-			ALarmnum = Alarm1 + Alarm2 + Alarm3;
+			ALarmnum = AlarmTimes.Alarmnum.Alarm1 + AlarmTimes.Alarmnum.Alarm2 + AlarmTimes.Alarmnum.Alarm3;
 			RTC_num = RTC_Status_Hour;
-			Alarm_flag = 0;
-			Alarm_num = 1;
+			AlarmTimes.Alarm_flag = 0;
+			AlarmTimes.Alarm_num = 1;
 			RTC_AlarmHandle(ALarmnum);
 			RTC_AlarmCompare(ALarmnum);
 		}
@@ -450,11 +449,11 @@ void Key_HandleFunction(void)
 			AlarmEvFlag = 0;
 			BeepStart = 0;
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
-			sleepnum++;
-			if(sleepnum > 3)
+			AlarmTimes.sleepnum++;
+			if(AlarmTimes.sleepnum > 3)
 			{
-				sleepnum = 0;
-				RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+				AlarmTimes.sleepnum = 0;
+				RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2+AlarmTimes.Alarmnum.Alarm3);
 			}
 			else
 			{
@@ -473,14 +472,14 @@ void Key_HandleFunction(void)
 		}
 		if(Key1.LongKey == 1)
 		{
-			sleepnum = 0;
+			AlarmTimes.sleepnum = 0;
 			Key1.LongKey = 0;
 			BuzNum = 0;
 			BuzNum1 = 0;
 			AlarmEvFlag = 0;
 			BeepStart = 0;
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
-			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
+			RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2+AlarmTimes.Alarmnum.Alarm3);
 		}
 	}
 	else
@@ -649,84 +648,84 @@ void Key_Alarm(uint8_t flag)
 		if(Key3.ShortKey == 1)
 		{
 			Key3.ShortKey = 0;
-			Alarm_flag++;
-			if(Alarm_flag > 0)
+			AlarmTimes.Alarm_flag++;
+			if(AlarmTimes.Alarm_flag > 0)
 			{
-				if(Alarm_num == 1)
-					Alarm1 =1;
-				else if(Alarm_num == 2)
-					Alarm2 =1;
-				else if(Alarm_num == 3)
-					Alarm3 =1;
+				if(AlarmTimes.Alarm_num == 1)
+					AlarmTimes.Alarmnum.Alarm1 =1;
+				else if(AlarmTimes.Alarm_num == 2)
+					AlarmTimes.Alarmnum.Alarm2 =1;
+				else if(AlarmTimes.Alarm_num == 3)
+					AlarmTimes.Alarmnum.Alarm3 =1;
 			}
-			if(Alarm_flag > 2)
+			if(AlarmTimes.Alarm_flag > 2)
 			{
-				Alarm_flag = 0;
+				AlarmTimes.Alarm_flag = 0;
 			}
 		}
 		if(Key4.LongKey == 1||Key4.ShortKey == 1)
 		{
 			Key4.ShortKey = 0;
 			Key4.LongKey =0;
-			if(Alarm_flag == 0)
+			if(AlarmTimes.Alarm_flag == 0)
 			{
-				Alarm_num--;
-				if(Alarm_num <= 0)
+				AlarmTimes.Alarm_num--;
+				if(AlarmTimes.Alarm_num <= 0)
 				{
-					Alarm_num = 1;
+					AlarmTimes.Alarm_num = 1;
 				}
 			}
-			else if(Alarm_flag == 1)
+			else if(AlarmTimes.Alarm_flag == 1)
 			{
-				if(Alarm_num == 1)
+				if(AlarmTimes.Alarm_num == 1)
 				{
-					Alarm_Array[0]--;
-					if(Alarm_Array[0] <= -1)
+					AlarmTimes.Alarm_Array[0].hour--;
+					if(AlarmTimes.Alarm_Array[0].hour <= -1)
 					{
-						Alarm_Array[0] = 23;
+						AlarmTimes.Alarm_Array[0].hour = 23;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(AlarmTimes.Alarm_num == 2)
 				{
-					Alarm_Array[2]--;
-					if(Alarm_Array[2] <= -1)
+					AlarmTimes.Alarm_Array[2].hour--;
+					if(AlarmTimes.Alarm_Array[2].hour <= -1)
 					{
-						Alarm_Array[2] = 23;
+						AlarmTimes.Alarm_Array[2].hour = 23;
 					}
 				}
-				else if(Alarm_num == 3)
+				else if(AlarmTimes.Alarm_num == 3)
 				{
-					Alarm_Array[4]--;
-					if(Alarm_Array[4] <= -1)
+					AlarmTimes.Alarm_Array[2].hour--;
+					if(AlarmTimes.Alarm_Array[2].hour <= -1)
 					{
-						Alarm_Array[4] = 23;
+						AlarmTimes.Alarm_Array[2].hour = 23;
 					}
 				}
 			}
-			else if(Alarm_flag == 2)
+			else if(AlarmTimes.Alarm_flag == 2)
 			{
-				if(Alarm_num == 1)
+				if(AlarmTimes.Alarm_num == 1)
 				{
-					Alarm_Array[1]--;
-					if(Alarm_Array[1] <= -1)
+					AlarmTimes.Alarm_Array[0].min--;
+					if(AlarmTimes.Alarm_Array[0].min <= -1)
 					{
-						Alarm_Array[1] = 59;
+						AlarmTimes.Alarm_Array[0].min = 59;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(AlarmTimes.Alarm_num == 2)
 				{
-					Alarm_Array[3]--;
-					if(Alarm_Array[3] <= -1)
+					AlarmTimes.Alarm_Array[1].min--;
+					if(AlarmTimes.Alarm_Array[1].min <= -1)
 					{
-						Alarm_Array[3] = 59;
+						AlarmTimes.Alarm_Array[1].min = 59;
 					}
 				}
-				else if(Alarm_num == 3)
+				else if(AlarmTimes.Alarm_num == 3)
 				{
-					Alarm_Array[5]--;
-					if(Alarm_Array[5] <= -1)
+					AlarmTimes.Alarm_Array[2].min--;
+					if(AlarmTimes.Alarm_Array[2].min <= -1)
 					{
-						Alarm_Array[5] = 59;
+						AlarmTimes.Alarm_Array[2].min = 59;
 					}
 				}
 			}
@@ -735,88 +734,88 @@ void Key_Alarm(uint8_t flag)
 		{
 			Key2.ShortKey = 0;
 			Key2.LongKey = 0;
-			if(Alarm_flag == 0)
+			if(AlarmTimes.Alarm_flag == 0)
 			{
-				Alarm_num++;
-				if(Alarm_num >= 4)
+				AlarmTimes.Alarm_num++;
+				if(AlarmTimes.Alarm_num >= 4)
 				{
-					Alarm_num = 3;
+					AlarmTimes.Alarm_num = 3;
 				}
 			}
-			else if(Alarm_flag == 1)
+			else if(AlarmTimes.Alarm_flag == 1)
 			{
-				if(Alarm_num == 1)
+				if(AlarmTimes.Alarm_num == 1)
 				{
-					Alarm_Array[0]++;
-					if(Alarm_Array[0] >= 24)
+					AlarmTimes.Alarm_Array[0].hour++;
+					if(AlarmTimes.Alarm_Array[0].hour >= 24)
 					{
-						Alarm_Array[0] = 0;
+						AlarmTimes.Alarm_Array[0].hour = 0;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(AlarmTimes.Alarm_num == 2)
 				{
-					Alarm_Array[2]++;
-					if(Alarm_Array[2] >= 24)
+					AlarmTimes.Alarm_Array[2].hour++;
+					if(AlarmTimes.Alarm_Array[2].hour >= 24)
 					{
-						Alarm_Array[2] = 0;
+						AlarmTimes.Alarm_Array[2].hour = 0;
 					}
 				}
-				else if(Alarm_num == 3)
+				else if(AlarmTimes.Alarm_num == 3)
 				{
-					Alarm_Array[4]++;
-					if(Alarm_Array[4] >= 24)
+					AlarmTimes.Alarm_Array[2].hour++;
+					if(AlarmTimes.Alarm_Array[2].hour >= 24)
 					{
-						Alarm_Array[4] = 0;
+						AlarmTimes.Alarm_Array[2].hour = 0;
 					}
 				}
 			}
-			else if(Alarm_flag == 2)
+			else if(AlarmTimes.Alarm_flag == 2)
 			{
-				if(Alarm_num == 1)
+				if(AlarmTimes.Alarm_num == 1)
 				{
-					Alarm_Array[1]++;
-					if(Alarm_Array[1] >= 60)
+					AlarmTimes.Alarm_Array[0].min++;
+					if(AlarmTimes.Alarm_Array[0].min >= 60)
 					{
-						Alarm_Array[1] = 0;
+						AlarmTimes.Alarm_Array[0].min = 0;
 					}
 				}
-				else if(Alarm_num == 2)
+				else if(AlarmTimes.Alarm_num == 2)
 				{
-					Alarm_Array[3]++;
-					if(Alarm_Array[3] >= 60)
+					AlarmTimes.Alarm_Array[1].min++;
+					if(AlarmTimes.Alarm_Array[1].min >= 60)
 					{
-						Alarm_Array[3] = 0;
+						AlarmTimes.Alarm_Array[1].min = 0;
 					}
 				}
-				else if(Alarm_num == 3)
+				else if(AlarmTimes.Alarm_num == 3)
 				{
-					Alarm_Array[5]++;
-					if(Alarm_Array[5] >= 60)
+					AlarmTimes.Alarm_Array[2].min++;
+					if(AlarmTimes.Alarm_Array[2].min >= 60)
 					{
-						Alarm_Array[5] = 0;
+						AlarmTimes.Alarm_Array[2].min = 0;
 					}
 				}
 			}
 		}
 		if(DelAlarmFlag == 1)
 		{
-			if(Alarm_num == 1)
+			if(AlarmTimes.Alarm_num == 1)
 			{
-				Alarm1 =0;
-				Alarm_Array[0] = 0;
-				Alarm_Array[1] = 0;
+				AlarmTimes.Alarmnum.Alarm1 =0;
+				AlarmTimes.Alarm_Array[0].hour = 0;
+				AlarmTimes.Alarm_Array[0].min = 0;
 			}
-			else if(Alarm_num == 2)
+			else if(AlarmTimes.Alarm_num == 2)
 			{
-				Alarm2 =0;
-				Alarm_Array[2] = 0;
-				Alarm_Array[3] = 0;
+				AlarmTimes.Alarmnum.Alarm2 =0;
+				AlarmTimes.Alarm_Array[2].hour = 0;
+				AlarmTimes.Alarm_Array[1].min = 0;
 			}
-			else if(Alarm_num == 3)
+			else if(AlarmTimes.Alarm_num == 3)
 			{
-				Alarm3 =0;
-				Alarm_Array[4] = 0;
-				Alarm_Array[5] = 0;
+				AlarmTimes.Alarmnum.Alarm3 =0;
+				AlarmTimes.Alarm_Array[2].hour = 0;
+				AlarmTimes.Alarm_Array[2].min = 0;
 			}
 		}
 	}
@@ -845,12 +844,12 @@ void Key_RockonTime(void)
 			Interface = 0;
 			if(RTC_num == RTC_Status_Alarm)
 			{
-				Alarm1 = LastAlarm1;
-				Alarm2 = LastAlarm2;
-				Alarm3 = LastAlarm3;
-				for(i = 0;i <= 5;i++)
+				AlarmTimes.Alarmnum.Alarm1 = AlarmTimes.LastAlarmnum.Alarm1;
+				AlarmTimes.Alarmnum.Alarm2 = AlarmTimes.LastAlarmnum.Alarm2;
+				AlarmTimes.Alarmnum.Alarm3 = AlarmTimes.LastAlarmnum.Alarm3;
+				for(i = 0;i <= 2;i++)
 				{
-					Alarm_Array[i] = LastAlarm_Array[i];
+					AlarmTimes.Alarm_Array[i] = AlarmTimes.LastAlarm_Array[i];
 				}
 			}
 			RTC_num = RTC_Status_Hour;

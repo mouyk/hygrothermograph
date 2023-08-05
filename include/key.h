@@ -3,7 +3,6 @@
 #include "stdio.h"
 #include "string.h"
 #include "include/ca51f_config.h"	
-//extern uint8_t key_value1,key_value2,key_value3,key_value4;
 
 #define Maxnum  100       /*!< 计数上限*/
 #define Shortnum  50       /*!< 计数上限*/

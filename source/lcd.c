@@ -259,12 +259,12 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 		if(first == 0)
 		{
 			first =1;
-			RTC_Array[0] = calendar.w_year;
-			RTC_Array[1] = calendar.w_month;
-			RTC_Array[2] = calendar.w_date;
-			RTC_Array[3] = calendar.hour;
-			RTC_Array[4] = calendar.min;
-			RTC_Array[5] = calendar.sec;
+			RTC_Array.w_year = calendar.w_year;
+			RTC_Array.w_month = calendar.w_month;
+			RTC_Array.w_date = calendar.w_date;
+			RTC_Array.hour = calendar.hour;
+			RTC_Array.min = calendar.min;
+			RTC_Array.sec = calendar.sec;
 			LastAlarm1 = Alarm1;
 			LastAlarm2 = Alarm2;
 			LastAlarm3 = Alarm3;
@@ -273,8 +273,8 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 				LastAlarm_Array[i] = Alarm_Array[i];
 			}
 		}
-		Lcd_TimeHanlde(flag,lock,RTC_Array[3],RTC_Array[4]);
-		Lcd_DateFunction(flag,lock,RTC_Array[0],RTC_Array[1],RTC_Array[2]);
+		Lcd_TimeHanlde(flag,lock,RTC_Array.hour,RTC_Array.min);
+		Lcd_DateFunction(flag,lock,RTC_Array.w_year,RTC_Array.w_month,RTC_Array.w_date);
 		if(Alarm_num == 1)
 		{
 			Lcd_AlarmHanlde(flag,Alarm_num,Alarm_flag,lock,Alarm_Array[0],Alarm_Array[1]);

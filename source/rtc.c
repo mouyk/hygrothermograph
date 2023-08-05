@@ -18,7 +18,7 @@
 
 _calendar_obj calendar;
 
-int16_t RTC_Array[6] = {0};
+_calendar_obj RTC_Array;
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
 uint8_t LastAlarm1 = 0,LastAlarm2 = 0,LastAlarm3 = 0;					//各个闹钟设置成功至1
 uint8_t Alarm1 = 0,Alarm2 = 0,Alarm3 = 0;					//各个闹钟设置成功至1

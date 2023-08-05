@@ -15,6 +15,12 @@
 #define RTC_HF		(1<<1)
 #define RTC_AF		(1<<0)
 
+#define RTC_Status_Hour   0
+#define RTC_Status_Min    1
+#define RTC_Status_Year   2
+#define RTC_Status_Mon    3
+#define RTC_Status_Data   4
+#define RTC_Status_Alarm  5
 //结构体
 typedef struct
 {
@@ -30,11 +36,11 @@ typedef struct
 } _calendar_obj;
 
 extern 	_calendar_obj calendar;
+extern 	_calendar_obj RTC_Array;
 extern bit times10Flag;
 extern bit HalfSecFlag;
 extern bit AlarmEvFlag;
 extern bit millisecondFlag;
-extern int16_t RTC_Array[6];
 extern uint8_t RTC_num;
 extern uint8_t LastAlarm1,LastAlarm2,LastAlarm3;					//各个闹钟设置成功至1
 extern uint8_t Alarm1,Alarm2,Alarm3;					//各个闹钟设置成功至1

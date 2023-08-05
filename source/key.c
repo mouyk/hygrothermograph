@@ -369,20 +369,20 @@ void Key_HandleFunction(void)
 		Key3.KeyFlag = 0;
 		Key3.times = 0;
 		Interface = 0;
-		if(RTC_num <= 4)
+		if(RTC_num <= RTC_Status_Data)
 		{
-			RTC_num = 0;
-			RTC_Array[5] = calendar.sec;
-			RTC_Set(RTC_Array[0],RTC_Array[1],RTC_Array[2],RTC_Array[3],RTC_Array[4],RTC_Array[5]);
-			for(i = 0;i <= 5;i++)
-			{
-				RTC_Array[i] = 0;
-			}
+			RTC_num = RTC_Status_Hour;
+			RTC_Array.sec = calendar.sec;
+			RTC_Set(RTC_Array.w_year,RTC_Array.w_month,RTC_Array.w_date,RTC_Array.hour,RTC_Array.min,RTC_Array.sec);
+//			for(i = 0;i <= 5;i++)
+//			{
+//				RTC_Array[i] = 0;
+//			}
 		}
 		else
 		{
 			ALarmnum = Alarm1 + Alarm2 + Alarm3;
-			RTC_num = 0;
+			RTC_num = RTC_Status_Hour;
 			Alarm_flag = 0;
 			Alarm_num = 1;
 			RTC_AlarmHandle(ALarmnum);
@@ -412,15 +412,15 @@ void Key_HandleFunction(void)
 		DelAlarmFlag = 1;
 	}
 
-	if((Key3.ShortKey == 1)&&(RTC_num != 5))
+	if((Key3.ShortKey == 1)&&(RTC_num != RTC_Status_Alarm))
 	{
 		Key3.ShortKey = 0;
 		if(Interface == 2)
 		{
 			RTC_num++;
-			if(RTC_num > 5)
+			if(RTC_num > RTC_Status_Alarm)
 			{
-				RTC_num = 5;
+				RTC_num = RTC_Status_Alarm;
 			}
 		}
 		else if(Interface == 1)
@@ -501,90 +501,90 @@ void Key_HandleFunction(void)
 void Key_timedate(uint8_t flag)
 {
 	uint8_t Days =0;
-	if((Key4.LongKey == 1||Key4.ShortKey == 1)&&(Interface == 2)&&(flag != 5))
+	if((Key4.LongKey == 1||Key4.ShortKey == 1)&&(Interface == 2)&&(flag != RTC_Status_Alarm))
 	{
 		Key4.ShortKey = 0;
 		Key4.LongKey = 0;
-		if(flag == 0)
+		if(flag == RTC_Status_Hour)
 		{
-			RTC_Array[3]--;
-			if(RTC_Array[3] == -1)
+			RTC_Array.hour--;
+			if(RTC_Array.hour == -1)
 			{
-				RTC_Array[3]=23;
+				RTC_Array.hour=23;
 			}
 		}
-		else if(flag == 1)
+		else if(flag == RTC_Status_Min)
 		{
-			RTC_Array[4]--;
-			if(RTC_Array[4] == -1)
-				RTC_Array[4] = 59;
+			RTC_Array.min--;
+			if(RTC_Array.min == -1)
+				RTC_Array.min = 59;
 		}
-		else if(flag == 2)
+		else if(flag == RTC_Status_Year)
 		{
-			RTC_Array[0]--;
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			if(RTC_Array[2]> Days)
-				RTC_Array[2] = Days;
-			if(RTC_Array[0] <= 1999)
-				RTC_Array[0] = 2099;
+			RTC_Array.w_year--;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			if(RTC_Array.w_date> Days)
+				RTC_Array.w_date = Days;
+			if(RTC_Array.w_year <= 1999)
+				RTC_Array.w_year = 2099;
 		}
-		else if(flag == 3)
+		else if(flag == RTC_Status_Mon)
 		{
-			RTC_Array[1]--;
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			if(RTC_Array[2]> Days)
-				RTC_Array[2] = Days;
-			if(RTC_Array[1] == 0)
-				RTC_Array[1] = 12;
+			RTC_Array.w_month--;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			if(RTC_Array.w_date> Days)
+				RTC_Array.w_date = Days;
+			if(RTC_Array.w_month == 0)
+				RTC_Array.w_month = 12;
 		}
-		else if(flag == 4)
+		else if(flag == RTC_Status_Data)
 		{
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			RTC_Array[2]--;
-			if(RTC_Array[2] == 0)
-				RTC_Array[2] = Days;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			RTC_Array.w_date--;
+			if(RTC_Array.w_date == 0)
+				RTC_Array.w_date = Days;
 		}
 	}
-	if((Key2.LongKey== 1||Key2.ShortKey == 1)&&(Interface == 2)&&(flag != 5))
+	if((Key2.LongKey== 1||Key2.ShortKey == 1)&&(Interface == 2)&&(flag != RTC_Status_Alarm))
 	{
 		Key2.ShortKey = 0;
 		Key2.LongKey = 0;
-		if(flag == 0)
+		if(flag == RTC_Status_Hour)
 		{
-			RTC_Array[3]++;
-			if(RTC_Array[3]>23)
-				RTC_Array[3] = 0;
+			RTC_Array.hour++;
+			if(RTC_Array.hour>23)
+				RTC_Array.hour = 0;
 		}
-		else if(flag == 1)
+		else if(flag == RTC_Status_Min)
 		{
-			RTC_Array[4]++;
-			if(RTC_Array[4]>59)
-				RTC_Array[4] = 0;
+			RTC_Array.min++;
+			if(RTC_Array.min>59)
+				RTC_Array.min = 0;
 		}
-		else if(flag == 2)
+		else if(flag == RTC_Status_Year)
 		{
-			RTC_Array[0]++;
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			if(RTC_Array[2]> Days)
-				RTC_Array[2] = Days;
-			if(RTC_Array[0] >= 2100)
-				RTC_Array[0] = 2000;
+			RTC_Array.w_year++;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			if(RTC_Array.w_date> Days)
+				RTC_Array.w_date = Days;
+			if(RTC_Array.w_year >= 2100)
+				RTC_Array.w_year = 2000;
 		}
-		else if(flag == 3)
+		else if(flag == RTC_Status_Mon)
 		{
-			RTC_Array[1]++;
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			if(RTC_Array[2]> Days)
-				RTC_Array[2] = Days;
-			if(RTC_Array[1] > 12)
-				RTC_Array[1] = 1;
+			RTC_Array.w_month++;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			if(RTC_Array.w_date> Days)
+				RTC_Array.w_date = Days;
+			if(RTC_Array.w_month > 12)
+				RTC_Array.w_month = 1;
 		}
-		else if(flag == 4)
+		else if(flag == RTC_Status_Data)
 		{
-			Days = RTC_Daysmonth(RTC_Array[0],RTC_Array[1]);
-			RTC_Array[2]++;
-			if(RTC_Array[2] > Days)
-				RTC_Array[2] = 1;
+			Days = RTC_Daysmonth(RTC_Array.w_year,RTC_Array.w_month);
+			RTC_Array.w_date++;
+			if(RTC_Array.w_date > Days)
+				RTC_Array.w_date = 1;
 		}
 	}
 }
@@ -644,7 +644,7 @@ void Key_Countdown(uint8_t flag)
 }
 void Key_Alarm(uint8_t flag)
 {
-	if(flag == 5)
+	if(flag == RTC_Status_Alarm)
 	{
 		if(Key3.ShortKey == 1)
 		{
@@ -841,7 +841,7 @@ void Key_RockonTime(void)
 		else if(Interface == 2)
 		{
 			Interface = 0;
-			if(RTC_num == 5)
+			if(RTC_num == RTC_Status_Alarm)
 			{
 				Alarm1 = LastAlarm1;
 				Alarm2 = LastAlarm2;
@@ -851,11 +851,8 @@ void Key_RockonTime(void)
 					Alarm_Array[i] = LastAlarm_Array[i];
 				}
 			}
-			RTC_num = 0;
-			for(i = 0;i <= 5;i++)
-			{
-				RTC_Array[i] = 0;
-			}
+			RTC_num = RTC_Status_Hour;
+
 		}
 	}
 }

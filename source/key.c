@@ -426,15 +426,15 @@ void Key_HandleFunction(void)
 		else if(Interface == 1)
 		{
 			Timer_num++;
-			shorttime = Timer_Array[0]*60 + Timer_Array[1];
-			if((Timer_num > 2)&&(shorttime != 0))
+			shorttime = Timer_Array.min*60 + Timer_Array.sec;
+			if((Timer_num > Timer_Min)&&(shorttime != 0))
 			{
-				Timer_num = 0;
+				Timer_num = Timer_Ico;
 				Time_start = 1;
 			}
-			else if((Timer_num > 2)&&(shorttime == 0))
+			else if((Timer_num > Timer_Min)&&(shorttime == 0))
 			{
-				Timer_num = 0;
+				Timer_num = Timer_Ico;
 				Time_start = 0;
 				Interface = 0;
 			}
@@ -594,25 +594,25 @@ void Key_Countdown(uint8_t flag)
 	{
 		Key4.ShortKey = 0;
 		Key4.LongKey = 0;
-		if(flag == 1)
+		if(flag == Timer_Hour)
 		{
-			Timer_Array[0]--;
-			if(Timer_Array[0] == -1)
+			Timer_Array.min--;
+			if(Timer_Array.min == -1)
 			{
-				Timer_Array[0] = 60;
+				Timer_Array.min = 60;
 			}		
 			
 		}
-		else if(flag == 2)
+		else if(flag == Timer_Min)
 		{
-			Timer_Array[1]--;
-			if((Timer_Array[1] == -1)&&(Timer_Array[0] < 60))
+			Timer_Array.sec--;
+			if((Timer_Array.sec == -1)&&(Timer_Array.min < 60))
 			{
-				Timer_Array[1] = 59;
+				Timer_Array.sec = 59;
 			}
-			else if((Timer_Array[1] == -1)&&(Timer_Array[0] == 60))
+			else if((Timer_Array.sec == -1)&&(Timer_Array.min == 60))
 			{
-				Timer_Array[1] = 0;
+				Timer_Array.sec = 0;
 			}
 		}
 	}
@@ -620,24 +620,24 @@ void Key_Countdown(uint8_t flag)
 	{
 		Key2.ShortKey = 0;
 		Key2.LongKey = 0;
-		if(flag == 1)
+		if(flag == Timer_Hour)
 		{
-			Timer_Array[0]++;
-			if(Timer_Array[0] > 60)
+			Timer_Array.min++;
+			if(Timer_Array.min > 60)
 			{
-				Timer_Array[0] = 0;
+				Timer_Array.min = 0;
 			}			
 		}
-		else if(flag == 2)
+		else if(flag == Timer_Min)
 		{
-			Timer_Array[1]++;
-			if((Timer_Array[0] == 60)&&(Timer_Array[1] >= 1))
+			Timer_Array.sec++;
+			if((Timer_Array.min == 60)&&(Timer_Array.sec >= 1))
 			{
-				Timer_Array[1] = 0;
+				Timer_Array.sec = 0;
 			}
-			else if((Timer_Array[0] < 60)&&(Timer_Array[1] >= 60))
+			else if((Timer_Array.min < 60)&&(Timer_Array.sec >= 60))
 			{
-				Timer_Array[1] = 0;
+				Timer_Array.sec = 0;
 			}
 		}
 	}
@@ -832,11 +832,13 @@ void Key_RockonTime(void)
 		if((Interface == 1)&&(Time_start == 0))
 		{
 			Interface = 0;
-			Timer_num = 0;
-			for(i = 0;i <= 1;i++)
-			{
-				Timer_Array[i] = 0;
-			}
+			Timer_num = Timer_Ico;
+			Timer_Array.min = 0;
+			Timer_Array.sec = 0;
+//			for(i = 0;i <= 1;i++)
+//			{
+//				Timer_Array[i] = 0;
+//			}
 		}
 		else if(Interface == 2)
 		{

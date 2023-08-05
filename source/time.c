@@ -13,9 +13,14 @@
 #include "include/key.h"
 #include "include/buzzer.h"
 
-int8_t Timer_Array[2]={0};
-uint8_t Timer_num = 0;									//0：计时标识    1：时     2：分
+timer_struct Timer_Array;
+uint8_t Timer_num = Timer_Ico;									//0：计时标识    1：时     2：分
 bit Time_start = 0;
+xdata timer_struct Timer_Array=/*!< 默认设备参数*/
+{ 
+	0,
+	0,
+};
 void TIME2_init(void)
 {
 	P12F = P12_T2CP_SETTING;	 
@@ -81,16 +86,16 @@ bit Counting_Function(bit flag)
 		}
 		if(time_num == 0)
 		{
-			Timer_Array[1]--;
-			if((Timer_Array[1] == -1)&&(Timer_Array[0]*60 != 0))
+			Timer_Array.sec--;
+			if((Timer_Array.sec == -1)&&(Timer_Array.min*60 != 0))
 			{
-				Timer_Array[1] = 59;
-				Timer_Array[0]--;
+				Timer_Array.sec = 59;
+				Timer_Array.min--;
 			}
-			if(Timer_Array[0]*60 + Timer_Array[1] == 0)
+			if(Timer_Array.min*60 + Timer_Array.sec == 0)
 			{
 				flag = 0;
-				Timer_Array[1] = 0;
+				Timer_Array.sec = 0;
 				Interface = 0;
 				time_num = 4;
 				BeepStart = 2;

@@ -251,7 +251,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 	}
 	if(menu == 1)
 	{
-		Lcd_Countdown(menu,flag,lock,Timer_Array[0],Timer_Array[1]);
+		Lcd_Countdown(menu,flag,lock,Timer_Array.min,Timer_Array.sec);
 		Lcd_Colon(0);
 	}
 	else if(menu == 2)
@@ -721,7 +721,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8
 	static CouNum = 0;
 	if(menu == 1)
 	{
-		if((flag == 0)&&(Time_start == 0))
+		if((flag == Timer_Ico)&&(Time_start == 0))
 		{
 			if(CouNum == 0)
 			{
@@ -737,7 +737,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8
 		{
 			lcd_ram[30] |= LoGo_timer;
 		}
-		if((flag == 1)&&(lock == 0))
+		if((flag == Timer_Hour)&&(lock == 0))
 		{
 			if(CouNum == 0)
 			{
@@ -754,7 +754,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8
 		{
 			Lcd_HourHanlde(hour,1);
 		}
-		if((flag == 2)&&(lock == 0))
+		if((flag == Timer_Min)&&(lock == 0))
 		{
 			if(CouNum == 0)
 			{

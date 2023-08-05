@@ -19,6 +19,15 @@
 #define CCFG(N)	 (N<<3)	  	//N=0~3
 #define T2M(N)	 (N)		//N=0~3
 
+#define Timer_Ico			0
+#define Timer_Hour		1
+#define Timer_Min			2
+
+//结构体
+typedef struct{
+    int8_t min;
+    int8_t sec;  
+}timer_struct;
 
 #define INT_TIME			10000			//定时时间，单位为us
 
@@ -27,7 +36,7 @@
 /*********************************************************************************************************************/
 
 extern bit times100Flag,times250Flag,times1000Flag;
-extern int8_t Timer_Array[2];
+extern timer_struct Timer_Array;
 extern uint8_t Timer_num;
 extern bit Time_start;
 

@@ -105,8 +105,8 @@ Lcd_init();
 				else
 					Lcd_IconFunction(Interface,RTC_num,Hold_down);
 				Hold_down = 0;
-				Key4Flag = 0;
-				Key2Flag = 0;
+				Key4.KeyFlag = 0;
+				Key2.KeyFlag = 0;
 			}
 			for(i = 0; i < 34; i++)
 			{

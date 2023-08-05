@@ -8,13 +8,25 @@
 #define Maxnum  100       /*!< 计数上限*/
 #define Shortnum  50       /*!< 计数上限*/
 
+//结构体
+typedef struct{
+    uint8_t times;
+    
+    uint8_t key_value;
+		uint8_t ShortKey;
+    uint8_t LongKey;
+	
+		uint8_t KeyFlag;
+   
+}Key;
+
 extern bit FahrenFlag;
 extern bit HourFlag;
 extern uint8_t Interface;
 extern uint8_t Hold_down;
 extern uint8_t keyclearnum;
 extern uint8_t ZigbeeFlag,DelAlarmFlag;
-extern uint8_t Key1Flag,Key2Flag,Key3Flag,Key4Flag;
+extern Key Key1,Key2,Key3,Key4;
 
 void KEY_init(void);
 void INT2_Init(void);

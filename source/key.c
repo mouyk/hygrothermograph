@@ -14,11 +14,43 @@
 #include "include/uart.h"
 #include <intrins.h>
 
-uint8_t key_value1,key_value2,key_value3,key_value4=0;
+//uint8_t key_value1,key_value2,key_value3,key_value4=0;
 bit FahrenFlag = 0;        //华氏度标志
 bit HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 uint8_t Interface = 0;         //界面
-
+Key Key1,Key2,Key3,Key4;
+xdata Key Key1=/*!< 默认设备参数*/
+{ 
+	0,
+	0,
+	0,  
+	0,
+	0,
+};
+xdata Key Key2=/*!< 默认设备参数*/
+{ 
+	0,
+	0,
+	0,  
+	0,
+	0,
+};
+xdata Key Key3=/*!< 默认设备参数*/
+{ 
+	0,
+	0,
+	0,  
+	0,
+	0,
+};
+xdata Key Key4=/*!< 默认设备参数*/
+{ 
+	0,
+	0,
+	0,  
+	0,
+	0,
+};
 //EPCON寄存器定义
 #define EPPL(N)	(N<<7)
 /*****************************************************************************
@@ -56,7 +88,7 @@ void INT2_Init(void)
 	EPCON = EPPL(1) | 32;					//设置P40为INT2中断引脚，下降沿触发
 	INT2EN = 1; 							//外部中断2中断使能
 	EPIE |= 0x01;							//INT2中断使能
-	key_value4 = 0;		
+	Key4.key_value = 0;		
 }
 void INT2_ISR (void) interrupt 7
 {
@@ -64,7 +96,7 @@ void INT2_ISR (void) interrupt 7
 	{
 		EPIF = 0x01;
 //		int2_flag = 1;
-		key_value4 =40;
+		Key4.key_value =40;
 		keyclearnum = 0;
 	}
 }
@@ -77,14 +109,14 @@ void INT3_Init(void)
 	EPCON = EPPL(1) | 33;					//设置P41为INT3中断引脚，下降沿触发		
 	INT3EN = 1; 							//外部中断3中断使能 
 	EPIE |= 0x02;							//INT3中断使能
-	key_value3 = 0;	
+	Key3.key_value = 0;	
 }
 void INT3_ISR (void) interrupt 8
 {
 	if(EPIF & 0x02)
 	{
 		EPIF = 0x02;	
-		key_value3 = 41;	
+		Key3.key_value = 41;	
 		keyclearnum = 0;
 	}
 }
@@ -98,14 +130,14 @@ void INT4_Init(void)
 	EPCON = EPPL(1) | 34;					//设置P42为INT4中断引脚，下降沿触发				
 	INT4EN = 1;  							//外部中断4中断使能
 	EPIE |= 0x04;							//INT4中断使能
-	key_value2 = 0;	
+	Key2.key_value = 0;	
 }
 void INT4_ISR (void) interrupt 9
 {
 	if(EPIF & 0x04)
 	{
 		EPIF = 0x04;
-		key_value2 = 42;	
+		Key2.key_value = 42;	
 		keyclearnum = 0;
 	}
 }
@@ -119,14 +151,14 @@ void INT5_Init(void)
 	EPCON = EPPL(1) | 35;					//设置P43为INT5中断引脚，下降沿触发		
 	INT5EN = 1; 							//外部中断5中断使能 
 	EPIE |= 0x08;							//INT5中断使能
-	key_value1 = 0;	
+	Key1.key_value = 0;	
 }
 void INT5_ISR (void) interrupt 10
 {
 	if(EPIF & 0x08)
 	{
 		EPIF = 0x08;	
-		key_value1 = 43;
+		Key1.key_value = 43;
 		P32	 = 1;													//开启背光
 		keyclearnum = 0;
 	}
@@ -137,26 +169,22 @@ void INT5_ISR (void) interrupt 10
 输入参数： 		无
 返回值：		无
 ***********************************************************************************/
-uint8_t ShortKey1 = 0,ShortKey2 = 0,ShortKey3 = 0,ShortKey4 = 0;
-uint8_t LongKey1 = 0,LongKey2 = 0,LongKey3 = 0,LongKey4 = 0;
 uint8_t Hold_down = 0;
-uint16_t times4 = 0,times3 = 0,times2 = 0,times1 = 0;
-uint8_t Key1Flag = 0,Key2Flag = 0,Key3Flag = 0,Key4Flag = 0;
 void Key_Scanf(void)
 {
-		if(40==key_value4)																						//key4   S4     减号
+		if(40==Key4.key_value)																						//key4   S4     减号
 		{
 			if(P40 == 0)
 			{
 				if(DelAlarmFlag == 0)
-					times4++;
-				if(times4>=Maxnum)
+					Key4.times = Key4.times + 1;
+				if(Key4.times>=Maxnum)
 				{
-					times4 =Maxnum;
-					if(Key4Flag == 0)
+					Key4.times =Maxnum;
+					if(Key4.KeyFlag == 0)
 					{
-						Key4Flag = 1;
-						LongKey4 = 1;
+						Key4.KeyFlag = 1;
+						Key4.LongKey = 1;
 						keyclearnum = 0;
 						if(Interface != 0)
 							Hold_down = 1;
@@ -165,77 +193,79 @@ void Key_Scanf(void)
 			}
 			else
 			{
-				key_value4=0;
+				Key4.key_value=0;
 				keyclearnum = 0;
-				if((times4 <= Shortnum)&&(Key4Flag == 0)&&(times4 != 0))
+				if((Key4.times <= Shortnum)&&(Key4.KeyFlag == 0)&&(Key4.times != 0))
 				{
-					ShortKey4 = 1;
-					times4 = 0;
+					Key4.ShortKey = 1;
+					Key4.times = 0;
 				}
-				else if((times4 >Shortnum)&&(Key4Flag == 0))
+				else if((Key4.times >Shortnum)&&(Key4.KeyFlag == 0))
 				{
-					LongKey4 = 1;
-					times4 = 0;
+					Key4.LongKey = 1;
+					Key4.times = 0;
 				}
-				else if(times4 == Maxnum);
+				else if(Key4.times == Maxnum);
 				{
-					times4 = 0;
-					Key4Flag = 0;
+					Key4.times = 0;
+					Key4.KeyFlag = 0;
 				}
 			}
 		}
-		if(41==key_value3)																						//key3   S3        模式
+		if(41==Key3.key_value)																						//key3   S3        模式
 		{
 			if(P41 == 0)
 			{
 				if((ZigbeeFlag == 0)&&(DelAlarmFlag == 0))
-					times3++;
-				if(times3>=Maxnum)
 				{
-					times3 =Maxnum;
-					if(Key3Flag == 0)
+					Key3.times = Key3.times + 1;
+				}
+				if(Key3.times>=Maxnum)
+				{
+					Key3.times =Maxnum;
+					if(Key3.KeyFlag == 0)
 					{
-						Key3Flag = 1;
+						Key3.KeyFlag = 1;
 						keyclearnum = 0;
-						LongKey3 = 1;
+						Key3.LongKey = 1;
 					}
 				}
 			}
 			else
 			{
-				key_value3=0;
+				Key3.key_value=0;
 				keyclearnum = 0;
 				DelAlarmFlag = 0;
-				if((times3 <= Shortnum)&&(Key3Flag == 0)&&(times3 != 0))
+				if((Key3.times <= Shortnum)&&(Key3.KeyFlag == 0)&&(Key3.times != 0))
 				{
-					ShortKey3 = 1;
-					times3 = 0;
+					Key3.ShortKey = 1;
+					Key3.times = 0;
 				}
-				else if((times3 >Shortnum)&&(Key3Flag == 0))
+				else if((Key3.times >Shortnum)&&(Key3.KeyFlag == 0))
 				{
-					LongKey3 = 1;
-					times3 = 0;
+					Key3.LongKey = 1;
+					Key3.times = 0;
 				}
-				else if(times3 == Maxnum)
+				else if(Key3.times == Maxnum)
 				{
-					times3 = 0;
-					Key3Flag = 0;
+					Key3.times = 0;
+					Key3.KeyFlag = 0;
 				}
 			}
 		}
-		if(42==key_value2)																						//key2   S2        加号
+		if(42==Key2.key_value)																						//key2   S2        加号
 		{
 			if(P42 == 0)
 			{
 				if(ZigbeeFlag == 0)
-					times2++;
-				if(times2>=Maxnum)
+					Key2.times = Key2.times + 1;
+				if(Key2.times>=Maxnum)
 				{
-					times2 =Maxnum;
-					if(Key2Flag == 0)
+					Key2.times =Maxnum;
+					if(Key2.KeyFlag == 0)
 					{
-						Key2Flag = 1;
-						LongKey2 = 1;
+						Key2.KeyFlag = 1;
+						Key2.LongKey = 1;
 						keyclearnum = 0;
 						if(Interface != 0)
 							Hold_down = 1;
@@ -244,59 +274,59 @@ void Key_Scanf(void)
 			}
 			else
 			{
-				key_value2=0;
+				Key2.key_value=0;
 				keyclearnum = 0;
-				if((times2 <= Shortnum)&&(Key2Flag == 0)&&(times2 != 0))
+				if((Key2.times <= Shortnum)&&(Key2.KeyFlag == 0)&&(Key2.times != 0))
 				{
-					ShortKey2 = 1;
-					times2 = 0;
+					Key2.ShortKey = 1;
+					Key2.times = 0;
 				}
-				else if((times2 >Shortnum)&&(Key2Flag == 0))
+				else if((Key2.times >Shortnum)&&(Key2.KeyFlag == 0))
 				{
-					LongKey2 = 1;
-					times2 = 0;
+					Key2.LongKey = 1;
+					Key2.times = 0;
 				}
-				else if(times2 == Maxnum)
+				else if(Key2.times == Maxnum)
 				{
-					times2 = 0;
-					Key2Flag = 0;
+					Key2.times = 0;
+					Key2.KeyFlag = 0;
 				}
 			}
 		}
-		if(43==key_value1)																						//key1   S1          贪睡/背光
+		if(43==Key1.key_value)																						//key1   S1          贪睡/背光
 		{
 			if(P43 == 0)
 			{
-				times1++;
-				if(times1>=Maxnum)
+				Key1.times = Key1.times + 1;
+				if(Key1.times>=Maxnum)
 				{
-					times1 =Maxnum;
-					if(Key1Flag == 0)
+					Key1.times =Maxnum;
+					if(Key1.KeyFlag == 0)
 					{
-						Key1Flag = 1;
-						LongKey1 = 1;
+						Key1.KeyFlag = 1;
+						Key1.LongKey = 1;
 						keyclearnum = 0;
 					}
 				}
 			}
 			else
 			{
-				key_value1=0;
+				Key1.key_value=0;
 				keyclearnum = 0;
-				if((times1 <= Shortnum)&&(Key1Flag == 0))
+				if((Key1.times <= Shortnum)&&(Key1.KeyFlag == 0))
 				{
-					ShortKey1 = 1;
-					times1 = 0;
+					Key1.ShortKey = 1;
+					Key1.times = 0;
 				}
-				else if((times1 >Shortnum)&&(Key1Flag == 0))
+				else if((Key1.times >Shortnum)&&(Key1.KeyFlag == 0))
 				{
-					LongKey1 = 1;
-					times1 = 0;
+					Key1.LongKey = 1;
+					Key1.times = 0;
 				}
-				else if(times1 == Maxnum)
+				else if(Key1.times == Maxnum)
 				{
-					times1 = 0;
-					Key1Flag = 0;
+					Key1.times = 0;
+					Key1.KeyFlag = 0;
 				}
 			}
 		}	
@@ -313,31 +343,31 @@ void Key_HandleFunction(void)
 	uint8_t i = 0;
 	uint8_t ALarmnum = 0;
 	uint16_t shorttime = 0;
-	if((ShortKey2 == 1)&&(Interface == 0))         //℃与℉切换
+	if((Key2.ShortKey == 1)&&(Interface == 0))         //℃与℉切换
 	{
-		ShortKey2 = 0;
+		Key2.ShortKey = 0;
 		FahrenFlag = ~FahrenFlag;
 	}
-	else if((ShortKey4 == 1)&&(Interface == 0))     //12hour与24hour切换
+	else if((Key4.ShortKey == 1)&&(Interface == 0))     //12hour与24hour切换
 	{
-		ShortKey4 = 0;
+		Key4.ShortKey = 0;
 		HourFlag = ~HourFlag;
 	}
-	if((ShortKey3 == 1)&&(Interface == 0))
+	if((Key3.ShortKey == 1)&&(Interface == 0))
 	{
-		ShortKey3 = 0;
+		Key3.ShortKey = 0;
 		Interface = 1;
 	}
-	else if((LongKey3 == 1)&&(Interface == 0)&&(times2 == 0))
+	else if((Key3.LongKey == 1)&&(Interface == 0)&&(Key2.times == 0))
 	{
-		LongKey3 = 0;
+		Key3.LongKey = 0;
 		Interface = 2;
 	}
-	else if((LongKey3 ==1)&&(Interface == 2)&&(times4 == 0))
+	else if((Key3.LongKey ==1)&&(Interface == 2)&&(Key4.times == 0))
 	{
-		LongKey3 = 0;
-		Key3Flag = 0;
-		times3 = 0;
+		Key3.LongKey = 0;
+		Key3.KeyFlag = 0;
+		Key3.times = 0;
 		Interface = 0;
 		if(RTC_num <= 4)
 		{
@@ -359,31 +389,32 @@ void Key_HandleFunction(void)
 			RTC_AlarmCompare(ALarmnum);
 		}
 	}
-	
-	if((((LongKey3 ==1)&&(LongKey2 == 1))||((LongKey3 ==1)&&(times2 > Shortnum)||((LongKey2 ==1)&&(times3 > Shortnum))))&&(Interface == 0))       //zigbee组网
+		
+	if((((Key3.LongKey ==1)&&(Key2.LongKey == 1))||((Key3.LongKey ==1)&&(Key2.times > Shortnum))||((Key2.LongKey ==1)&&(Key3.times > Shortnum)))&&(Interface == 0))       //zigbee组网
 	{
-		LongKey3 = 0;
-		LongKey2 = 0;
-		times2 = 0;
-		times3 = 0;
-		Key2Flag = 0;
-		Key3Flag = 0;
+		Key3.LongKey = 0;
+		Key2.LongKey = 0;
+		Key2.times = 0;
+		Key3.times = 0;
+		Key2.KeyFlag = 0;
+		Key3.KeyFlag = 0;
 		ZigbeeFlag = 1;
+		
 	}
-	else if((((LongKey3 ==1)&&(LongKey4 == 1))||((LongKey3 ==1)&&(times4 > Shortnum))||((LongKey4 ==1)&&(times3 > Shortnum)))&&(Interface == 2)) //
+	else if((((Key3.LongKey ==1)&&(Key4.LongKey == 1))||((Key3.LongKey ==1)&&(Key4.times > Shortnum))||((Key4.LongKey ==1)&&(Key3.times > Shortnum)))&&(Interface == 2)) //
 	{
-		LongKey3 = 0;
-		LongKey4 = 0;
-		times4 = 0;
-		times3 = 0;
-		Key4Flag = 0;
-		Key3Flag = 0;
+		Key3.LongKey = 0;
+		Key4.LongKey = 0;
+		Key4.times = 0;
+		Key3.times = 0;
+		Key4.KeyFlag = 0;
+		Key3.KeyFlag = 0;
 		DelAlarmFlag = 1;
 	}
 
-	if((ShortKey3 == 1)&&(RTC_num != 5))
+	if((Key3.ShortKey == 1)&&(RTC_num != 5))
 	{
-		ShortKey3 = 0;
+		Key3.ShortKey = 0;
 		if(Interface == 2)
 		{
 			RTC_num++;
@@ -411,9 +442,9 @@ void Key_HandleFunction(void)
 	}
 	if(AlarmEvFlag == 1)
 	{
-		if(ShortKey1 == 1)
+		if(Key1.ShortKey == 1)
 		{
-			ShortKey1 = 0;
+			Key1.ShortKey = 0;
 			BuzNum = 0;
 			BuzNum1 = 0;
 			AlarmEvFlag = 0;
@@ -440,10 +471,10 @@ void Key_HandleFunction(void)
 				RTC_Alarm_init(1,calendar.hour,calendar.min,calendar.sec);
 			}
 		}
-		if(LongKey1 == 1)
+		if(Key1.LongKey == 1)
 		{
 			sleepnum = 0;
-			LongKey1 = 0;
+			Key1.LongKey = 0;
 			BuzNum = 0;
 			BuzNum1 = 0;
 			AlarmEvFlag = 0;
@@ -454,8 +485,8 @@ void Key_HandleFunction(void)
 	}
 	else
 	{
-		ShortKey1 = 0;
-		LongKey1 = 0;
+		Key1.ShortKey = 0;
+		Key1.LongKey = 0;
 	}
 	Key_timedate(RTC_num);
 	Key_Alarm(RTC_num);
@@ -470,10 +501,10 @@ void Key_HandleFunction(void)
 void Key_timedate(uint8_t flag)
 {
 	uint8_t Days =0;
-	if((LongKey4 == 1||ShortKey4 == 1)&&(Interface == 2)&&(flag != 5))
+	if((Key4.LongKey == 1||Key4.ShortKey == 1)&&(Interface == 2)&&(flag != 5))
 	{
-		ShortKey4 = 0;
-		LongKey4 = 0;
+		Key4.ShortKey = 0;
+		Key4.LongKey = 0;
 		if(flag == 0)
 		{
 			RTC_Array[3]--;
@@ -514,10 +545,10 @@ void Key_timedate(uint8_t flag)
 				RTC_Array[2] = Days;
 		}
 	}
-	if((LongKey2== 1||ShortKey2 == 1)&&(Interface == 2)&&(flag != 5))
+	if((Key2.LongKey== 1||Key2.ShortKey == 1)&&(Interface == 2)&&(flag != 5))
 	{
-		ShortKey2 = 0;
-		LongKey2 = 0;
+		Key2.ShortKey = 0;
+		Key2.LongKey = 0;
 		if(flag == 0)
 		{
 			RTC_Array[3]++;
@@ -559,10 +590,10 @@ void Key_timedate(uint8_t flag)
 }
 void Key_Countdown(uint8_t flag)
 {
-	if((LongKey4 == 1||ShortKey4 == 1)&&(Interface == 1))
+	if((Key4.LongKey == 1||Key4.ShortKey == 1)&&(Interface == 1))
 	{
-		ShortKey4 = 0;
-		LongKey4 = 0;
+		Key4.ShortKey = 0;
+		Key4.LongKey = 0;
 		if(flag == 1)
 		{
 			Timer_Array[0]--;
@@ -585,10 +616,10 @@ void Key_Countdown(uint8_t flag)
 			}
 		}
 	}
-	if((LongKey2 == 1||ShortKey2 == 1)&&(Interface == 1))
+	if((Key2.LongKey == 1||Key2.ShortKey == 1)&&(Interface == 1))
 	{
-		ShortKey2 = 0;
-		LongKey2 = 0;
+		Key2.ShortKey = 0;
+		Key2.LongKey = 0;
 		if(flag == 1)
 		{
 			Timer_Array[0]++;
@@ -615,9 +646,9 @@ void Key_Alarm(uint8_t flag)
 {
 	if(flag == 5)
 	{
-		if(ShortKey3 == 1)
+		if(Key3.ShortKey == 1)
 		{
-			ShortKey3 = 0;
+			Key3.ShortKey = 0;
 			Alarm_flag++;
 			if(Alarm_flag > 0)
 			{
@@ -633,10 +664,10 @@ void Key_Alarm(uint8_t flag)
 				Alarm_flag = 0;
 			}
 		}
-		if(LongKey4 == 1||ShortKey4 == 1)
+		if(Key4.LongKey == 1||Key4.ShortKey == 1)
 		{
-			ShortKey4 = 0;
-			LongKey4 =0;
+			Key4.ShortKey = 0;
+			Key4.LongKey =0;
 			if(Alarm_flag == 0)
 			{
 				Alarm_num--;
@@ -700,10 +731,10 @@ void Key_Alarm(uint8_t flag)
 				}
 			}
 		}
-		if(LongKey2 == 1||ShortKey2 == 1)
+		if(Key2.LongKey == 1||Key2.ShortKey == 1)
 		{
-			ShortKey2 = 0;
-			LongKey2 = 0;
+			Key2.ShortKey = 0;
+			Key2.LongKey = 0;
 			if(Alarm_flag == 0)
 			{
 				Alarm_num++;

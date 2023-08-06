@@ -18,7 +18,7 @@ bit FahrenFlag = 0;        //华氏度标志
 bit HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 uint8_t Interface = 0;         //界面
 Key Key1,Key2,Key3,Key4;
-xdata Key Key1=/*!< 默认设备参数*/
+xdata Key Key1=/*!< Key1默认设备参数*/
 { 
 	0,
 	0,
@@ -26,7 +26,7 @@ xdata Key Key1=/*!< 默认设备参数*/
 	0,
 	0,
 };
-xdata Key Key2=/*!< 默认设备参数*/
+xdata Key Key2=/*!< Key2默认设备参数*/
 { 
 	0,
 	0,
@@ -34,7 +34,7 @@ xdata Key Key2=/*!< 默认设备参数*/
 	0,
 	0,
 };
-xdata Key Key3=/*!< 默认设备参数*/
+xdata Key Key3=/*!< Key3默认设备参数*/
 { 
 	0,
 	0,
@@ -42,7 +42,7 @@ xdata Key Key3=/*!< 默认设备参数*/
 	0,
 	0,
 };
-xdata Key Key4=/*!< 默认设备参数*/
+xdata Key Key4=/*!< Key4默认设备参数*/
 { 
 	0,
 	0,
@@ -439,7 +439,7 @@ void Key_HandleFunction(void)
 			}
 		}
 	}
-	if(AlarmEvFlag == 1)
+	if(AlarmEvFlag == 1)																																									//闹钟启动后按键操作
 	{
 		if(Key1.ShortKey == 1)
 		{
@@ -587,6 +587,12 @@ void Key_timedate(uint8_t flag)
 		}
 	}
 }
+/***********************************************************************************
+函数名：		Key_Countdown
+功能说明： 		按键加减对计时功能的控制
+输入参数： 		flag：1：时，2：分
+返回值：		无
+***********************************************************************************/
 void Key_Countdown(uint8_t flag)
 {
 	if((Key4.LongKey == 1||Key4.ShortKey == 1)&&(Interface == 1))
@@ -641,6 +647,12 @@ void Key_Countdown(uint8_t flag)
 		}
 	}
 }
+/***********************************************************************************
+函数名：		Key_Alarm
+功能说明： 		按键加减对闹钟功能的控制
+输入参数： 		flag：5：闹钟界面
+返回值：		无
+***********************************************************************************/
 void Key_Alarm(uint8_t flag)
 {
 	if(flag == RTC_Status_Alarm)
@@ -820,6 +832,12 @@ void Key_Alarm(uint8_t flag)
 		}
 	}
 }
+/***********************************************************************************
+函数名：		Key_RockonTime
+功能说明： 		操作超时复位函数
+输入参数： 		无
+返回值：		无
+***********************************************************************************/
 uint8_t keyclearnum = 0;
 void Key_RockonTime(void)
 {

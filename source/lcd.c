@@ -469,7 +469,7 @@ void Lcd_HourTurn(uint8_t hour)
 /***********************************************************************************
 函数名：		Lcd_TimeHanlde
 功能说明： 	LCD中时间相应位置闪烁控制
-输入参数： 	flag：0~1表示时分闪烁位置	hour：表示小时，min：表示分
+输入参数： 	flag：0~1表示时分闪烁位置,lock：锁定显示快速加减相应数据	hour：表示小时，min：表示分
 返回值：		无
 ***********************************************************************************/
 void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
@@ -493,48 +493,55 @@ void Lcd_TimeHanlde(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 	}
 	Lcd_HourTurn(hour);													//上下午表示处理
 }
+/***********************************************************************************
+函数名：		Lcd_TimeFunction
+功能说明： 		LCD中时间相应位置闪烁控制
+输入参数： 		flag：0：时显示，1：分显示， lock：显示锁定，hour：时，min：分
+返回值：		无
+***********************************************************************************/
 void Lcd_TimeFunction(uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
 	static uint8_t TimeNum = 0;
 	if((flag == 0)&&(lock == 0))
-			{
-				if(TimeNum == 0)
-				{
-					TimeNum = 1;
-					Lcd_HourHanlde(hour,1);
-				}
-				else
-				{
-					TimeNum = 0;
-					Lcd_HourHanlde(hour,0);
-				}
-			}
-			else
-			{
-				Lcd_HourHanlde(hour,1);
-			}
-			if((flag == 1)&&(lock == 0))
-			{
-				if(TimeNum == 0)
-				{
-					TimeNum = 1;
-					Lcd_MinHanlde(min,1);
-				}
-				else
-				{
-					TimeNum = 0;
-					Lcd_MinHanlde(min,0);
-				}
-			}
-			else
-			{
-				Lcd_MinHanlde(min,1);
-			}
+	{
+		if(TimeNum == 0)
+		{
+			TimeNum = 1;
+			Lcd_HourHanlde(hour,1);
+		}
+		else
+		{
+			TimeNum = 0;
+			Lcd_HourHanlde(hour,0);
+		}
+	}
+	else
+	{
+		Lcd_HourHanlde(hour,1);
+	}
+	if((flag == 1)&&(lock == 0))
+	{
+		if(TimeNum == 0)
+		{
+			TimeNum = 1;
+			Lcd_MinHanlde(min,1);
+		}
+		else
+		{
+			TimeNum = 0;
+			Lcd_MinHanlde(min,0);
+		}
+	}
+	else
+	{
+		Lcd_MinHanlde(min,1);
+	}
 }
 /***********************************************************************************
 函数名：		Lcd_AlarmHanlde
-功能说明： 	LCD中时间相应位置闪烁控制
-输入参数： 	flag：0~1表示时分闪烁位置	hour：表示小时，min：表示分
+功能说明： 	LCD中闹钟相应位置闪烁控制
+输入参数： 	flag：闹钟界面，num：标识第n个闹钟 flag1：0~2表示时、分和图标闪烁位置，lock：表示闪烁数字锁定
+						hour：表示小时，min：表示分
 返回值：		无
 ***********************************************************************************/
 void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uint8_t hour, uint8_t min)
@@ -645,6 +652,12 @@ void Lcd_AlarmHanlde(uint8_t flag, uint8_t num, uint8_t flag1, uint8_t lock, uin
 		Lcd_HourTurn(hour);															//上下午表示处理
 	}
 }
+/***********************************************************************************
+函数名：		Lcd_AlarmIcon
+功能说明： 	LCD中闹钟标识闪烁控制
+输入参数： 	num：标识中的数字，flag：0：不显示，1：显示
+返回值：		无
+***********************************************************************************/
 void Lcd_AlarmIcon(uint8_t num,uint8_t flag)
 {
 	if(flag == 1)
@@ -663,6 +676,12 @@ void Lcd_AlarmIcon(uint8_t num,uint8_t flag)
 		lcd_ram[33] = 0;
 	}
 }
+/***********************************************************************************
+函数名：		Lcd_HourHanlde
+功能说明： 	LCD中时位置的显示控制
+输入参数： 	hour：时，flag：0：不显示，1：显示
+返回值：		无
+***********************************************************************************/
 void Lcd_HourHanlde(uint8_t hour, uint8_t flag)
 {
 	if(flag == 1)
@@ -678,6 +697,12 @@ void Lcd_HourHanlde(uint8_t hour, uint8_t flag)
 		lcd_ram[4] = 0;
 	}
 }
+/***********************************************************************************
+函数名：		Lcd_MinHanlde
+功能说明： 	LCD中分位置的显示控制
+输入参数： 	min：分，flag：0：不显示，1：显示
+返回值：		无
+***********************************************************************************/
 void Lcd_MinHanlde(uint8_t min, uint8_t flag)
 {
 	if(flag == 1)
@@ -693,6 +718,12 @@ void Lcd_MinHanlde(uint8_t min, uint8_t flag)
 		lcd_ram[8] = 0;
 	}
 }
+/***********************************************************************************
+函数名：		Lcd_ZigbeeIcon
+功能说明： 	LCD中zigbee图标显示控制
+输入参数： 	zigbee：0：不显示，1：显示
+返回值：		无
+***********************************************************************************/
 void Lcd_ZigbeeIcon(uint8_t zigbee)
 {
 	static uint8_t a = 0,b = 0;
@@ -716,6 +747,13 @@ void Lcd_ZigbeeIcon(uint8_t zigbee)
 		ZigbeeFlag = 0;
 	}
 }
+/***********************************************************************************
+函数名：		Lcd_Countdown
+功能说明： 	LCD中计时功能显示控制
+输入参数： 	menu：1：表示菜单功能，flag：0~2表示图标及时分闪烁控制，lock：闪烁锁定，
+						hour：时，min：分
+返回值：		无
+***********************************************************************************/
 void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
 	static CouNum = 0;
@@ -774,6 +812,12 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8
 	}
 	lcd_ram[0] = 0;															//强制将小时制显示清除
 }
+/***********************************************************************************
+函数名：		Lcd_Backlight
+功能说明： 	屏幕背光灯时长控制
+输入参数： 	无
+返回值：		无
+***********************************************************************************/
 void Lcd_Backlight(void)
 {
 	static time_num =0;

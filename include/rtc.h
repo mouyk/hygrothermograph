@@ -37,14 +37,14 @@ typedef struct
 
 //结构体
 typedef struct{
-    int8_t hour;
-    int8_t min;  
+    int8_t hour;  														//时
+    int8_t min;  															//分
 }time_struct;
 
 typedef struct{      //各个闹钟设置成功至1
-    uint8_t Alarm1;
-    uint8_t Alarm2; 
-		uint8_t Alarm3;
+    uint8_t Alarm1;														//闹钟1设置成功标志1
+    uint8_t Alarm2;														//闹钟2设置成功标志1
+		uint8_t Alarm3;														//闹钟3设置成功标志1
 }Alarmnum_struct;
 
 typedef struct{

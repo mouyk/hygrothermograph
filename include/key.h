@@ -11,20 +11,20 @@
 typedef struct{
     uint8_t times;
     
-    uint8_t key_value;
-		uint8_t ShortKey;
-    uint8_t LongKey;
+    uint8_t key_value;													//按键中断标志
+		uint8_t ShortKey;														//按键短按标志
+    uint8_t LongKey;														//按键长按标志
 	
-		uint8_t KeyFlag;
+		uint8_t KeyFlag;														//按键标志
    
 }Key;
 
 extern bit FahrenFlag;
 extern bit HourFlag;
 extern uint8_t Interface;
-extern uint8_t Hold_down;
+extern bit Hold_down;
 extern uint8_t keyclearnum;
-extern uint8_t ZigbeeFlag,DelAlarmFlag;
+extern bit ZigbeeFlag,DelAlarmFlag;
 extern Key Key1,Key2,Key3,Key4;
 
 void KEY_init(void);

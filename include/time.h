@@ -25,8 +25,8 @@
 
 //结构体
 typedef struct{
-    int8_t min;
-    int8_t sec;  
+    int8_t min;									//分
+    int8_t sec;  								//秒
 }timer_struct;
 
 #define INT_TIME			10000			//定时时间，单位为us

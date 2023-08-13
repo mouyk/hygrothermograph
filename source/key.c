@@ -168,7 +168,8 @@ void INT5_ISR (void) interrupt 10
 输入参数： 		无
 返回值：		无
 ***********************************************************************************/
-uint8_t Hold_down = 0;
+bit menulock = 0, Hold_down = 0;
+
 void Key_Scanf(void)
 {
 		if(40==Key4.key_value)																						//key4   S4     减号
@@ -215,7 +216,7 @@ void Key_Scanf(void)
 		{
 			if(P41 == 0)
 			{
-				if((ZigbeeFlag == 0)&&(DelAlarmFlag == 0))
+				if((ZigbeeFlag == 0)&&(DelAlarmFlag == 0)&&(menulock == 0))
 				{
 					Key3.times = Key3.times + 1;
 				}
@@ -232,6 +233,7 @@ void Key_Scanf(void)
 			}
 			else
 			{
+				menulock = 0;
 				Key3.key_value=0;
 				keyclearnum = 0;
 				DelAlarmFlag = 0;
@@ -336,7 +338,7 @@ void Key_Scanf(void)
 输入参数： 		无
 返回值：		无
 ***********************************************************************************/
-uint8_t ZigbeeFlag = 0,DelAlarmFlag = 0;
+bit ZigbeeFlag = 0,DelAlarmFlag = 0;
 void Key_HandleFunction(void)
 {
 	uint8_t i = 0;
@@ -368,6 +370,7 @@ void Key_HandleFunction(void)
 		Key3.KeyFlag = 0;
 		Key3.times = 0;
 		Interface = 0;
+		menulock = 1;
 		if(RTC_num <= RTC_Status_Data)
 		{
 			RTC_num = RTC_Status_Hour;

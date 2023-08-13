@@ -393,10 +393,10 @@ unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value)
 * @param[in]  {len} Data length
 * @return  true or false
 */
-//unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len)
-//{
-//  return(value[0]);
-//}
+unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len)
+{
+  return(value[0]);
+}
 
 /**
 * @brief mcu get enum type value from zigbee translate 
@@ -404,10 +404,10 @@ unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value)
 * @param[in]  {len} Data length
 * @return  enum data
 */
-//unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len)
-//{
-//  return(value[0]);
-//}
+unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len)
+{
+  return(value[0]);
+}
 
 /**
 * @brief mcu get value type value from zigbee translate 
@@ -415,10 +415,10 @@ unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value)
 * @param[in]  {len} Data length
 * @return  value data
 */
-//unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len)
-//{
-//  return(byte_to_int(value));
-//}
+unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len)
+{
+  return(byte_to_int(value));
+}
 
 
 /**
@@ -466,7 +466,7 @@ void mcu_network_start(void)
 */
 void uart_receive_input(unsigned char value)
 {
-//  #error "please call this fuction in the interrupt fuction of serial receive, and delete this line"
+ // #error "please call this fuction in the interrupt fuction of serial receive, and delete this line"
 
     if(1 == queue_out - queue_in) {
         //queue full
@@ -489,7 +489,7 @@ void uart_receive_input(unsigned char value)
 */
 void zigbee_protocol_init(void)
 {
-//  #error "please call this fuction in main init"
+ // #error "please call this fuction in main init"
 
   queue_in = (unsigned char *)zigbee_queue_buf;
   queue_out = (unsigned char *)zigbee_queue_buf;
@@ -536,7 +536,7 @@ unsigned char with_data_rxbuff(void)
 */
 void zigbee_uart_service(void)
 {
-//    #error "please call this fucntion in main while(1){}, and delete this line" 
+   // #error "please call this fucntion in main while(1){}, and delete this line" 
     static unsigned short rx_in = 0;
     unsigned short offset = 0;
     unsigned short rx_value_len = 0;  

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <absacc.h>
-#include "mcu_sdk/zigbee.h"
+#include "include/zigbee.h"
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
 #ifdef UART0_EN
@@ -21,8 +21,8 @@ void Uart0_Initial(unsigned long int baudrate)
 {
 	unsigned int value_temp;
 
-//	P31F = P31_UART0_RX_SETTING;
-//	P30F = P30_UART0_TX_SETTING;
+	P31F = P31_UART0_RX_SETTING;
+	P30F = P30_UART0_TX_SETTING;
 	
 	uart0_send.head=0;
 	uart0_send.tail=0;
@@ -31,7 +31,7 @@ void Uart0_Initial(unsigned long int baudrate)
 	uart0_tx_flag=0;
 
 /************************************************************************************************************************/
-//TIMER2作为UART0的波特率发生器
+////TIMER2作为UART0的波特率发生器
 	value_temp = 0x10000 - FOSC/(baudrate*32);
 	T2CON = 	0x24;
 	T2CH  = 	(unsigned char)(value_temp>>8);
@@ -45,12 +45,12 @@ void Uart0_Initial(unsigned long int baudrate)
 /************************************************************************************************************************/
 //TIMER1作为UART0的波特率发生器
 
-//  TMOD = (TMOD&0xCF)|0x20;
-//	TH1 = 0xff;		//19200
-//	TL1 = 0xff;
+//	TMOD = (TMOD&0xCF)|0x20;
+//	TH1 = (unsigned char)(0x100 - FOSC/(baudrate*32*6));			
+//	TL1 = TH1;
 //	ET1=0;
 //	TR1=1;		
-//	PCON |= 0x80;	 	
+//	PCON |= 0x80;	 		//波特率倍速	
 /************************************************************************************************************************/
 
 
@@ -94,6 +94,22 @@ void Uart0_PutChar(unsigned char bdat)
 		}
 	}
 }
+
+void Uart0_RevChar(void)
+{
+	unsigned char data_temp;
+	if(uart0_rev.tail != uart0_rev.head)				//表示有数据待取
+	{
+		uart0_rev.tail++;
+		uart0_rev.tail %= UART0_RX_BUF_SIZE;				
+		data_temp=uart0_rx_buf[uart0_rev.tail];			//从uart0_rx_buf取出数据
+		
+//		uart_receive_input(data_temp);
+		Uart0_PutChar(data_temp);						//把接收到的数据发送出去
+	}		
+}
+
+
 void UART0_ISR (void) interrupt 4
 {	
 	if(RI0)
@@ -102,7 +118,6 @@ void UART0_ISR (void) interrupt 4
 		uart0_rev.head++;
 		uart0_rev.head %= UART0_RX_BUF_SIZE;
 		uart0_rx_buf[uart0_rev.head]=S0BUF;
-		uart_receive_input(S0BUF);		
 	}
 	if(TI0)
 	{	
@@ -181,6 +196,20 @@ void Uart1_PutChar(unsigned char bdat)
 		}
 	}
 }
+void Uart1_RevChar(void)
+{
+	unsigned char data_temp;
+	if(uart1_rev.tail != uart1_rev.head)				//表示有数据待取
+	{
+		uart1_rev.tail++;
+		uart1_rev.tail %= UART1_RX_BUF_SIZE;				
+		data_temp=uart1_rx_buf[uart1_rev.tail];			//从uart0_rx_buf取出数据
+		
+//		uart_receive_input(data_temp);
+		Uart1_PutChar(data_temp);						//把接收到的数据发送出去
+	}		
+}
+
 void UART1_ISR (void) interrupt 6	
 {
 	if(S1CON & 0x01)
@@ -308,12 +337,13 @@ void UartPutStr(char *str)
 void uart_printf(char *fmt,...) 
 {
     va_list ap;
-    char xdata string[128];
+    char xdata string[256];
     va_start(ap,fmt);
     vsprintf(string,fmt,ap);
     UartPutStr(string);
     va_end(ap);
 }
+
 
 /*********************************************************************************************************************/
 #endif

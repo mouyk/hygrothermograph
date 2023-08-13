@@ -73,18 +73,20 @@ typedef struct
 #endif
 #ifdef UART0_EN
 void Uart0_PutChar(unsigned char bdat);
+void Uart0_RevChar(void);
 void Uart0_Initial(unsigned long int baudrate);
 #endif	
 
 #ifdef UART1_EN
 void Uart1_PutChar(unsigned char bdat);
+void Uart1_RevChar(void);
 void Uart1_Initial(unsigned long int baudrate);
 #endif	
 #ifdef UART2_EN
 void Uart2_PutChar(unsigned char bdat);
 void Uart2_Initial(unsigned long int baudrate);
 #endif	
-
+void UartPutStr(char *str);
 #ifdef PRINT_EN
 void uart_printf(char *fmt,...);
 #endif

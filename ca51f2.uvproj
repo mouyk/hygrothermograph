@@ -407,11 +407,6 @@
               <FilePath>.\source\gpio.c</FilePath>
             </File>
             <File>
-              <FileName>gxhtc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\source\gxhtc.c</FilePath>
-            </File>
-            <File>
               <FileName>Disp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\source\Disp.c</FilePath>
@@ -425,6 +420,11 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\source\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>gxhtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\source\gxhtc.c</FilePath>
             </File>
             <File>
               <FileName>rtc.c</FileName>

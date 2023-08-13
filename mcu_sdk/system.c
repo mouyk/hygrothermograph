@@ -323,22 +323,22 @@ int data_handle(unsigned short offset)
 		break;
 		
 		case MCU_OTA_VERSION_CMD:{
-//			response_mcu_ota_version_event();				
+			response_mcu_ota_version_event();				
 		}
 		break;
 #ifdef SUPPORT_MCU_OTA		
 		case MCU_OTA_NOTIFY_CMD:{
-//			response_mcu_ota_notify_event(offset);
+			response_mcu_ota_notify_event(offset);
 		}
 		break;
 		
 		case MCU_OTA_DATA_REQUEST_CMD:{
-//			mcu_ota_fw_request_event(offset);
+			mcu_ota_fw_request_event(offset);
         }
 		break;
 		
 		case MCU_OTA_RESULT_CMD:{
-//			mcu_ota_result_event(offset);
+			mcu_ota_result_event(offset);
 		}
 		break;
 #endif
@@ -684,7 +684,7 @@ void mcu_ota_result_report(unsigned char status)
 */
 int strcmp_barry(unsigned char *str1,unsigned char *str2,unsigned char len)
 {
-	unsigned char i = 0;
+	unsigned char i;
    for(i = 0; i < len; i++){
 		if(str1[i] < str2[i]){
 			return -1; //str1 < str2

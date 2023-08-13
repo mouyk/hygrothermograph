@@ -34,15 +34,15 @@ typedef unsigned long     uint32_t;
 #define LVD_RST_ENABLE
 
 /*************************UART功能开关宏定义********************************************************************/
-//#define UART0_EN			//如果使用UART0，打开此宏定义
-#define UART1_EN			//如果使用UART1，打开此宏定义
+#define UART0_EN			//如果使用UART0，打开此宏定义
+//#define UART1_EN			//如果使用UART1，打开此宏定义
 //#define UART2_EN			//如果使用UART2，打开此宏定义
 
 #define PRINT_EN				//使用uart_printf函数打印使能
 
 #ifdef PRINT_EN
-//	#define UART0_PRINT		//如果使用UART0打印，打开此宏定义
- 	#define UART1_PRINT		//如果使用UART1打印，打开此宏定义
+	#define UART0_PRINT		//如果使用UART0打印，打开此宏定义
+// 	#define UART1_PRINT		//如果使用UART1打印，打开此宏定义
 // 	#define UART2_PRINT		//如果使用UART1打印，打开此宏定义
 
 	#ifdef UART0_PRINT
@@ -54,10 +54,10 @@ typedef unsigned long     uint32_t;
 	#endif
 #endif
 #ifdef UART0_EN
-	#define UART0_BAUTRATE		115200
+	#define UART0_BAUTRATE		9600
 #endif
 #ifdef UART1_EN
-	#define UART1_BAUTRATE		115200
+	#define UART1_BAUTRATE		9600
 #endif
 #ifdef UART2_EN
 	#define UART2_BAUTRATE		115200

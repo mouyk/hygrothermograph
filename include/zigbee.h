@@ -18,7 +18,7 @@
 #include "protocol.h"
 #include "system.h"
 #include "mcu_api.h"
-//#include "include/uart.h"
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -61,16 +61,16 @@ extern "C"
 
 ///< dp type
 #define         DP_TYPE_RAW                     0x00				 //RAW
-#define         DP_TYPE_BOOL                    0x01	       		 //bool
-#define         DP_TYPE_VALUE                   0x02	             //value
-#define         DP_TYPE_STRING                  0x03				 //string
-#define         DP_TYPE_ENUM                    0x04				 //enum 
-#define         DP_TYPE_BITMAP                  0x05				 //fault
+#define         DP_TYPE_BOOL                    0x01	       //bool
+#define         DP_TYPE_VALUE                   0x02	       //value
+#define         DP_TYPE_STRING                  0x03				//string
+#define         DP_TYPE_ENUM                    0x04				//enum 
+#define         DP_TYPE_BITMAP                  0x05				//fault
 #define         DP_TYPE_FAULT                   DP_TYPE_BITMAP    
 //< work mode 
-#define         NORMAL_MODE             0x00                         //normal mode
-#define         FACTORY_MODE            0x01                         //factory mode 
-#define         UPDATE_MODE             0X02                         //updata mode  
+#define         NORMAL_MODE             0x00                      //normal mode
+#define         FACTORY_MODE            0x01                     //factory mode 
+#define         UPDATE_MODE             0X02                    //updata mode  
 
 
 #define         ZG_NO_NWK               0x00                                    

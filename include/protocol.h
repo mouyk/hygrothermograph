@@ -19,7 +19,7 @@ extern "C"
 
 ///< product INFORMATION
 
-#define PRODUCT_KEY "tfvi3fwb"    //开发平台创建产品后生成的16位字符产品唯一标识
+#define PRODUCT_KEY "cztzezpg"    //开发平台创建产品后生成的16位字符产品唯一标识
 
 
 ///< mcu version 
@@ -77,28 +77,59 @@ typedef enum
  * DP data list,this code will be generate by cloud platforms
  */
 
-//温度(只上报)
+//当前温度(只上报)
 //备注:
 #define DPID_TEMP_CURRENT 1
-
-//湿度(只上报)
+//湿度数值(只上报)
 //备注:
 #define DPID_HUMIDITY_VALUE 2
-
-//电池电量(只上报)
+//电池电量状态(只上报)
 //备注:
 #define DPID_BATTERY_STATE 3
-
-//电池电量状态(只上报)
+//电池电量(只上报)
+//备注:
 #define DPID_BATTERY_PERCENTAGE 4
-
 //充电状态(只上报)
 //备注:
 #define DPID_CHARGE_STATE 8
-
-//温标切换(双向)
+//温标切换(可下发可上报)
 //备注:
-#define DPID_TEMP_UNIT_CONVERT 9 temp_unit_convert
+#define DPID_TEMP_UNIT_CONVERT 9
+//闹钟设置(可下发可上报)
+//备注:闹钟信息：名称：
+//闹钟设置：组+开/关+周一-周天+时+分
+#define DPID_CLOCK_SET 14
+//时间制(可下发可上报)
+//备注:
+#define DPID_TIME_MODE 18
+//贪睡次数(可下发可上报)
+//备注:
+#define DPID_SNOOZE_TIMES 23
+//贪睡开关(可下发可上报)
+//备注:
+#define DPID_SNOOZE 24
+//贪睡时间(可下发可上报)
+//备注:
+#define DPID_SNOOZE_TIME 25
+//背光开关(可下发可上报)
+//备注:
+#define DPID_BACKLIGHT_SWITCH 27
+//温度上限设置(可下发可上报)
+//备注:
+#define DPID_MAXTEMP_SET 81
+//温度下限设置(可下发可上报)
+//备注:
+#define DPID_MINITEMP_SET 82
+//湿度上限设置(可下发可上报)
+//备注:
+#define DPID_MAXHUM_SET 83
+//湿度下限设置(可下发可上报)
+//备注:
+#define DPID_MINIHUM_SET 84
+//语言(可下发可上报)
+//备注:
+#define DPID_LANGUAGE 97
+
 
 
 /**
@@ -225,7 +256,7 @@ void mcu_received_beacon_test_handle(void);
 */
 void mcu_check_zigbee_nwk_state(void);
 #endif
-void zigbee_notify_factory_new_hanlde(void);
+
 #ifdef READ_DP_DATA_NOTIFY
 /**
 * @brief when gateway repower or relink clould, or zigbee module join sucess, repower, this commod will notify 

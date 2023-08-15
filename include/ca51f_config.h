@@ -54,10 +54,10 @@ typedef unsigned long     uint32_t;
 	#endif
 #endif
 #ifdef UART0_EN
-	#define UART0_BAUTRATE		9600
+	#define UART0_BAUTRATE		115200
 #endif
 #ifdef UART1_EN
-	#define UART1_BAUTRATE		9600
+	#define UART1_BAUTRATE		115200
 #endif
 #ifdef UART2_EN
 	#define UART2_BAUTRATE		115200

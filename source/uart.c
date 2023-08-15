@@ -104,8 +104,9 @@ void Uart0_RevChar(void)
 		uart0_rev.tail %= UART0_RX_BUF_SIZE;				
 		data_temp=uart0_rx_buf[uart0_rev.tail];			//从uart0_rx_buf取出数据
 		
-//		uart_receive_input(data_temp);
-		Uart0_PutChar(data_temp);						//把接收到的数据发送出去
+		uart_receive_input(data_temp);
+//		Uart0_PutChar(data_temp);						//把接收到的数据发送出去
+		
 	}		
 }
 
@@ -118,6 +119,7 @@ void UART0_ISR (void) interrupt 4
 		uart0_rev.head++;
 		uart0_rev.head %= UART0_RX_BUF_SIZE;
 		uart0_rx_buf[uart0_rev.head]=S0BUF;
+		uart_printf("Alarm event happen!\n");
 	}
 	if(TI0)
 	{	

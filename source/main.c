@@ -81,7 +81,7 @@ zigbee_protocol_init();
 	{
 	  Uart0_RevChar();
 //		Uart1_RevChar();
-//		zigbee_uart_service();
+		zigbee_uart_service();
 //			Uart0_PutChar(0x55);
 //			Uart0_PutChar(0xaa);
 //			Uart0_PutChar(0x00);

@@ -62,20 +62,20 @@ typedef struct
 	extern bit uart2_tx_flag;	
 #endif
 #endif
-#ifndef UART0_EN
-	  #define Uart0_PutChar(n)
-#endif
-#ifndef UART1_EN
-	  #define Uart1_PutChar(n)
-#endif
-#ifndef UART2_EN
-	  #define Uart2_PutChar(n)
-#endif
-#ifdef UART0_EN
+//#ifndef UART0_EN
+//	  #define Uart0_PutChar(n)
+//#endif
+//#ifndef UART1_EN
+//	  #define Uart1_PutChar(n)
+//#endif
+//#ifndef UART2_EN
+//	  #define Uart2_PutChar(n)
+//#endif
+//#ifdef UART0_EN
 void Uart0_PutChar(unsigned char bdat);
-void Uart0_RevChar(void);
+//void Uart0_RevChar(void);
 void Uart0_Initial(unsigned long int baudrate);
-#endif	
+//#endif	
 
 #ifdef UART1_EN
 void Uart1_PutChar(unsigned char bdat);

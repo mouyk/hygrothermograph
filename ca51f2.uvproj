@@ -324,7 +324,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\include;.\source;.\include</IncludePath>
+              <IncludePath>.\include</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>

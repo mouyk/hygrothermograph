@@ -9,9 +9,11 @@
 * http://www.tuya.com
 */
 
-#include "zigbee.h"
-#include "uart.h"
-extern void Uart0_PutChar(unsigned char value);
+#include "include/zigbee.h"
+#include "include/uart.h"
+#include "include/ca51f_config.h"	
+
+//extern void Uart0_PutChar(unsigned char value);
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的zigbee_uart_service()函数
@@ -81,7 +83,7 @@ void uart_transmit_output(unsigned char value)
  // #error "please use your own uart send fuction complete this fuction, exmaple"
 
 //  extern void Uart_PutChar(unsigned char value);
-	Uart0_PutChar(0x32);
+	//Uart0_PutChar(0x32);
    Uart0_PutChar(value);	
 }
 

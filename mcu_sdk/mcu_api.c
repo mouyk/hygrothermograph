@@ -9,8 +9,10 @@
 * http://www.tuya.com
 */
 
-#include "zigbee.h"
-
+#include "include/zigbee.h"
+#include "include/mcu_api.h"
+#include "include/uart.h"
+#include "include/ca51f_config.h"	
 /**
 * @brief hex translate to bcd 
 * @param[in] {Value_H} higher bits data 
@@ -467,7 +469,7 @@ void mcu_network_start(void)
 void uart_receive_input(unsigned char value)
 {
  // #error "please call this fuction in the interrupt fuction of serial receive, and delete this line"
-
+//		uart_printf("A\n");
     if(1 == queue_out - queue_in) {
         //queue full
     }else if((queue_in > queue_out) && ((queue_in - queue_out) >= sizeof(zigbee_queue_buf))) {
@@ -528,6 +530,10 @@ unsigned char with_data_rxbuff(void)
         return 0;
 }
 
+void zigbee_uart_service1(void)
+{
+	 Uart0_PutChar(0x66);
+}
 
 /**
 * @brief uart receive data handle, call this function at mian loop 
@@ -541,9 +547,11 @@ void zigbee_uart_service(void)
     unsigned short offset = 0;
     unsigned short rx_value_len = 0;  
     unsigned short protocol_version = 0, protocol_head_len = PROTOCOL_HEAD;
-
+    //Uart0_PutChar(0x11);
     while((rx_in < sizeof(zigbee_uart_rx_buf)) && (with_data_rxbuff() > 0)){
         zigbee_uart_rx_buf[rx_in++] = Queue_Read_Byte();
+			 // Uart0_PutChar(0x22);
+			
     }
 
     if(rx_in < PROTOCOL_HEAD){

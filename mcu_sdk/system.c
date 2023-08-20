@@ -14,7 +14,8 @@
 
 #define SYSTEM_GLOBAL
 
-#include "zigbee.h"
+#include "include/zigbee.h"
+#include "include/ca51f_config.h"	
 
 
 extern const DOWNLOAD_CMD_S download_cmd[];

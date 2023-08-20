@@ -15,9 +15,9 @@
 
 //#error "when other fils which have used the .c files in this SDK should include zigbee.h, and delete this line"
 
-#include "protocol.h"
-#include "system.h"
-#include "mcu_api.h"
+#include "include/protocol.h"
+#include "include/system.h"
+#include "include/mcu_api.h"
 
 #ifdef __cplusplus
 extern "C"

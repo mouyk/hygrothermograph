@@ -10,7 +10,7 @@
 * http://www.tuya.com
 */
 
-#include "protocol.h"
+#include "include/protocol.h"
 
 #ifndef __SYSTEM_H_
 #define __SYSTEM_H_

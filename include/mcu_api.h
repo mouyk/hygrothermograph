@@ -120,6 +120,7 @@ unsigned char mcu_dp_bitmap_update(unsigned char dpid,unsigned long value);
 * @return send result 
 */
 unsigned char mcu_dp_fault_update(unsigned char dpid,unsigned long value);
+void zigbee_uart_service1(void);
 
 /**
 * @brief report raw type DP data to zigbee module 
@@ -185,7 +186,7 @@ void mcu_reset_zigbee(void);
 */
 void mcu_network_start(void);
 
-
+void uart_receive_input(unsigned char value);
 /**
 * @brief mcu start zigbee module test 
 * @param[in]  {channel} test channel usually 11

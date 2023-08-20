@@ -18,7 +18,8 @@
 #include "include/time.h"
 #include <intrins.h>
 #include "include/adc.h"
-#include "mcu_sdk/zigbee.h"
+#include "include/zigbee.h"
+#include "include/mcu_api.h"
 #include "include/buzzer.h"
 #include "include/disp.h"
 /*********************************************************************************************************************			
@@ -79,9 +80,22 @@ zigbee_protocol_init();
 //mcu_exit_zigbee();
 	while(1)
 	{
-	  Uart0_RevChar();
-//		Uart1_RevChar();
+		//Uart0_PutChar(0x39);
+	    //Uart0_RevChar();
+      //Uart0_RevChar();
+//			if(P40 == 0)
+//			{
+//				P05 = 1;	
+//			}
+//			else
+//			{
+				P05 = 0;
+		
+//			}
+		//zigbee_uart_service1();
+		//Uart0_PutChar(0x39);
 		zigbee_uart_service();
+		//Uart0_PutChar(0x89);
 //			Uart0_PutChar(0x55);
 //			Uart0_PutChar(0xaa);
 //			Uart0_PutChar(0x00);

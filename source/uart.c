@@ -7,6 +7,7 @@
 #include "include/system_clock.h"
 
 #include "include/uart.h"
+#include "include/mcu_api.h"
 #include <intrins.h>
 #include <string.h>
 #include <stdarg.h>
@@ -95,31 +96,35 @@ void Uart0_PutChar(unsigned char bdat)
 	}
 }
 
-void Uart0_RevChar(void)
-{
-	unsigned char data_temp;
-	if(uart0_rev.tail != uart0_rev.head)				//表示有数据待取
-	{
-		uart0_rev.tail++;
-		uart0_rev.tail %= UART0_RX_BUF_SIZE;				
-		data_temp=uart0_rx_buf[uart0_rev.tail];			//从uart0_rx_buf取出数据
-		
-		uart_receive_input(data_temp);
-//		Uart0_PutChar(data_temp);						//把接收到的数据发送出去
-		
-	}		
-}
+//void Uart0_RevChar(void)
+//{
+//	unsigned char data_temp;
+//	if(uart0_rev.tail != uart0_rev.head)				//表示有数据待取
+//	{
+//		uart0_rev.tail++;
+//		uart0_rev.tail %= UART0_RX_BUF_SIZE;				
+//		data_temp=uart0_rx_buf[uart0_rev.tail];			//从uart0_rx_buf取出数据
+//		uart_receive_input(data_temp);
+////		Uart0_PutChar(data_temp);						      //把接收到的数据发送出去
+////		Uart0_PutChar(0x32);	
+//		
+//	}		
+//}
 
 
 void UART0_ISR (void) interrupt 4
 {	
+	unsigned char data_temp;
 	if(RI0)
 	{
 		RI0 = 0;
-		uart0_rev.head++;
-		uart0_rev.head %= UART0_RX_BUF_SIZE;
-		uart0_rx_buf[uart0_rev.head]=S0BUF;
-		uart_printf("Alarm event happen!\n");
+//		uart0_rev.head++;
+//		uart0_rev.head %= UART0_RX_BUF_SIZE;
+//		uart0_rx_buf[uart0_rev.head]=S0BUF;
+    data_temp=S0BUF;
+	  uart_receive_input(data_temp);
+		
+//		uart_printf("Alarm event happen!\n");
 	}
 	if(TI0)
 	{	

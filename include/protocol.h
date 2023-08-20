@@ -43,7 +43,7 @@ typedef enum
  * 
  */
  
-//#define    SUPPORT_MCU_RTC_CHECK             //start time calibration
+#define    SUPPORT_MCU_RTC_CHECK             //start time calibration
 
 /**
  * if mcu need to support OTA, this macro definition should be opened

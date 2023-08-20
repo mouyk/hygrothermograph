@@ -15,9 +15,9 @@
 #include <intrins.h>
 /*********************************************************************************************************************/
 
-_calendar_obj calendar;
+_rtccalendar_obj calendar;
 
-_calendar_obj RTC_Array;
+_rtccalendar_obj RTC_Array;
 
 Alarm_struct AlarmTimes;
 uint8_t RTC_num = 0;														//0：时   1：分    2：年   3：月    4：日    5：闹钟
@@ -242,7 +242,7 @@ uint8_t IS_Leap_Year( uint16_t year )
 //月份数据表
 uint8_t const table_week[12] = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5}; //月修正数据表
 //平年的月份日期表
-uint8_t const  mon_table[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+uint8_t const  mon_table1[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec )
 {
 
@@ -265,7 +265,7 @@ uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8
     smon -= 1;
     for( t = 0; t < smon; t++ )								//把前面月份的天数相加
     {
-        sdaycount += ( uint16_t )mon_table[t];
+        sdaycount += ( uint16_t )mon_table1[t];
         if( IS_Leap_Year( syear ) && t == 1 )				//闰年2月份增加一天的秒钟数
         sdaycount += 1;
     }
@@ -337,7 +337,7 @@ uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8
 //}
 //得到当前的时间
 //返回值:0,成功;其他:错误代码.
-uint8_t RTC_Get( void )
+uint8_t RTC_Get1( void )
 {
     static uint16_t daycnt = 0;
     uint16_t timecount = 0;
@@ -384,8 +384,8 @@ uint8_t RTC_Get( void )
             }
             else
             {
-                if( temp >= mon_table[temp1] )
-                    temp -= mon_table[temp1];
+                if( temp >= mon_table1[temp1] )
+                    temp -= mon_table1[temp1];
                 else
                     break;
             }

@@ -530,10 +530,10 @@ unsigned char with_data_rxbuff(void)
         return 0;
 }
 
-void zigbee_uart_service1(void)
-{
-	 Uart0_PutChar(0x66);
-}
+//void zigbee_uart_service1(void)
+//{
+//	 Uart0_PutChar(0x66);
+//}
 
 /**
 * @brief uart receive data handle, call this function at mian loop 
@@ -542,7 +542,7 @@ void zigbee_uart_service1(void)
 */
 void zigbee_uart_service(void)
 {
-   // #error "please call this fucntion in main while(1){}, and delete this line" 
+    //#error "please call this fucntion in main while(1){}, and delete this line" 
     static unsigned short rx_in = 0;
     unsigned short offset = 0;
     unsigned short rx_value_len = 0;  
@@ -550,7 +550,7 @@ void zigbee_uart_service(void)
     //Uart0_PutChar(0x11);
     while((rx_in < sizeof(zigbee_uart_rx_buf)) && (with_data_rxbuff() > 0)){
         zigbee_uart_rx_buf[rx_in++] = Queue_Read_Byte();
-			 // Uart0_PutChar(0x22);
+	  // Uart0_PutChar(0x22);
 			
     }
 

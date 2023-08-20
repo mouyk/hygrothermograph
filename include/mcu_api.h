@@ -120,7 +120,7 @@ unsigned char mcu_dp_bitmap_update(unsigned char dpid,unsigned long value);
 * @return send result 
 */
 unsigned char mcu_dp_fault_update(unsigned char dpid,unsigned long value);
-void zigbee_uart_service1(void);
+//void zigbee_uart_service1(void);
 
 /**
 * @brief report raw type DP data to zigbee module 

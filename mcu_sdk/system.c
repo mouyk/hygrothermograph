@@ -16,6 +16,7 @@
 
 #include "include/zigbee.h"
 #include "include/ca51f_config.h"	
+#include "include/uart.h"
 
 
 extern const DOWNLOAD_CMD_S download_cmd[];

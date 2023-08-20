@@ -1,3 +1,4 @@
+
 #ifndef RTC_H
 #define RTC_H
 //RTCON定义
@@ -33,7 +34,7 @@ typedef struct
     uint8_t w_date;
     uint8_t week;
 
-} _calendar_obj;
+} _rtccalendar_obj;
 
 //结构体
 typedef struct{
@@ -58,8 +59,8 @@ typedef struct{
     time_struct Alarm_Array[3]; 					//当下3个闹钟的数组 
 }Alarm_struct;
 
-extern 	_calendar_obj calendar;
-extern 	_calendar_obj RTC_Array;
+extern 	_rtccalendar_obj calendar;
+extern 	_rtccalendar_obj RTC_Array;
 extern bit times10Flag;
 extern bit HalfSecFlag;
 extern bit AlarmEvFlag;
@@ -76,7 +77,7 @@ void RTC_Alarm_init(uint8_t flag,uint8_t hour,uint8_t min,uint8_t sec);
 uint8_t RTC_Daysmonth(uint16_t year, uint8_t month);
 uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
 //uint8_t RTC_Alarm_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8_t min, uint8_t sec );
-uint8_t RTC_Get(void);
+uint8_t RTC_Get1(void);
 uint8_t RTC_Set_Week( uint16_t year, uint8_t month, uint8_t day );
 void RTC_AlarmHandle(uint8_t num);
 void RTC_AlarmTimes(uint8_t num);

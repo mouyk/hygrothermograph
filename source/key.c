@@ -12,6 +12,7 @@
 #include "include/pwm.h"
 #include "include/buzzer.h"
 #include "include/uart.h"
+#include "include/mcu_api.h"
 #include <intrins.h>
 
 bit FahrenFlag = 0;        //华氏度标志
@@ -401,7 +402,19 @@ void Key_HandleFunction(void)
 		Key2.KeyFlag = 0;
 		Key3.KeyFlag = 0;
 		ZigbeeFlag = 1;
-		
+//		Uart0_PutChar(0x55);
+//		Uart0_PutChar(0xAA);
+//		Uart0_PutChar(0x02);
+//		Uart0_PutChar(0x00);
+//		Uart0_PutChar(0x04);	
+//		Uart0_PutChar(0x03);
+//		Uart0_PutChar(0x00);	
+//		Uart0_PutChar(0x01);
+//		Uart0_PutChar(0x01);	
+//		Uart0_PutChar(0x0A);
+		//mcu_get_zigbee_state();
+		mcu_network_start();
+	  //zigbee_work_state_event();
 	}
 	else if((((Key3.LongKey ==1)&&(Key4.LongKey == 1))||((Key3.LongKey ==1)&&(Key4.times > Shortnum))||((Key4.LongKey ==1)&&(Key3.times > Shortnum)))&&(Interface == 2)) //
 	{

@@ -30,16 +30,19 @@ typedef struct{
 }timer_struct;
 
 #define INT_TIME			10000			//定时时间，单位为us
-
-#define	TH_VAL				(unsigned char)((0x10000 - (INT_TIME*(FOSC/1000))/1000)>>8)
-#define	TL_VAL				(unsigned char)(0x10000 - (INT_TIME*(FOSC/1000))/1000)
+/*****************************************************************time1***************************************/
+#define	TH_VAL				(unsigned char)((0x2000 - (INT_TIME*(FOSC/1000))/12000)>>5)
+#define	TL_VAL				(unsigned char)(0x2000 - (INT_TIME*(FOSC/1000))/12000)&0x1F
+/******************************************************time2*************************************************/
+//#define	TH_VAL				(unsigned char)((0x10000 - (INT_TIME*(FOSC/1000))/1000)>>8)
+//#define	TL_VAL				(unsigned char)(0x10000 - (INT_TIME*(FOSC/1000))/1000)
 /*********************************************************************************************************************/
 
 extern bit times100Flag,times250Flag,times1000Flag;
 extern timer_struct Timer_Array;
 extern uint8_t Timer_num;
 extern bit Time_start;
-
+void TIME1_init(void);
 void TIME2_init(void);
 bit Counting_Function(bit flag);
 #endif

@@ -3,10 +3,10 @@
         {
             "name": "CA51F",
             "includePath": [
-                "e:\\项目\\温湿度计\\LCD_Power_Saving_Mode20230723\\include",
-                "e:\\项目\\温湿度计\\LCD_Power_Saving_Mode20230723\\source",
-                "e:\\项目\\温湿度计\\LCD_Power_Saving_Mode20230723\\lib",
-                "e:\\项目\\温湿度计\\LCD_Power_Saving_Mode20230723\\mcu_sdk"
+                "e:\\Project\\Humiture\\LCD_Power_Saving_Mode20230806\\include",
+                "e:\\Project\\Humiture\\LCD_Power_Saving_Mode20230806\\source",
+                "e:\\Project\\Humiture\\LCD_Power_Saving_Mode20230806\\lib",
+                "e:\\Project\\Humiture\\LCD_Power_Saving_Mode20230806\\mcu_sdk"
             ],
             "defines": [
                 "__C51__",

@@ -76,22 +76,14 @@ TIME1_init();
 RTC_Set(2023,10,14,6,59,41);
 RTC_Alarm_init(0,0,0,0);
 Lcd_init();
-zigbee_protocol_init();
+//zigbee_protocol_init();
 
 //mcu_exit_zigbee();
 	while(1)
 	{
-//			if(P40 == 0)
-//			{
-//				P05 = 1;	
-//			}
-//			else
-//			{
-				P05 = 0;
+		P05 = 0;
 		
-//			}
-
-		zigbee_uart_service();
+//		zigbee_uart_service();
 		if(times10Flag ==1)
 		{
 			times10Flag = 0;
@@ -149,23 +141,16 @@ zigbee_protocol_init();
 			HalfSecFlag = 0;
 			RTC_Get1();		
 			get_gxth30();
+			Socnum = ClockSoc_Compute(VDD_Voltage);	
 			Lcd_Humiture();
-			
-//			mcu_join_zigbee();
+//			uart_printf("Current Voltage %f\n",VDD_Voltage);
+
 //			Uart0_PutChar(0x31);
 //			uart_printf("Alarm event happen = %d\n",123456789);	
 //				uart_printf("LCD Power Saving Mode Demo Code\n");
 //	#endif		
 
 		}	
-////		if(AlarmEvFlag)	//闹钟中断产生时打印
-////		{
-////			AlarmEvFlag = 0;
-////			RTC_AlarmCompare(Alarm1+Alarm2+Alarm3);
-////	#ifdef PRINT_EN
-////			uart_printf("Alarm event happen!\n");	
-////	#endif		
-////		}		
 	}
 }
 #endif

@@ -14,11 +14,12 @@
 #include "include/gpio.h"
 #include "include/adc.h"
 #include <intrins.h>
-/*********************************************************************************************************************			
-
-
-
-*********************************************************************************************************************/	
+/*********************************************************************************************************************/			
+float  Voltage_Full = 4.20;
+float  Voltage_Zero = 3.60;
+uint8_t Socnum = 0;
+uint8_t Charge_State = 0;
+/*********************************************************************************************************************/	
 double VDD_Voltage;
 /*****************************************************************************
  ** \brief	 ADC_init	
@@ -46,6 +47,22 @@ void ADC_init(void)
 	VDD_Voltage = ((double)AD_Value*1.5*4)/4095;	//根据ADC值换算为电压值，注意：由于ADC检测的是1/4VDD，所以换算为VDD电压时ADC值要乘以4
 }
 
-
+uint8_t ClockSoc_Compute(double Voltage)
+{
+	uint8_t SocOut = 0;
+	if(Voltage >= Voltage_Full)
+	{
+		SocOut = 100;
+	}
+	else if(Voltage <= Voltage_Zero)
+	{
+		SocOut = 0;
+	}
+	else
+	{
+		SocOut = (((Voltage - Voltage_Zero)*1000)/((Voltage_Full -Voltage_Zero)*1000))*100;
+	}
+	return SocOut;
+}
 #endif
 #endif

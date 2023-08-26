@@ -40,10 +40,11 @@ enum
 	ADC_CH7  	= 8,
 	ADC_VDD  	= 9,
 };
-
+extern uint8_t Socnum;
+extern uint8_t Charge_State;
 extern double VDD_Voltage;
 
 void ADC_init(void);
-
+uint8_t ClockSoc_Compute(double Voltage);
 
 #endif

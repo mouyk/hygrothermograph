@@ -14,6 +14,7 @@
 #include "include/gxhtc.h"
 #include "include/rtc.h"
 #include "include/key.h"
+#include "include/adc.h"
 #include "include/protocol.h"
 #include "include/ca51f_config.h"	
 #include "include/ca51f2sfr.h"
@@ -126,8 +127,8 @@ void all_data_update(void)
      mcu_dp_value_update(DPID_TEMP_CURRENT,GXHTC3_temp*10); //VALUE型数据上报;
      mcu_dp_value_update(DPID_HUMIDITY_VALUE,GXHTC3_humi); //VALUE型数据上报;
 //    mcu_dp_enum_update(DPID_BATTERY_STATE,当前电池电量状态); //枚举型数据上报;
-//    mcu_dp_value_update(DPID_BATTERY_PERCENTAGE,当前电池电量); //VALUE型数据上报;
-//    mcu_dp_bool_update(DPID_CHARGE_STATE,当前充电状态); //BOOL型数据上报;
+    mcu_dp_value_update(DPID_BATTERY_PERCENTAGE,Socnum); //VALUE型数据上报;
+    mcu_dp_bool_update(DPID_CHARGE_STATE,Charge_State); //BOOL型数据上报;
     mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,FahrenFlag); //枚举型数据上报;
 //    mcu_dp_raw_update(DPID_CLOCK_SET,当前闹钟设置指针,当前闹钟设置数据长度); //RAW型数据上报;
     mcu_dp_enum_update(DPID_TIME_MODE,HourFlag); //枚举型数据上报;

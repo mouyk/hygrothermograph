@@ -13,6 +13,7 @@
 #include "include/gxhtc.h"
 #include "include/disp.h"
 #include "include/key.h"
+#include "include/adc.h"
 #include "include/time.h"
 #include "include/rtc.h"
 #include <intrins.h>
@@ -240,7 +241,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 {
 	static bit first = 0;
 	uint8_t i =0;
-	lcd_ram[32] = SOC3;
+	Lcd_BatDisplay();
 	if(FahrenFlag == 0)
 	{
 		lcd_ram[30] = C_Tmp;
@@ -858,6 +859,43 @@ void Lcd_Backlight(void)
 	else
 	{
 		time_num = 0;
+	}
+}
+void Lcd_BatDisplay(void)
+{
+	if((P46 == 0)&&(P47 == 0))
+	{
+		Charge_State = 1;
+		Lcd_BatCharge();
+	}
+	else
+	{
+		Charge_State = 0;
+	}
+}
+void Lcd_BatCharge(void)
+{
+	static uint8_t ChargeNum = 0;
+	ChargeNum++;
+	if(ChargeNum <= 2)
+	{
+		lcd_ram[32] = SOC0;
+	}
+	else if(ChargeNum <= 4)
+	{
+		lcd_ram[32] = SOC1;
+	}
+	else if(ChargeNum <= 6)
+	{
+		lcd_ram[32] = SOC2;
+	}
+	else if(ChargeNum <= 8)
+	{
+		lcd_ram[32] = SOC3;
+	}
+	else
+	{
+		ChargeNum = 0;
 	}
 }
 #endif

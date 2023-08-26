@@ -348,9 +348,10 @@ void Lcd_WeekDisplay(uint8_t num)
 输入参数： 		flag：2~4：表示年月日闪烁位置，year：年份，month：月份，day：日
 返回值：		无
 ***********************************************************************************/
+uint8_t week = 0;
 void Lcd_DateFunction(uint8_t flag, uint8_t lock, uint16_t year, uint8_t month,uint8_t day)
 {
-	uint8_t week = 0;
+	
 	static uint8_t date = 0;
 	if((flag == 2)&&(lock == 0))
 	{

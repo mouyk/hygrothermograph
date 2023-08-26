@@ -17,7 +17,7 @@
 #include "include/zigbee.h"
 #include "include/ca51f_config.h"	
 #include "include/uart.h"
-
+#include "include/rtc.h"
 
 extern const DOWNLOAD_CMD_S download_cmd[];
 
@@ -467,12 +467,12 @@ static unsigned char Is_Leap_Year(unsigned int pyear)
 * @param[out] {calendar} output calendar 
 * @return  result of changing
 */
-static unsigned char RTC_Get(unsigned int secCount,_calendar_obj *calendar)
+static unsigned char RTC_Get(unsigned long secCount,_calendar_obj *calendar1)
 {
 	static unsigned int dayCount=0;
 	unsigned int tmp=0;	
-	unsigned int tmp1=0;	
-
+	unsigned int tmp1=0;
+	
 	tmp=secCount/86400;
 
 	if(dayCount!=tmp){
@@ -491,11 +491,11 @@ static unsigned char RTC_Get(unsigned int secCount,_calendar_obj *calendar)
 				tmp-=365;
 			tmp1++;	
 		}
-		calendar->w_year=tmp1;
+		calendar1->w_year=tmp1;
 		tmp1=0;
 		
 		while(tmp>=28){
-			if(Is_Leap_Year(calendar->w_year)&&tmp1==1){
+			if(Is_Leap_Year(calendar1->w_year)&&tmp1==1){
 				if(tmp>=29)	
 					tmp-=29;	
 				else
@@ -509,15 +509,14 @@ static unsigned char RTC_Get(unsigned int secCount,_calendar_obj *calendar)
 			}
 			tmp1++;
 		}
-		calendar->w_month=tmp1+1;	
-		calendar->w_date=tmp+1;
+		calendar1->w_month=tmp1+1;	
+		calendar1->w_date=tmp+1;
 	}
 
 	tmp=secCount%86400;
-	calendar->hour=tmp/3600;
-	calendar->min=(tmp%3600)/60;
-	calendar->sec=(tmp%3600)%60;
-
+	calendar1->hour=tmp/3600;
+	calendar1->min=(tmp%3600)/60;
+	calendar1->sec=(tmp%3600)%60;
 	return 0;
 }
 
@@ -528,8 +527,12 @@ static unsigned char RTC_Get(unsigned int secCount,_calendar_obj *calendar)
 */
 void zigbee_timestamp_to_time(void)	
 {
-	unsigned int time_stamp = byte_to_int(timestamp);
+	unsigned long time_stamp,time_stamp1;
+		time_stamp = byte_to_int(timestamp);
 	RTC_Get(time_stamp,&_time);	
+	time_stamp1 = makeTimestamp(480,calendar.w_year,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec);
+	if(time_stamp - time_stamp1 >= 900)
+	RTC_Set(_time.w_year,_time.w_month,_time.w_date,_time.hour+8,_time.min,_time.sec);
 }
 #endif
 

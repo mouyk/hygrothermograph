@@ -84,5 +84,5 @@ void RTC_AlarmTimes(uint8_t num);
 void RTC_AlarmCompare(uint8_t num);
 void sort(uint16_t *a,uint8_t len);
 void RTC_BuzzerControl(void);
-
+unsigned long makeTimestamp(int min,uint16_t syear, uint8_t smon, uint8_t sday, uint8_t shour, uint8_t smin, uint8_t ssec);
 #endif

@@ -254,7 +254,8 @@ uint8_t RTC_Set( uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, uint8
 
 	
     if( syear < 1970 || syear > 2099 )
-        return 1;
+			return 1;
+//        return 1;
     for( t = 1970; t < syear; t++ )							//所有年份的秒钟相加
     {
         if( IS_Leap_Year( t ) )
@@ -627,6 +628,61 @@ void RTC_BuzzerControl(void)
 		Buzzer = 0;
 	}
 }
+/*
+* min：时区偏移分钟数，比如+8时区，则min=60*8=480，+9:30时区，则min=9*60+30=570
+* buffer：存放年月日时分秒的数组，比如buf[]={2038,5,5,12,30,30};
+* return : 返回计算得到的时间戳
+*/
+unsigned long makeTimestamp(int min,uint16_t syear, uint8_t smon, uint8_t sday, uint8_t shour, uint8_t smin, uint8_t ssec) 
+{
+    unsigned long ts;
+    char leapYear = 0;
+    int i = 0;
+	int days = 0;
+
+    //确定当前年是否闰年
+    if(((syear % 4 == 0) && (syear % 100 != 0))
+		|| (syear % 400 == 0)){
+		leapYear = 1;
+	}
+	//年份对应1970-1-1偏移的天数
+    for(i = 1970; i < syear; i++){
+		if(((i % 4 == 0) && (i % 100 != 0)) || (i % 400 == 0)){
+			days += 366;
+		}else{
+			days += 365;
+		}
+	}
+
+    ts =  days * 86400L;
+    
+    //处理当前月之前月份天数的秒数
+    for(i=0;i<smon-1;i++){
+        if(i==1 && leapYear){
+            ts += (mon_table1[i] + 1) * 86400L;
+        }else{
+            ts += mon_table1[i] * 86400L;
+        }
+    }
+    
+    //处理当前日期之前的天数的秒数
+    ts += 86400L * (sday - 1);
+    
+    //处理当前天小时的秒数
+    ts += 3600L * (shour);
+    
+    //处理当前天分钟的秒数
+    ts += 60L * (smin);
+    
+    //加上当前天的秒数
+    ts += ssec;
+    
+    //减去时区差
+    ts -= (min * 60);
+    
+    return ts;
+}
+
 /*********************************************************************************************************************/
 #endif
 #endif

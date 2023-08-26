@@ -8,18 +8,19 @@
 * @par company
 * http://www.tuya.com
 */
-
+#include <intrins.h>
 #include "include/zigbee.h"
 #include "include/uart.h"
 #include "include/gxhtc.h"
 #include "include/rtc.h"
 #include "include/key.h"
+#include "include/protocol.h"
 #include "include/ca51f_config.h"	
 #include "include/ca51f2sfr.h"
-#include <intrins.h>
 
 
-//extern void Uart0_PutChar(unsigned char value);
+extern void Uart0_PutChar(unsigned char value);
+extern void uart_printf(char *fmt,...);
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的zigbee_uart_service()函数
@@ -520,14 +521,6 @@ void mcu_write_rtctime(unsigned char time[])
  */
 	my_memcpy((void *)timestamp,(const char *)time,4);	//get timestamp
 	zigbee_timestamp_to_time();	
-
-//	calendar.w_year = _time.w_year;	//year
-//	calendar.w_month = _time.w_month;	//month
-//	calendar.w_date = _time.w_date;	//date
-//	calendar.hour = _time.hour + 8;	//hour(8:BeiJing time)
-//	calendar.min = _time.min;	//minute
-//	calendar.sec = _time.sec;	//second
-//	RTC_Set(calendar.w_year,calendar.w_month,calendar.w_date,calendar.hour,calendar.min,calendar.sec);
 }
 #endif
 

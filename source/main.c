@@ -73,7 +73,7 @@ RTC_init();
 ADC_init();
 TIME1_init();
 //TIME2_init();
-RTC_Set(2023,10,11,23,59,41);
+RTC_Set(2023,10,14,6,59,41);
 RTC_Alarm_init(0,0,0,0);
 Lcd_init();
 zigbee_protocol_init();
@@ -112,6 +112,7 @@ zigbee_protocol_init();
 				Key4.KeyFlag = 0;
 				Key2.KeyFlag = 0;
 			}
+			Lcd_WeekDisplay(week);
 			for(i = 0; i < 34; i++)
 			{
 				INDEX = i;
@@ -146,7 +147,7 @@ zigbee_protocol_init();
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
-			RTC_Get1();	
+			RTC_Get1();		
 			get_gxth30();
 			Lcd_Humiture();
 			

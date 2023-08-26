@@ -130,9 +130,9 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,FahrenFlag); //枚举型数据上报;
 //    mcu_dp_raw_update(DPID_CLOCK_SET,当前闹钟设置指针,当前闹钟设置数据长度); //RAW型数据上报;
     mcu_dp_enum_update(DPID_TIME_MODE,HourFlag); //枚举型数据上报;
-//    mcu_dp_value_update(DPID_SNOOZE_TIMES,当前贪睡次数); //VALUE型数据上报;
+    mcu_dp_value_update(DPID_SNOOZE_TIMES,SnoozeNum); //VALUE型数据上报;
 //    mcu_dp_bool_update(DPID_SNOOZE,当前贪睡开关); //BOOL型数据上报;
-//    mcu_dp_value_update(DPID_SNOOZE_TIME,当前贪睡时间); //VALUE型数据上报;
+    mcu_dp_value_update(DPID_SNOOZE_TIME,Snoozetime); //VALUE型数据上报;
     mcu_dp_bool_update(DPID_BACKLIGHT_SWITCH,P32); //BOOL型数据上报;
 //    mcu_dp_value_update(DPID_MAXTEMP_SET,当前温度上限设置); //VALUE型数据上报;
 //    mcu_dp_value_update(DPID_MINITEMP_SET,当前温度下限设置); //VALUE型数据上报;
@@ -652,19 +652,20 @@ void zigbee_work_state_event(unsigned char zigbee_work_state)
 
 	switch(zigbee_work_state){
 		case ZIGBEE_NOT_JION:	
-
+				ZigbeeState = zigbee_work_state;
 			break;
 		
 		case ZIGBEE_JOIN_GATEWAY:	
-			
+			mcu_get_system_time();
+			ZigbeeState = zigbee_work_state;
 			break;
 		
 		case ZIGBEE_JOIN_ERROR:	
-
+			ZigbeeState = zigbee_work_state;
 			break;
 		
 		case ZIGBEE_JOINING:	
-
+			ZigbeeState = zigbee_work_state;
 			break;
 		
 		default:

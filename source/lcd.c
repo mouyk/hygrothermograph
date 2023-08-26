@@ -299,7 +299,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 			Lcd_AlarmIcon(0,0);
 		Lcd_DateFunction(flag,lock,calendar.w_year,calendar.w_month,calendar.w_date);
 		Lcd_Colon(1);
-		Lcd_ZigbeeIcon(ZigbeeFlag);
+		Lcd_ZigbeeIconControl(ZigbeeFlag,ZigbeeState);
 	}
 }
 /***********************************************************************************
@@ -721,30 +721,54 @@ void Lcd_MinHanlde(uint8_t min, uint8_t flag)
 /***********************************************************************************
 函数名：		Lcd_ZigbeeIcon
 功能说明： 	LCD中zigbee图标显示控制
-输入参数： 	zigbee：0：不显示，1：显示
+输入参数： 	zigbee：0：不显示，1：显示常亮，2：异常，3：配网中
 返回值：		无
 ***********************************************************************************/
-void Lcd_ZigbeeIcon(uint8_t zigbee)
+void Lcd_ZigbeeIconControl(uint8_t zigbee,uint8_t state)
 {
-	static uint8_t a = 0,b = 0;
-
+	static uint8_t a = 0;
 	if(zigbee == 1)
 	{
-		b++;
-		if(a == 0)
+		a++;
+		Lcd_ZigbeeIconFlicker(2);
+		if(a >= 8)
 		{
-			a = 1;
+			a = 0;
+			ZigbeeFlag = 0;
+		}
+	}
+	else
+	{
+		if(state == 1)
+		{
 			lcd_ram[2] |= LoGo_Zigbee;												//Zigbee显示
+		}
+		else if(state == 2)
+		{
+			Lcd_ZigbeeIconFlicker(1);
+		}
+		else if(state == 3)
+		{
+			Lcd_ZigbeeIconFlicker(2);
 		}
 		else
 		{
-			a = 0;
+			
 		}
 	}
-	if(b >= 8)
+}
+
+void Lcd_ZigbeeIconFlicker(uint8_t Num)
+{
+	static uint8_t IconNum = 0;
+	IconNum++;
+	if((IconNum <= Num))
 	{
-		b = 0;
-		ZigbeeFlag = 0;
+		lcd_ram[2] |= LoGo_Zigbee;												//Zigbee显示
+	}
+	else if(IconNum >= Num*2)
+	{
+		IconNum = 0;
 	}
 }
 /***********************************************************************************

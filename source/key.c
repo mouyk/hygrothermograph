@@ -18,6 +18,7 @@
 bit FahrenFlag = 0;        //华氏度标志
 bit HourFlag = 0;          //小时制标志 0：24hour    1：12hour
 uint8_t Interface = 0;         //界面
+uint8_t SnoozeNum = 3,Snoozetime = 5;
 Key Key1,Key2,Key3,Key4;
 xdata Key Key1=/*!< Key1默认设备参数*/
 { 
@@ -340,6 +341,7 @@ void Key_Scanf(void)
 返回值：		无
 ***********************************************************************************/
 bit ZigbeeFlag = 0,DelAlarmFlag = 0;
+uint8_t ZigbeeState = 0;
 void Key_HandleFunction(void)
 {
 	uint8_t i = 0;
@@ -402,16 +404,6 @@ void Key_HandleFunction(void)
 		Key2.KeyFlag = 0;
 		Key3.KeyFlag = 0;
 		ZigbeeFlag = 1;
-//		Uart0_PutChar(0x55);
-//		Uart0_PutChar(0xAA);
-//		Uart0_PutChar(0x02);
-//		Uart0_PutChar(0x00);
-//		Uart0_PutChar(0x04);	
-//		Uart0_PutChar(0x03);
-//		Uart0_PutChar(0x00);	
-//		Uart0_PutChar(0x01);
-//		Uart0_PutChar(0x01);	
-//		Uart0_PutChar(0x0A);
 		//mcu_get_zigbee_state();
 		mcu_network_start();
 	  //zigbee_work_state_event();
@@ -466,14 +458,14 @@ void Key_HandleFunction(void)
 			BeepStart = 0;
 			PWMEN  = ~(1<<PWM_CH6);		//PWM6禁用
 			AlarmTimes.sleepnum++;
-			if(AlarmTimes.sleepnum > 3)
+			if(AlarmTimes.sleepnum > SnoozeNum)
 			{
 				AlarmTimes.sleepnum = 0;
 				RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2+AlarmTimes.Alarmnum.Alarm3);
 			}
 			else
 			{
-				calendar.min = calendar.min +5;
+				calendar.min = calendar.min +Snoozetime;
 				if(calendar.min >= 60)
 				{
 					calendar.min = calendar.min -60;

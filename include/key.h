@@ -22,9 +22,11 @@ typedef struct{
 extern bit FahrenFlag;
 extern bit HourFlag;
 extern uint8_t Interface;
+extern uint8_t SnoozeNum,Snoozetime;
 extern bit Hold_down;
 extern uint8_t keyclearnum;
 extern bit ZigbeeFlag,DelAlarmFlag;
+extern uint8_t ZigbeeState;
 extern Key Key1,Key2,Key3,Key4;
 
 void KEY_init(void);

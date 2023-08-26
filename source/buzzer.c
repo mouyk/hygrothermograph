@@ -77,7 +77,7 @@ void Buzzer_Control(uint8_t flag)
 ***********************************************************************************/
 void Buzzer_Sounds1(void)
 {
-	static i = 0;
+	static uint8_t i = 0;
 	i++;
 	if(i == 1)
 	{

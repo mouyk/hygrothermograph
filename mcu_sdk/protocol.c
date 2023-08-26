@@ -13,7 +13,9 @@
 #include "include/uart.h"
 #include "include/gxhtc.h"
 #include "include/rtc.h"
+#include "include/key.h"
 #include "include/ca51f_config.h"	
+#include "include/ca51f2sfr.h"
 #include <intrins.h>
 
 
@@ -125,13 +127,13 @@ void all_data_update(void)
 //    mcu_dp_enum_update(DPID_BATTERY_STATE,当前电池电量状态); //枚举型数据上报;
 //    mcu_dp_value_update(DPID_BATTERY_PERCENTAGE,当前电池电量); //VALUE型数据上报;
 //    mcu_dp_bool_update(DPID_CHARGE_STATE,当前充电状态); //BOOL型数据上报;
-//    mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,当前温标切换); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,FahrenFlag); //枚举型数据上报;
 //    mcu_dp_raw_update(DPID_CLOCK_SET,当前闹钟设置指针,当前闹钟设置数据长度); //RAW型数据上报;
-//    mcu_dp_enum_update(DPID_TIME_MODE,当前时间制); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_TIME_MODE,HourFlag); //枚举型数据上报;
 //    mcu_dp_value_update(DPID_SNOOZE_TIMES,当前贪睡次数); //VALUE型数据上报;
 //    mcu_dp_bool_update(DPID_SNOOZE,当前贪睡开关); //BOOL型数据上报;
 //    mcu_dp_value_update(DPID_SNOOZE_TIME,当前贪睡时间); //VALUE型数据上报;
-//    mcu_dp_bool_update(DPID_BACKLIGHT_SWITCH,当前背光开关); //BOOL型数据上报;
+    mcu_dp_bool_update(DPID_BACKLIGHT_SWITCH,P32); //BOOL型数据上报;
 //    mcu_dp_value_update(DPID_MAXTEMP_SET,当前温度上限设置); //VALUE型数据上报;
 //    mcu_dp_value_update(DPID_MINITEMP_SET,当前温度下限设置); //VALUE型数据上报;
 //    mcu_dp_value_update(DPID_MAXHUM_SET,当前湿度上限设置); //VALUE型数据上报;
@@ -165,9 +167,11 @@ static unsigned char dp_download_temp_unit_convert_handle(const unsigned char va
     temp_unit_convert = mcu_get_dp_download_enum(value,length);
     switch(temp_unit_convert) {
         case 0:
+					FahrenFlag = 0;
         break;
         
         case 1:
+					FahrenFlag = 1;
         break;
         
         default:
@@ -223,9 +227,11 @@ static unsigned char dp_download_time_mode_handle(const unsigned char value[], u
     time_mode = mcu_get_dp_download_enum(value,length);
     switch(time_mode) {
         case 0:
+					HourFlag = 0;
         break;
         
         case 1:
+					HourFlag = 1;
         break;
         
         default:
@@ -343,6 +349,7 @@ static unsigned char dp_download_backlight_switch_handle(const unsigned char val
         //bool off
     }else {
         //bool on
+			P32 = 1;
     }
   
     //There should be a report after processing the DP

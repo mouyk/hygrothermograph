@@ -130,7 +130,7 @@ void Lcd_init(void)
 	LXDIVH = 0;				//设置LCD时钟分频，目标帧频率为64HZ
 	LXDIVL = 0;	
 	LXCAD = 0;
-	LXCFG =	 DMOD(DMOD_80ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);			//设置LCD驱动电流、偏压(bias)、辉度
+	LXCFG =	 DMOD(DMOD_130ua) | BIAS(BIAS_1_3) | LDRV(LDRV_7);			//设置LCD驱动电流、偏压(bias)、辉度
 	LXCON =  LEN(LEN_XOSCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为XOSCL，选择LCD模式
 // 	LXCON =  LEN(LEN_IRCL) | LMOD(LMOD_lcd);	 						//设置LCD时钟源为IRCL，选择LCD模式
 	
@@ -351,7 +351,7 @@ void Lcd_WeekDisplay(uint8_t num)
 void Lcd_DateFunction(uint8_t flag, uint8_t lock, uint16_t year, uint8_t month,uint8_t day)
 {
 	uint8_t week = 0;
-	static date = 0;
+	static uint8_t date = 0;
 	if((flag == 2)&&(lock == 0))
 	{
 		if(date == 0)
@@ -756,7 +756,7 @@ void Lcd_ZigbeeIcon(uint8_t zigbee)
 ***********************************************************************************/
 void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min)
 {
-	static CouNum = 0;
+	static uint8_t CouNum = 0;
 	if(menu == 1)
 	{
 		if((flag == Timer_Ico)&&(Time_start == 0))
@@ -820,7 +820,7 @@ void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8
 ***********************************************************************************/
 void Lcd_Backlight(void)
 {
-	static time_num =0;
+	static uint8_t time_num =0;
 	if(P32 == 1)
 	{
 		time_num++;
@@ -829,6 +829,10 @@ void Lcd_Backlight(void)
 			P32 = 0;
 			time_num = 0;
 		}
+	}
+	else
+	{
+		time_num = 0;
 	}
 }
 #endif

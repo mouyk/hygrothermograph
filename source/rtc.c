@@ -594,7 +594,7 @@ void sort(uint16_t *a,uint8_t len)
 ***********************************************************************************/
 void RTC_BuzzerControl(void)
 {
-	static i, Buzzer= 0;
+	static uint8_t i, Buzzer= 0;
 
 	if(AlarmEvFlag == 1)
 	{

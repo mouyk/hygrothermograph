@@ -28,7 +28,7 @@
 	重要提示：
 	在关闭LCD功能前，把所设置的COM脚和SEG脚设置为输出模式并输出低电平，可以避免关闭LCD功能时LCD屏出现拖影现象。
 *********************************************************************************************************************/			
-
+void CX_AdcSoc_Function(void);
 void main(void)
 {
 uint8_t i;
@@ -72,18 +72,17 @@ INT5_Init();
 RTC_init();
 ADC_init();
 TIME1_init();
-//TIME2_init();
 RTC_Set(2023,10,14,6,59,41);
 RTC_Alarm_init(0,0,0,0);
 Lcd_init();
-//zigbee_protocol_init();
+zigbee_protocol_init();
 
 //mcu_exit_zigbee();
 	while(1)
 	{
 		P05 = 0;
 		
-//		zigbee_uart_service();
+		zigbee_uart_service();
 		if(times10Flag ==1)
 		{
 			times10Flag = 0;
@@ -105,11 +104,6 @@ Lcd_init();
 				Key2.KeyFlag = 0;
 			}
 			Lcd_WeekDisplay(week);
-			for(i = 0; i < 34; i++)
-			{
-				INDEX = i;
-				LXDAT = lcd_ram[i];
-			}
 		}
 		if(times250Flag == 1)
 		{
@@ -121,11 +115,16 @@ Lcd_init();
 				else
 					Lcd_IconFunction(Interface,RTC_num,Hold_down);
 			}
-				
+			for(i = 0; i < 34; i++)
+			{
+				INDEX = i;
+				LXDAT = lcd_ram[i];
+			}
 		}
 		if(times1000Flag == 1)
 		{
 			Lcd_Backlight();
+			CX_AdcSoc_Function();
 			times1000Flag = 0;
 			if(Interface != 0)
 			{
@@ -133,24 +132,37 @@ Lcd_init();
 			}
 			Time_start = Counting_Function(Time_start);
 			RTC_BuzzerControl();
-//			mcu_get_system_time():
 		}
 			
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
-			RTC_Get1();		
-			get_gxth30();
-			Socnum = ClockSoc_Compute(VDD_Voltage);	
-			Lcd_Humiture();
+			RTC_Get1();			
+//			Lcd_Humiture();
 //			uart_printf("Current Voltage %f\n",VDD_Voltage);
 
-//			Uart0_PutChar(0x31);
-//			uart_printf("Alarm event happen = %d\n",123456789);	
-//				uart_printf("LCD Power Saving Mode Demo Code\n");
-//	#endif		
-
+//			Uart0_PutChar(0x31);	
 		}	
+	}
+}
+void CX_AdcSoc_Function(void)
+{
+	static CXNum = 0;
+	CXNum++;
+	if(CXNum/5 == 0)
+	{
+		get_gxth30();
+		Lcd_Humiture();
+	}
+	if(CXNum >= 20)
+	{
+		CXNum = 0;
+		ADC_Compute();
+		Socnum = ClockSoc_Compute(VDD_Voltage);	
+		if(ZigbeeState == ZIGBEE_JOIN_GATEWAY)
+		{
+			mcu_get_system_time();
+		}
 	}
 }
 #endif

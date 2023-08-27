@@ -45,6 +45,7 @@ extern uint8_t Charge_State;
 extern double VDD_Voltage;
 
 void ADC_init(void);
+void ADC_Compute(void);
 uint8_t ClockSoc_Compute(double Voltage);
 
 #endif

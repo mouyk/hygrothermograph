@@ -129,13 +129,13 @@ void all_data_update(void)
 //    mcu_dp_enum_update(DPID_BATTERY_STATE,当前电池电量状态); //枚举型数据上报;
     mcu_dp_value_update(DPID_BATTERY_PERCENTAGE,Socnum); //VALUE型数据上报;
     mcu_dp_bool_update(DPID_CHARGE_STATE,Charge_State); //BOOL型数据上报;
-    mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,FahrenFlag); //枚举型数据上报;
+//    mcu_dp_enum_update(DPID_TEMP_UNIT_CONVERT,FahrenFlag); //枚举型数据上报;
 //    mcu_dp_raw_update(DPID_CLOCK_SET,当前闹钟设置指针,当前闹钟设置数据长度); //RAW型数据上报;
-    mcu_dp_enum_update(DPID_TIME_MODE,HourFlag); //枚举型数据上报;
-    mcu_dp_value_update(DPID_SNOOZE_TIMES,SnoozeNum); //VALUE型数据上报;
+//    mcu_dp_enum_update(DPID_TIME_MODE,HourFlag); //枚举型数据上报;
+//    mcu_dp_value_update(DPID_SNOOZE_TIMES,SnoozeNum); //VALUE型数据上报;
 //    mcu_dp_bool_update(DPID_SNOOZE,当前贪睡开关); //BOOL型数据上报;
-    mcu_dp_value_update(DPID_SNOOZE_TIME,Snoozetime); //VALUE型数据上报;
-    mcu_dp_bool_update(DPID_BACKLIGHT_SWITCH,P32); //BOOL型数据上报;
+//    mcu_dp_value_update(DPID_SNOOZE_TIME,Snoozetime); //VALUE型数据上报;
+//    mcu_dp_bool_update(DPID_BACKLIGHT_SWITCH,P32); //BOOL型数据上报;
 //    mcu_dp_value_update(DPID_MAXTEMP_SET,当前温度上限设置); //VALUE型数据上报;
 //    mcu_dp_value_update(DPID_MINITEMP_SET,当前温度下限设置); //VALUE型数据上报;
 //    mcu_dp_value_update(DPID_MAXHUM_SET,当前湿度上限设置); //VALUE型数据上报;
@@ -200,10 +200,48 @@ static unsigned char dp_download_clock_set_handle(const unsigned char value[], u
 {
     //示例:当前DP类型为RAW
     unsigned char ret;
-    /*
+    /*  */
+		
     //RAW type data processing
-    
-    */
+//    switch(length) {
+//        case 0x01:
+//					AlarmTimes.Alarm_Array[0].hour = 0;
+//					AlarmTimes.Alarm_Array[0].min = 0;
+//					AlarmTimes.Alarm_Array[1].hour = 0;
+//					AlarmTimes.Alarm_Array[1].min = 0;
+//					AlarmTimes.Alarm_Array[2].hour = 0;
+//					AlarmTimes.Alarm_Array[2].min = 0;
+//					AlarmTimes.Alarmnum.Alarm1 = 0;
+//					AlarmTimes.Alarmnum.Alarm2 = 0;
+//					AlarmTimes.Alarmnum.Alarm3 = 0;
+//					RTC_AlarmHandle(0);
+//					RTC_AlarmCompare(0);
+//        break;
+//    
+//        case 0x1C:
+//					AlarmTimes.Alarm_Array[0].hour = value[3];
+//					AlarmTimes.Alarm_Array[0].min = value[4];
+//					AlarmTimes.Alarmnum.Alarm1 = 1;
+//					RTC_AlarmHandle(AlarmTimes.Alarmnum.Alarm1);
+//					RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1);
+//        break;
+//        
+//				case 0x37:
+//					AlarmTimes.Alarm_Array[0].hour = value[3];
+//					AlarmTimes.Alarm_Array[0].min = value[4];
+//					AlarmTimes.Alarm_Array[1].hour = value[30];
+//					AlarmTimes.Alarm_Array[1].min = value[31];
+//					AlarmTimes.Alarmnum.Alarm1 = 1;
+//					AlarmTimes.Alarmnum.Alarm2 = 1;
+//					RTC_AlarmHandle(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2);
+//					RTC_AlarmCompare(AlarmTimes.Alarmnum.Alarm1+AlarmTimes.Alarmnum.Alarm2);
+//        break;
+//				
+//        default:
+//    
+//        break;
+//    }
+    /*       */
     
     //There should be a report after processing the DP
     ret = mcu_dp_raw_update(DPID_CLOCK_SET,value,length);
@@ -572,6 +610,7 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         break;
         case DPID_CLOCK_SET:
             //闹钟设置处理函数
+						Uart0_PutChar(length);
             ret = dp_download_clock_set_handle(value,length);
         break;
         case DPID_TIME_MODE:
@@ -650,7 +689,7 @@ void zigbee_work_state_event(unsigned char zigbee_work_state)
 			break;
 		
 		case ZIGBEE_JOIN_GATEWAY:	
-			mcu_get_system_time();
+//			mcu_get_system_time();
 			ZigbeeState = zigbee_work_state;
 			break;
 		

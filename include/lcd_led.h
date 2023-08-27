@@ -89,6 +89,7 @@ void Lcd_ZigbeeIconControl(uint8_t zigbee,uint8_t state);
 void Lcd_ZigbeeIconFlicker(uint8_t Num);
 void Lcd_Countdown(uint8_t menu, uint8_t flag, uint8_t lock, uint8_t hour, uint8_t min);
 void Lcd_Backlight(void);
-void Lcd_BatDisplay(void);
+void Lcd_BatDisplay(uint8_t Soc);
 void Lcd_BatCharge(void);
+void Lcd_SocDisplay(uint8_t Soc);
 #endif

@@ -241,7 +241,7 @@ void Lcd_IconFunction(uint8_t menu,uint8_t flag,uint8_t lock)
 {
 	static bit first = 0;
 	uint8_t i =0;
-	Lcd_BatDisplay();
+	Lcd_BatDisplay(Socnum);
 	if(FahrenFlag == 0)
 	{
 		lcd_ram[30] = C_Tmp;
@@ -861,7 +861,7 @@ void Lcd_Backlight(void)
 		time_num = 0;
 	}
 }
-void Lcd_BatDisplay(void)
+void Lcd_BatDisplay(uint8_t Soc)
 {
 	if((P46 == 0)&&(P47 == 0))
 	{
@@ -871,6 +871,7 @@ void Lcd_BatDisplay(void)
 	else
 	{
 		Charge_State = 0;
+		Lcd_SocDisplay(Soc);
 	}
 }
 void Lcd_BatCharge(void)
@@ -896,6 +897,40 @@ void Lcd_BatCharge(void)
 	else
 	{
 		ChargeNum = 0;
+	}
+}
+void Lcd_SocDisplay(uint8_t Soc)
+{
+	static uint8_t SocNum = 0;
+//	Uart0_PutChar(Soc);
+	if(Soc >= 75)
+	{
+		lcd_ram[32] = SOC3;
+	}
+	else if((Soc >= 50)&&(Soc < 75))
+	{
+		lcd_ram[32] = SOC2;
+	}
+	else if((Soc >= 25)&&(Soc < 50))
+	{
+		lcd_ram[32] = SOC1;
+	}
+	else if((Soc >= 10)&&(Soc < 25))
+	{
+		lcd_ram[32] = SOC0;
+	}
+	else
+	{
+		if(SocNum == 0)
+		{
+			SocNum = 1;
+			lcd_ram[32] = SOC0;
+		}
+		else
+		{
+			SocNum = 0;
+			lcd_ram[32] = 0;
+		}
 	}
 }
 #endif

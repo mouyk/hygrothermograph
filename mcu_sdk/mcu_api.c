@@ -480,6 +480,7 @@ void uart_receive_input(unsigned char value)
             queue_in = (unsigned char *)(zigbee_queue_buf);
         }
         *queue_in ++ = value;
+				Uart0_PutChar(value);
     }
 }
 
@@ -559,6 +560,7 @@ void zigbee_uart_service(void)
     }
 
     while((rx_in - offset) >= PROTOCOL_HEAD){
+					
         if(zigbee_uart_rx_buf[offset + HEAD_FIRST] != FIRST_FRAME_HEAD){
             offset++;
             continue;

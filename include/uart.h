@@ -3,7 +3,7 @@
 
 
 #define UART0_TX_BUF_SIZE		20
-#define UART0_RX_BUF_SIZE		100
+#define UART0_RX_BUF_SIZE		200
 
 #define UART1_TX_BUF_SIZE		20
 #define UART1_RX_BUF_SIZE		100

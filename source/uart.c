@@ -104,8 +104,8 @@ void Uart0_PutChar(unsigned char bdat)
 //		uart0_rev.tail++;
 //		uart0_rev.tail %= UART0_RX_BUF_SIZE;				
 //		data_temp=uart0_rx_buf[uart0_rev.tail];			//从uart0_rx_buf取出数据
-//		uart_receive_input(data_temp);
-////		Uart0_PutChar(data_temp);						      //把接收到的数据发送出去
+////		uart_receive_input(data_temp);
+//		Uart0_PutChar(data_temp);						      //把接收到的数据发送出去
 ////		Uart0_PutChar(0x32);	
 //		
 //	}		

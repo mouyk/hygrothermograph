@@ -201,7 +201,7 @@ static unsigned char dp_download_clock_set_handle(const unsigned char value[], u
     //示例:当前DP类型为RAW
     unsigned char ret;
     /*  */
-		
+		Uart0_PutChar(0x21);
     //RAW type data processing
 //    switch(length) {
 //        case 0x01:
@@ -603,6 +603,7 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
 {
   /* only list of function, mcu need realize these fuction*/
   unsigned char ret;
+//	Uart0_PutChar(length);
   switch(dpid){
           case DPID_TEMP_UNIT_CONVERT:
             //温标切换处理函数
@@ -610,7 +611,8 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         break;
         case DPID_CLOCK_SET:
             //闹钟设置处理函数
-						Uart0_PutChar(length);
+//						Uart0_PutChar(length);
+//						Uart0_PutChar(0x21);
             ret = dp_download_clock_set_handle(value,length);
         break;
         case DPID_TIME_MODE:

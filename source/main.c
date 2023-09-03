@@ -81,7 +81,7 @@ zigbee_protocol_init();
 	while(1)
 	{
 		P05 = 0;
-		
+//		Uart0_RevChar();
 		zigbee_uart_service();
 		if(times10Flag ==1)
 		{

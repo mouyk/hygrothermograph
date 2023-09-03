@@ -299,6 +299,7 @@ int data_handle(unsigned short offset)
 				}      
 				i += (dp_len + 4);	
 			}	
+			Uart0_PutChar(0x21);
 		}		
 		break;
 		case DATA_DATA_RES_CMD:{

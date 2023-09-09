@@ -480,7 +480,6 @@ void uart_receive_input(unsigned char value)
             queue_in = (unsigned char *)(zigbee_queue_buf);
         }
         *queue_in ++ = value;
-				Uart0_PutChar(value);
     }
 }
 

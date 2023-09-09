@@ -351,6 +351,8 @@ void Key_HandleFunction(void)
 	{
 		Key2.ShortKey = 0;
 		FahrenFlag = ~FahrenFlag;
+		get_gxth30();
+		Lcd_Humiture();
 	}
 	else if((Key4.ShortKey == 1)&&(Interface == 0))     //12hour”Î24hour«–ªª
 	{

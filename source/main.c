@@ -137,7 +137,8 @@ zigbee_protocol_init();
 		if(HalfSecFlag)	//半秒打印当前时间
 		{
 			HalfSecFlag = 0;
-			RTC_Get1();			
+			RTC_Get1();	
+//			get_gxth30();
 //			Lcd_Humiture();
 //			uart_printf("Current Voltage %f\n",VDD_Voltage);
 

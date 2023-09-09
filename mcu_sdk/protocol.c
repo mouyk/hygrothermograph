@@ -170,10 +170,14 @@ static unsigned char dp_download_temp_unit_convert_handle(const unsigned char va
     switch(temp_unit_convert) {
         case 0:
 					FahrenFlag = 0;
+					get_gxth30();
+					Lcd_Humiture();
         break;
         
         case 1:
 					FahrenFlag = 1;
+					get_gxth30();
+					Lcd_Humiture();
         break;
         
         default:

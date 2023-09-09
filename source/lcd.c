@@ -417,6 +417,8 @@ void Lcd_DateFunction(uint8_t flag, uint8_t lock, uint16_t year, uint8_t month,u
 				lcd_ram[15] = 0x07;
 			else if(day>=30)
 				lcd_ram[15] = 0X0E;
+			else
+				lcd_ram[15] = 0X00;
 			UpdateNixieTubeRAMA(day%10,16);
 		}
 		else
@@ -437,6 +439,8 @@ void Lcd_DateFunction(uint8_t flag, uint8_t lock, uint16_t year, uint8_t month,u
 			lcd_ram[15] = 0x07;
 		else if(day>=30)
 			lcd_ram[15] = 0X0E;
+		else
+				lcd_ram[15] = 0X00;
 		UpdateNixieTubeRAMA(day%10,16);
 		week = RTC_Set_Week(year,month,day);
 		Lcd_WeekDisplay(week);
